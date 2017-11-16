@@ -1,7 +1,9 @@
+.vs/
+.vscode/
+
+Build/
+Library/
+Temp/
+
 *.csproj
 *.sln
-Temp/
-.vs/
-Library/
-.vscode/
-Build/
