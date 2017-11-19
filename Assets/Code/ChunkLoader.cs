@@ -5,18 +5,15 @@ public class ChunkLoader : MonoBehaviour {
     public float ChunkHeight;
     public int ChunksToLoad;
     public Transform ChunksContainer;
-    public Player Player;
+    public NewPlayer Player;
 
-    float TestY;
     int LastChunkIndex;
 
     void Update() {
-        TestY += Time.deltaTime * 5.0f;
-
         // @todo: There is probably a much simpler way to get this range.
         // I did it this way because I needed the min and max specifically,
         // but don't anymore.
-        float maxLoadHeight = TestY + (ChunkHeight * (ChunksToLoad / 2));
+        float maxLoadHeight = Player.transform.position.y + (ChunkHeight * (ChunksToLoad / 2));
         maxLoadHeight = (int) maxLoadHeight + ((int) ChunkHeight - ((int) maxLoadHeight % (int) ChunkHeight));
         float minLoadHeight = maxLoadHeight - (ChunkHeight * ChunksToLoad);
 
@@ -39,9 +36,7 @@ public class ChunkLoader : MonoBehaviour {
                     
                     Chunk chunk = (Chunk) Instantiate(ChunkPrefabs[prefabIndex], ChunksContainer);
                     chunk.Index = i;
-
                     chunk.transform.position = new Vector3(0, chunk.Index * ChunkHeight, 0);
-                    Debug.Log("Creating chunk (index " + chunk.Index + ")");
                 }
             }
 
@@ -49,14 +44,13 @@ public class ChunkLoader : MonoBehaviour {
                 Chunk existingChunk = existingChunks[i];
                 if (existingChunk.Index < chunkIndex || existingChunk.Index > chunkIndex + ChunksToLoad) {
                     Destroy(existingChunk.gameObject);
-                    Debug.Log("Destroying chunk (index " + existingChunk.Index + ")");
                 }
             }
 
             LastChunkIndex = chunkIndex;
         }
 
-        Debug.DrawLine(transform.position, transform.position + new Vector3(0, TestY, 0), Color.green);
+        Debug.DrawLine(transform.position, transform.position + new Vector3(0, Player.transform.position.y, 0), Color.green);
         Debug.DrawLine(transform.position + new Vector3(0, minLoadHeight, 0), transform.position + new Vector3(0, maxLoadHeight, 0), Color.red);
     }
 }
