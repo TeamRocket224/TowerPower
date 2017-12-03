@@ -57,6 +57,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update () {
+		//Mobile movement here, constantly moving and swiping to change direction/jump
 		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
             // Get movement of the finger since last frame
             Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
@@ -108,11 +109,13 @@ public class Player : MonoBehaviour {
 					}
 				}
 			}
+			//End Mobile controls
 
             // Move object across XY plane
 			//if (touchDeltaPosition.x)
         }
 
+		//Uncomment Here
 		// if (Input.GetKeyDown(KeyCode.Space) && gameIsStarted) {
 		// 	bool shouldJump = false;
 
@@ -147,6 +150,7 @@ public class Player : MonoBehaviour {
 
 		float ThetaAcceleration  = 0;
 
+	//Mobile movement stuff here
 	switch (state) {
 			case State.Nonballistic: {
 				if (gameIsStarted) {
@@ -202,7 +206,9 @@ public class Player : MonoBehaviour {
 				break;
 			}
 		}
+		//End mobile movement stuff
 
+		//Uncomment Here
 		// switch (state) {
 		// 	case State.Nonballistic: {
 		// 		if (gameIsStarted) {
