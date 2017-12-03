@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class Player : MonoBehaviour {
 	public Animator anim;
@@ -56,51 +57,109 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Space) && gameIsStarted) {
-			bool shouldJump = false;
+		if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
+            // Get movement of the finger since last frame
+            Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+			touchDeltaPosition.Normalize();
 
-			if (state == State.Nonballistic) {
-				shouldJump = true;
+			if (touchDeltaPosition.x > 0.5f) {
+				Debug.Log("Right");
+				MoveSpeed = MoveSpeed * -1;
+				anim.SetBool("FacingRight", true);
+
+				anim.SetInteger("AnimState", 1);
 			}
-			else if (HasDoubleJump) {
-				shouldJump = true;
-				HasDoubleJump = false;
+			else if (touchDeltaPosition.x < -0.5f) {
+				Debug.Log("Left");
+				MoveSpeed = MoveSpeed * -1;
+				anim.SetBool("FacingRight", false);	
 
-				if (ThetaVelocity >= 0 && Input.GetKey(KeyCode.A)) {
-					anim.SetBool("FacingRight", false);
-					ThetaVelocity = -0.1f;
+				anim.SetInteger("AnimState", 1);
+			}
+			else if (touchDeltaPosition.y > 0.5f) {
+				Debug.Log("Up");
+				if (gameIsStarted) {
+					bool shouldJump = false;
+
+					if (state == State.Nonballistic) {
+						shouldJump = true;
+					}
+					else if (HasDoubleJump) {
+						shouldJump = true;
+						HasDoubleJump = false;
+
+						if (ThetaVelocity >= 0 && Input.GetKey(KeyCode.A)) {
+							anim.SetBool("FacingRight", false);
+							ThetaVelocity = -0.1f;
+						}
+
+						if (ThetaVelocity < 0 && Input.GetKey(KeyCode.D)) {
+							anim.SetBool("FacingRight", true);
+							ThetaVelocity = 0.1f;
+						}
+					}
+
+					if (shouldJump) {
+						anim.SetInteger("AnimState", 2);
+						state = State.Ballistic;
+						RaycastTimeOut = 0.25f;
+						rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
+						rb.AddForce(new Vector3(0.0f, 4500.0f, 0.0f));
+					}
 				}
-
-				if (ThetaVelocity < 0 && Input.GetKey(KeyCode.D)) {
-					anim.SetBool("FacingRight", true);
-					ThetaVelocity = 0.1f;
-				}
 			}
 
-			if (shouldJump) {
-				anim.SetInteger("AnimState", 2);
-				state = State.Ballistic;
-				RaycastTimeOut = 0.25f;
-				rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
-				rb.AddForce(new Vector3(0.0f, 4500.0f, 0.0f));
-			}
-		}
+            // Move object across XY plane
+			//if (touchDeltaPosition.x)
+        }
+
+		// if (Input.GetKeyDown(KeyCode.Space) && gameIsStarted) {
+		// 	bool shouldJump = false;
+
+		// 	if (state == State.Nonballistic) {
+		// 		shouldJump = true;
+		// 	}
+		// 	else if (HasDoubleJump) {
+		// 		shouldJump = true;
+		// 		HasDoubleJump = false;
+
+		// 		if (ThetaVelocity >= 0 && Input.GetKey(KeyCode.A)) {
+		// 			anim.SetBool("FacingRight", false);
+		// 			ThetaVelocity = -0.1f;
+		// 		}
+
+		// 		if (ThetaVelocity < 0 && Input.GetKey(KeyCode.D)) {
+		// 			anim.SetBool("FacingRight", true);
+		// 			ThetaVelocity = 0.1f;
+		// 		}
+		// 	}
+
+		// 	if (shouldJump) {
+		// 		anim.SetInteger("AnimState", 2);
+		// 		state = State.Ballistic;
+		// 		RaycastTimeOut = 0.25f;
+		// 		rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
+		// 		rb.AddForce(new Vector3(0.0f, 4500.0f, 0.0f));
+		// 	}
+		// }
 
 		Debug.Log(anim.GetInteger("AnimState"));
 
 		float ThetaAcceleration  = 0;
 
-		switch (state) {
+	switch (state) {
 			case State.Nonballistic: {
 				if (gameIsStarted) {
+					ThetaAcceleration -= MoveSpeed;
+					
 					if (Input.GetKey(KeyCode.D)) {
-						ThetaAcceleration += MoveSpeed;
+						MoveSpeed = MoveSpeed * -1;
 						anim.SetBool("FacingRight", true);
 
 						anim.SetInteger("AnimState", 1);							
 					}
 					else if (Input.GetKey(KeyCode.A)) {
-						ThetaAcceleration += -MoveSpeed;
+						MoveSpeed = MoveSpeed * -1;
 						anim.SetBool("FacingRight", false);	
 
 						anim.SetInteger("AnimState", 1);							
@@ -143,6 +202,60 @@ public class Player : MonoBehaviour {
 				break;
 			}
 		}
+
+		// switch (state) {
+		// 	case State.Nonballistic: {
+		// 		if (gameIsStarted) {
+		// 			if (Input.GetKey(KeyCode.D)) {
+		// 				ThetaAcceleration += MoveSpeed;
+		// 				anim.SetBool("FacingRight", true);
+
+		// 				anim.SetInteger("AnimState", 1);							
+		// 			}
+		// 			else if (Input.GetKey(KeyCode.A)) {
+		// 				ThetaAcceleration += -MoveSpeed;
+		// 				anim.SetBool("FacingRight", false);	
+
+		// 				anim.SetInteger("AnimState", 1);							
+		// 			}
+		// 			else {
+		// 				if (anim.GetInteger("AnimState") != 2 || rb.velocity.y == 0) {
+		// 					anim.SetInteger("AnimState", 0);							
+		// 				}
+		// 			}
+		// 		}
+
+		// 		ThetaAcceleration += -10f * ThetaVelocity;
+		// 		break;
+		// 	}
+		// 	case State.Ballistic: {
+		// 		if (gameIsStarted) {
+		// 			if (Input.GetKey(KeyCode.D)) {
+		// 				ThetaAcceleration += MoveSpeed * 0.01f;
+		// 				anim.SetBool("FacingRight", true);
+
+		// 				if (anim.GetInteger("AnimState") != 2) {
+		// 					anim.SetInteger("AnimState", 1);							
+		// 				}
+		// 			}
+		// 			else if (Input.GetKey(KeyCode.A)) {
+		// 				ThetaAcceleration += -MoveSpeed * 0.01f;					
+		// 				anim.SetBool("FacingRight", false);
+
+		// 				if (anim.GetInteger("AnimState") != 2) {
+		// 					anim.SetInteger("AnimState", 1);							
+		// 				}
+		// 			}
+		// 			else {
+		// 				if (anim.GetInteger("AnimState") != 2) {
+		// 					anim.SetInteger("AnimState", 0);							
+		// 				}
+		// 			}
+		// 		}
+
+		// 		break;
+		// 	}
+		// }
 
 		PlayerTheta = PlayerTheta + (ThetaVelocity * Time.deltaTime) + (0.5f * ThetaAcceleration * Time.deltaTime * Time.deltaTime);
 		ThetaVelocity = ThetaVelocity + (ThetaAcceleration * Time.deltaTime);
