@@ -3,19 +3,23 @@ using UnityEngine;
 public class NewPlayer : MonoBehaviour {
     public Transform CameraTransform;
     public float CameraSpeed;
+    public float CameraVerticalOffset;
 
     public Transform GraphicTransform;
+    public Animator GraphicAnimator;
 
     public float GroundedHorizontalSpeed;
     public float GroundedHorizontalAcceleration;
     public float GroundedJumpStrength;
     public float BallisticHorizontalSpeed;
     public float BallisticGravity;
+    public float BallisticJumpStrength;
 
     Vector2 Position;
     float GroundedAccelerationValue;
     float GroundedDirection;
     Vector2 BallisticVelocity;
+    bool HasDoubleJumped;
 
     enum MovementMode {
         None,
@@ -25,15 +29,16 @@ public class NewPlayer : MonoBehaviour {
 
     MovementMode CurrentMovementMode;
 
-    void Awake() {
+    void Start() {
         CurrentMovementMode = MovementMode.Ballistic;
-        GroundedDirection = -1.0f;
+        GroundedDirection = 1.0f;
         Position = new Vector2(0.0f, transform.position.y);
     }
 
     void Update() {
         float dT = Time.fixedDeltaTime;
         float dX = Input.GetAxisRaw("Horizontal");
+        bool ShouldJump = Input.GetKeyDown(KeyCode.Space);
 
         switch (CurrentMovementMode) {
             case MovementMode.Grounded: {
@@ -51,26 +56,36 @@ public class NewPlayer : MonoBehaviour {
                 float Acceleration = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed;
                 Position.x += Acceleration * dT;
 
-                if (Input.GetKeyDown(KeyCode.Space)) {
+                if (ShouldJump) {
                     CurrentMovementMode = MovementMode.Ballistic;
+                    HasDoubleJumped = false;
+                    
+                    GraphicAnimator.SetTrigger("Jump");
                     BallisticVelocity = new Vector2(Acceleration, GroundedJumpStrength);
                 }
                 else {
                     RaycastHit hit;
                     if (!Physics.Raycast(new Ray(transform.position, new Vector3(0.0f, -1.0f, 0.0f)), out hit, 0.1f)) {
                         CurrentMovementMode = MovementMode.Ballistic;
+                        HasDoubleJumped = false;
                         BallisticVelocity = new Vector2(Acceleration, 0.0f);
                     }
                 }
 
+                GraphicAnimator.SetBool("IsMoving", dX != 0.0f);
+                GraphicAnimator.SetBool("IsFalling", false);
+
                 break;
             }
             case MovementMode.Ballistic: {
-                // @todo: Clamp the horizontal motion so that after you jump you can't
-                // increase your speed in that same direction. Not very noticable when
-                // BallisticHorizontalSpeed is low, however.
+                if (!HasDoubleJumped && ShouldJump) {
+                    BallisticVelocity = new Vector2(dX * BallisticHorizontalSpeed, BallisticJumpStrength);
+                    HasDoubleJumped = true;
 
-                Vector2 Acceleration = new Vector2(dX * BallisticHorizontalSpeed, -BallisticGravity);
+                    GraphicAnimator.SetTrigger("DoubleJump");
+                }
+
+                Vector2 Acceleration = new Vector2(0.0f, -BallisticGravity);
                 BallisticVelocity += Acceleration * dT;
 
                 Vector2 dP = (BallisticVelocity * dT) + (0.5f * Acceleration * dT * dT);
@@ -92,6 +107,8 @@ public class NewPlayer : MonoBehaviour {
                 }
 
                 Position += dP * dPStep;
+                GraphicAnimator.SetBool("IsFalling", BallisticVelocity.y < 0.0f);
+
                 break;
             }
         }
@@ -107,8 +124,10 @@ public class NewPlayer : MonoBehaviour {
 
         CameraTransform.position = Vector3.Lerp(
             CameraTransform.position, 
-            new Vector3(transform.position.x, transform.position.y + 1.5f, CameraTransform.position.z), 
+            new Vector3(transform.position.x, transform.position.y + CameraVerticalOffset, CameraTransform.position.z), 
             CameraSpeed * dT);
+
+        transform.LookAt(CameraTransform.position);
     }
 
     // public TowerTransform TowerTransform;
