@@ -6,7 +6,7 @@ public class Menu : MonoBehaviour {
     public GameObject Home;
     public GameObject Scoreboard;
     public GameObject Options;
-    public GameObject Credits;
+    public GameObject Customize;
     public GameObject Logo;
     public GameObject PlayerSkin;
     public GameObject Tower;
@@ -17,14 +17,13 @@ public class Menu : MonoBehaviour {
 
     GameObject ItemIn, ItemOut;
 
-    bool movement = false, towermove = false;
+    bool movement = false, towermove = false, start = false;
 
     public void OnHomePlay() {
         Home.SetActive(false);
         towermove = true;
-        //@todo: Stop the tower from spinning when the game begins
-        //Then do a small countdown to start the game
-        //Tower.GetComponent<Spin>().spinning;
+        Tower.GetComponent<Spin>().spinning = false;
+        start = true;
     }
 
     public void OnHomeScoreboard() {
@@ -39,8 +38,8 @@ public class Menu : MonoBehaviour {
         movement = true;
     }
 
-    public void OnHomeCredits() {
-        ItemIn = Credits;
+    public void OnHomeCustomize() {
+        ItemIn = Customize;
         ItemOut = Home;
         movement = true;
     }
@@ -61,9 +60,9 @@ public class Menu : MonoBehaviour {
         movement = true;
     }
 
-    public void OnCreditsBack() {
+    public void OnCustomizeBack() {
         ItemIn = Home;
-        ItemOut = Credits;
+        ItemOut = Customize;
         movement = true;
     }
 
@@ -103,7 +102,7 @@ public class Menu : MonoBehaviour {
         Home.SetActive(true);
         Scoreboard.SetActive(false);
         Options.SetActive(false);
-        Credits.SetActive(false);
+        Customize.SetActive(false);
 
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
     }

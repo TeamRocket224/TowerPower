@@ -6,7 +6,11 @@ public class Spin : MonoBehaviour {
     public bool spinning = true;
 
     void Update() {
-        if (spinning)
+        if (spinning) {
             transform.Rotate(Vector3.up * Time.deltaTime * 4f, Space.World);
+        }
+        else {
+            
+        }
     }
 }
