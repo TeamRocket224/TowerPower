@@ -243,9 +243,6 @@ public class Player : MonoBehaviour {
 
 		camera.transform.rotation  = Quaternion.LookRotation(new Vector3(0, CameraHeight, 0) - camera.transform.position);
 		transform.rotation  = Quaternion.LookRotation(new Vector3(0, transform.position.y, 0) - transform.position);
-
-		// Debug.Log("Anim: " + anim.GetInteger("AnimState"));
-		// Debug.Log("Direction: " + anim.GetBool("FacingRight"));
 	}
 
 	public void OnTriggerEnter(Collider collider) {
