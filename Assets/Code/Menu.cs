@@ -1,13 +1,21 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour {
     public GameObject Home;
     public GameObject Scoreboard;
     public GameObject Options;
     public GameObject Credits;
+    public GameObject Logo;
+
+    void Update() {
+        Options.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 100;
+    }
 
     public void OnHomePlay() {
         Home.SetActive(false);
+        SceneManager.LoadScene("Game");
     }
 
     public void OnHomeScoreboard() {
@@ -47,7 +55,7 @@ public class Menu : MonoBehaviour {
     void Awake() {
         Home.SetActive(true);
         Scoreboard.SetActive(false);
-        Options.SetActive(false);
+        //Options.SetActive(false);
         Credits.SetActive(false);
     }
 }
