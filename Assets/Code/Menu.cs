@@ -8,7 +8,7 @@ public class Menu : MonoBehaviour {
     public GameObject Scoreboard;
     public GameObject Options;
     public GameObject Customize;
-    public GameObject Logo;
+    public GameObject Purchase;
     public GameObject PlayerSkin;
     public GameObject PlayerPower;
     public GameObject Tower;
@@ -47,10 +47,14 @@ public class Menu : MonoBehaviour {
     public void OnHomeScoreboard() {
         ItemIn = Scoreboard;
         ItemOut = Home;
-
-
-
         movement = true;
+    }
+
+    public void OnHomePurchase() {
+        ItemIn = Purchase;
+        ItemOut = Customize;
+        movement = true;
+        Debug.Log("Clicked");
     }
 
     public void OnHomeOptions() {
@@ -90,8 +94,7 @@ public class Menu : MonoBehaviour {
         //Player Power
         PlayerPowerChoice = PlayerPrefs.GetInt("power");
 
-        for (int i = 0; i < PlayerPowers.Length; i++)
-        {
+        for (int i = 0; i < PlayerPowers.Length; i++) {
             PlayerPowers[i].SetActive(false);
         }
 
@@ -119,6 +122,12 @@ public class Menu : MonoBehaviour {
     public void OnCustomizeBack() {
         ItemIn = Home;
         ItemOut = Customize;
+        movement = true;
+    }
+
+    public void OnPurchaseBack() {
+        ItemIn = Customize;
+        ItemOut = Purchase;
         movement = true;
     }
 
@@ -185,6 +194,7 @@ public class Menu : MonoBehaviour {
         Scoreboard.SetActive(false);
         Options.SetActive(false);
         Customize.SetActive(false);
+        Purchase.SetActive(false);
 
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
         LoadedPlayerPower = Resources.LoadAll("PlayerCanvasPickups", typeof(GameObject));
@@ -234,6 +244,7 @@ public class Menu : MonoBehaviour {
 
     void Update() {
         if (movement) {
+            Debug.Log("Moving");
             if (ItemIn == Home) {
                 if (ItemIn.GetComponent<RectTransform>().localPosition.x > 50) {
                     ItemIn.SetActive(true);

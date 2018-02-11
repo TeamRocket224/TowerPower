@@ -26,8 +26,4 @@ public class PlayerCustomization : MonoBehaviour {
     public void OnPowerChange() {
         PlayerPrefs.SetInt("power", GetComponent<Menu>().PlayerPowerChoice);
     }
-
-    public void OnGameEnd() {
-        //PlayerPrefs.SetInt("height", @todo: Height of the Player here);
-    }
 }
