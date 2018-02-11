@@ -277,12 +277,12 @@ public class Menu : MonoBehaviour {
 
         if (movement) {
             if (ItemIn == Home) {
-                if (ItemIn.GetComponent<RectTransform>().localPosition.x > 50) {
+                if (ItemIn.GetComponent<RectTransform>().localPosition.x > 0) {
                     ItemIn.SetActive(true);
                     ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 1000;
                 }
             }
-            else if (ItemIn.GetComponent<RectTransform>().localPosition.x > 20) {
+            else if (ItemIn.GetComponent<RectTransform>().localPosition.x > 0) {
                 ItemIn.SetActive(true);
                 ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 1000;
             }
@@ -290,7 +290,7 @@ public class Menu : MonoBehaviour {
                 movement = false;
             }
 
-            if (ItemOut.GetComponent<RectTransform>().localPosition.x < 500) {
+            if (ItemOut.GetComponent<RectTransform>().localPosition.x < 700) {
                 ItemOut.GetComponent<RectTransform>().localPosition += Vector3.right * Time.deltaTime * 1000;
             }
             else {
