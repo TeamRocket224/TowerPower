@@ -13,6 +13,11 @@ public class Menu : MonoBehaviour {
     public GameObject PlayerPower;
     public GameObject Tower;
 
+    public GameObject PurchaseItem;
+    public Text PurchaseName;
+    public Text PurchaseCost;
+    public Text PurchaseDesc;
+
     public Toggle Music;
     public Toggle SFX;
 
@@ -41,7 +46,7 @@ public class Menu : MonoBehaviour {
     public void OnHomePlay() {
         Home.SetActive(false);
         towermove = true;
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("NewGame");
     }
 
     public void OnHomeScoreboard() {
@@ -53,8 +58,17 @@ public class Menu : MonoBehaviour {
     public void OnHomePurchase() {
         ItemIn = Purchase;
         ItemOut = Customize;
+
+        GameObject skin = Instantiate(LoadedPlayerSkins[PlayerSkinChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        skin.transform.SetParent(PurchaseItem.GetComponent<Transform>(), false);
+        PurchaseName.text = skin.transform.GetChild(0).GetComponent<Text>().text;
+        PurchaseCost.text = "Cost: " + skin.GetComponent<CustomizeDetails>().cost.ToString("n0") + " Coins";
+        PurchaseDesc.text = skin.GetComponent<CustomizeDetails>().description;
+        skin.transform.GetChild(0).GetComponent<Text>().enabled = false;
+
+        CheckSkin(skin);
+
         movement = true;
-        Debug.Log("Clicked");
     }
 
     public void OnHomeOptions() {
@@ -90,6 +104,7 @@ public class Menu : MonoBehaviour {
         }
 
         PlayerSkins[PlayerSkinChoice].SetActive(true);
+        CheckSkin(PlayerSkins[PlayerSkinChoice]);
 
         //Player Power
         PlayerPowerChoice = PlayerPrefs.GetInt("power");
@@ -131,6 +146,16 @@ public class Menu : MonoBehaviour {
         movement = true;
     }
 
+    void CheckSkin(GameObject skin) {
+        int check = PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1));
+        if (check == 1) {
+            skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        }
+        else {
+            skin.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
+        }
+    }
+
     public void OnSkinLeft() {
         if (PlayerSkinChoice > 0) {
             PreviousSkinChoice = PlayerSkinChoice;
@@ -143,6 +168,7 @@ public class Menu : MonoBehaviour {
 
         PlayerSkins[PreviousSkinChoice].SetActive(false);
         PlayerSkins[PlayerSkinChoice].SetActive(true);
+        CheckSkin(PlayerSkins[PlayerSkinChoice]);
     }
 
     public void OnSkingRight() {
@@ -157,6 +183,7 @@ public class Menu : MonoBehaviour {
 
         PlayerSkins[PreviousSkinChoice].SetActive(false);
         PlayerSkins[PlayerSkinChoice].SetActive(true);
+        CheckSkin(PlayerSkins[PlayerSkinChoice]);
     }
 
     public void OnPowerLeft() {
@@ -198,6 +225,14 @@ public class Menu : MonoBehaviour {
 
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
         LoadedPlayerPower = Resources.LoadAll("PlayerCanvasPickups", typeof(GameObject));
+
+        PlayerPrefs.SetInt("skin_unlock_1", 1);
+        PlayerPrefs.SetInt("skin_unlock_2", 0);
+        PlayerPrefs.SetInt("skin_unlock_3", 0);
+        PlayerPrefs.SetInt("skin_unlock_4", 0);
+        PlayerPrefs.SetInt("skin_unlock_5", 0);
+        PlayerPrefs.SetInt("skin_unlock_6", 0);
+        PlayerPrefs.SetInt("skin_unlock_7", 0);
     }
 
     void Start() {
@@ -222,6 +257,7 @@ public class Menu : MonoBehaviour {
         for (int i = 0; i < LoadedPlayerSkins.Length; i++) {
             GameObject skin = Instantiate(LoadedPlayerSkins[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             skin.transform.SetParent(PlayerSkin.GetComponent<Transform>(), false);
+            skin.transform.SetSiblingIndex(3 + i);
             PlayerSkins[i] = skin;
 
             if (i != 0)
@@ -244,27 +280,29 @@ public class Menu : MonoBehaviour {
 
     void Update() {
         if (movement) {
-            Debug.Log("Moving");
             if (ItemIn == Home) {
                 if (ItemIn.GetComponent<RectTransform>().localPosition.x > 50) {
                     ItemIn.SetActive(true);
-                    ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 750;
+                    ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 1000;
                 }
             }
             else if (ItemIn.GetComponent<RectTransform>().localPosition.x > 20) {
                 ItemIn.SetActive(true);
-                ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 750;
+                ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 1000;
             }
             else {
                 movement = false;
             }
 
             if (ItemOut.GetComponent<RectTransform>().localPosition.x < 500) {
-                ItemOut.GetComponent<RectTransform>().localPosition += Vector3.right * Time.deltaTime * 750;
+                ItemOut.GetComponent<RectTransform>().localPosition += Vector3.right * Time.deltaTime * 1000;
             }
             else {
                 ItemOut.SetActive(false);
                 movement = false;
+
+                if (ItemOut == Purchase)
+                    Destroy(PurchaseItem.transform.GetChild(1).gameObject);
             }
         }
 
