@@ -41,12 +41,12 @@ public class Menu : MonoBehaviour {
 
     GameObject ItemIn, ItemOut;
 
-    bool movement = false, towermove = false, start = false;
+    bool movement = false, towermove = false;
 
     public void OnHomePlay() {
         Home.SetActive(false);
         towermove = true;
-        SceneManager.LoadScene("NewGame");
+        SceneManager.LoadScene("Game");
     }
 
     public void OnHomeScoreboard() {
