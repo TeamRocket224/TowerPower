@@ -17,8 +17,6 @@ public class Water : MonoBehaviour
     void Update()
     {
         float RiseScale = RiseCurve.Evaluate(Height / MaxHeight);
-        Debug.Log(RiseScale);
-        
         Height += (BaseSpeed + (RiseScale * RiseSpeed)) * Time.deltaTime;
         transform.position = new Vector3(0.0f, Height, 0.0f);
     }
