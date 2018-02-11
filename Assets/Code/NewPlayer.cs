@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NewPlayer : MonoBehaviour {
     public TowerNew Tower;
     public Water Water;
     public Transform StarsTransform;
+    public Text HeightText;
 
     public Transform GraphicTransform;
     public Animator GraphicAnimator;
@@ -60,7 +62,7 @@ public class NewPlayer : MonoBehaviour {
 
     void Update() {
         float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
-        float dT = Time.fixedDeltaTime;
+        float dT = Time.deltaTime;
 
         float ddX = Input.GetAxisRaw("Horizontal");
         bool ShouldJump = Input.GetKeyDown(KeyCode.W);
@@ -162,5 +164,6 @@ public class NewPlayer : MonoBehaviour {
         transform.LookAt(CameraTransform.position);
 
         StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
+        HeightText.text = "Height: " + Position.y + "m";
     }
 }

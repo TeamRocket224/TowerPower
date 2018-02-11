@@ -41,14 +41,14 @@ public class TowerNew : MonoBehaviour
             for (var HeightIndex = LastHeightIndex; HeightIndex < NextHeightIndex; HeightIndex++) {
                 var Scale = HeightIndex * HeightIndex; // Mathf.Pow(2.0f, HeightIndex / 100.0f);
                 
-                var MediumChance = 15 - Scale;
-                if (MediumChance < 5) {
-                    MediumChance = 5;
+                var MediumChance = 5 - Scale;
+                if (MediumChance < 2) {
+                    MediumChance = 2;
                 }
 
-                var SmallChance = 30 - Scale;
-                if (SmallChance < 10) {
-                    SmallChance = 10;
+                var SmallChance = 15 - Scale;
+                if (SmallChance < 5) {
+                    SmallChance = 5;
                 }
 
                 var Type = PlatformType.Large;
