@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
     public GameObject Home;
@@ -9,11 +10,29 @@ public class Menu : MonoBehaviour {
     public GameObject Customize;
     public GameObject Logo;
     public GameObject PlayerSkin;
+    public GameObject PlayerPower;
     public GameObject Tower;
 
+    public Toggle Music;
+    public Toggle SFX;
+
+    public GameObject ScoresOne;
+    public GameObject ScoresTwo;
+    public GameObject ScoresThree;
+    public GameObject ScoresFour;
+    public GameObject ScoresFive;
+
+    //Player Skin Canvas Choice
     Object[] LoadedPlayerSkins;
     GameObject[] PlayerSkins;
-    int PlayerSkinChoice = 0, PreviousSkinChoice = 1;
+    public int PlayerSkinChoice = 0, PreviousSkinChoice = 1;
+
+    //Player Powerup Canvas Choice
+    Object[] LoadedPlayerPower;
+    GameObject[] PlayerPowers;
+    public int PlayerPowerChoice = 0, PreviousPowerChoice = 1;
+
+    int[] scores;
 
     GameObject ItemIn, ItemOut;
 
@@ -22,25 +41,62 @@ public class Menu : MonoBehaviour {
     public void OnHomePlay() {
         Home.SetActive(false);
         towermove = true;
-        Tower.GetComponent<Spin>().spinning = false;
-        start = true;
+        SceneManager.LoadScene("Game");
     }
 
     public void OnHomeScoreboard() {
         ItemIn = Scoreboard;
         ItemOut = Home;
+
+
+
         movement = true;
     }
 
     public void OnHomeOptions() {
         ItemIn = Options;
         ItemOut = Home;
+
+        if (PlayerPrefs.GetInt("music") == 1) {
+            Music.isOn = true;
+        }
+        else {
+            Music.isOn = false;
+        }
+
+        if (PlayerPrefs.GetInt("SFX") == 1) {
+            SFX.isOn = true;
+        }
+        else {
+            SFX.isOn = false;
+        }
+
         movement = true;
     }
 
     public void OnHomeCustomize() {
         ItemIn = Customize;
         ItemOut = Home;
+
+        //Player Skin
+        PlayerSkinChoice = PlayerPrefs.GetInt("skin");
+
+        for (int i = 0; i < PlayerSkins.Length; i++) {
+            PlayerSkins[i].SetActive(false);
+        }
+
+        PlayerSkins[PlayerSkinChoice].SetActive(true);
+
+        //Player Power
+        PlayerPowerChoice = PlayerPrefs.GetInt("power");
+
+        for (int i = 0; i < PlayerPowers.Length; i++)
+        {
+            PlayerPowers[i].SetActive(false);
+        }
+
+        PlayerPowers[PlayerPowerChoice].SetActive(true);
+
         movement = true;
     }
 
@@ -78,8 +134,6 @@ public class Menu : MonoBehaviour {
 
         PlayerSkins[PreviousSkinChoice].SetActive(false);
         PlayerSkins[PlayerSkinChoice].SetActive(true);
-
-        Debug.Log(PreviousSkinChoice + ", " + PlayerSkinChoice);
     }
 
     public void OnSkingRight() {
@@ -94,8 +148,36 @@ public class Menu : MonoBehaviour {
 
         PlayerSkins[PreviousSkinChoice].SetActive(false);
         PlayerSkins[PlayerSkinChoice].SetActive(true);
+    }
 
-        Debug.Log(PreviousSkinChoice + ", " + PlayerSkinChoice);
+    public void OnPowerLeft() {
+        if (PlayerPowerChoice > 0)
+        {
+            PreviousPowerChoice = PlayerPowerChoice;
+            PlayerPowerChoice--;
+        }
+        else {
+            PlayerPowerChoice = LoadedPlayerPower.Length - 1;
+            PreviousPowerChoice = 0;
+        }
+
+        PlayerPowers[PreviousPowerChoice].SetActive(false);
+        PlayerPowers[PlayerPowerChoice].SetActive(true);
+    }
+
+    public void OnPowerRight() {
+        if (PlayerPowerChoice < LoadedPlayerPower.Length - 1)
+        {
+            PreviousPowerChoice = PlayerPowerChoice;
+            PlayerPowerChoice++;
+        }
+        else {
+            PlayerPowerChoice = 0;
+            PreviousPowerChoice = LoadedPlayerPower.Length - 1;
+        }
+
+        PlayerPowers[PreviousPowerChoice].SetActive(false);
+        PlayerPowers[PlayerPowerChoice].SetActive(true);
     }
 
     void Awake() {
@@ -105,12 +187,26 @@ public class Menu : MonoBehaviour {
         Customize.SetActive(false);
 
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
+        LoadedPlayerPower = Resources.LoadAll("PlayerCanvasPickups", typeof(GameObject));
     }
 
     void Start() {
         ItemIn = Options;
         ItemOut = Home;
 
+        scores = new int[5];
+
+        for (int i = 0; i < 5; i++) {
+            scores[i] = PlayerPrefs.GetInt("scores_" + i);
+        }
+
+        ScoresOne.GetComponent<Text>().text   = "Top Height: "    + scores[0] + "m";
+        ScoresTwo.GetComponent<Text>().text   = "Second Height: " + scores[1] + "m";
+        ScoresThree.GetComponent<Text>().text = "Third Height: "  + scores[2] + "m";
+        ScoresFour.GetComponent<Text>().text  = "Fourth Height: " + scores[3] + "m";
+        ScoresFive.GetComponent<Text>().text  = "Fifth Height: "  + scores[4] + "m";
+
+        //Player Skins
         PlayerSkins = new GameObject[LoadedPlayerSkins.Length];
 
         for (int i = 0; i < LoadedPlayerSkins.Length; i++) {
@@ -120,6 +216,19 @@ public class Menu : MonoBehaviour {
 
             if (i != 0)
                 skin.SetActive(false);
+        }
+
+        //Player Powerups
+        PlayerPowers = new GameObject[LoadedPlayerPower.Length];
+
+        for (int i = 0; i < LoadedPlayerPower.Length; i++)
+        {
+            GameObject power = Instantiate(LoadedPlayerPower[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            power.transform.SetParent(PlayerPower.GetComponent<Transform>(), false);
+            PlayerPowers[i] = power;
+
+            if (i != 0)
+                power.SetActive(false);
         }
     }
 
@@ -150,7 +259,6 @@ public class Menu : MonoBehaviour {
 
         if (towermove) {
             if (Tower.transform.position.x > 0) {
-                //@todo: Rotate the tower to the correct starting area of the Player
                 Tower.transform.position += Vector3.left * Time.deltaTime * 20;
             }
         }
