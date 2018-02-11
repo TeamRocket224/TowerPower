@@ -1,12 +1,18 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NewPlayer : MonoBehaviour {
-    public Transform CameraTransform;
-    public float CameraSpeed;
-    public float CameraVerticalOffset;
+    public TowerNew Tower;
+    public Water Water;
+    public Transform StarsTransform;
 
     public Transform GraphicTransform;
     public Animator GraphicAnimator;
+
+    public Transform CameraTransform;
+    public float CameraDistance;
+    public float CameraSpeed;
+    public float CameraVerticalOffset;
 
     public float GroundedHorizontalSpeed;
     public float GroundedHorizontalAcceleration;
@@ -14,12 +20,14 @@ public class NewPlayer : MonoBehaviour {
     public float BallisticHorizontalSpeed;
     public float BallisticGravity;
     public float BallisticJumpStrength;
+    public float JumpGracePeriod;
 
     Vector2 Position;
     float GroundedAccelerationValue;
     float GroundedDirection;
     Vector2 BallisticVelocity;
     bool HasDoubleJumped;
+    float JumpGracePeriodTimer;
 
     enum MovementMode {
         None,
@@ -35,54 +43,76 @@ public class NewPlayer : MonoBehaviour {
         Position = new Vector2(0.0f, transform.position.y);
     }
 
+    void ChangeMovementMode(MovementMode NewMovementMode) {
+        switch (NewMovementMode) {
+            case MovementMode.Grounded: {
+                break;
+            }
+            case MovementMode.Ballistic: {
+                JumpGracePeriodTimer = JumpGracePeriod;
+                HasDoubleJumped = false;
+                break;
+            }
+        }
+
+        CurrentMovementMode = NewMovementMode;
+    }
+
     void Update() {
+        float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
         float dT = Time.fixedDeltaTime;
-        float dX = Input.GetAxisRaw("Horizontal");
-        bool ShouldJump = Input.GetKeyDown(KeyCode.Space);
+
+        float ddX = Input.GetAxisRaw("Horizontal");
+        bool ShouldJump = Input.GetKeyDown(KeyCode.W);
 
         switch (CurrentMovementMode) {
             case MovementMode.Grounded: {
-                if (dX != 0.0f && GroundedDirection != dX) {
+                if (ddX != 0.0f && GroundedDirection != ddX) {
                     Vector3 scale = GraphicTransform.localScale;
                     scale.x *= -1.0f;
 
                     GraphicTransform.localScale = scale;
-                    GroundedDirection = dX;
+                    GroundedDirection = ddX;
                 }
 
-                GroundedAccelerationValue += (dX != 0.0f ? 1.0f : -1.0f) * GroundedHorizontalAcceleration * dT;
+                GroundedAccelerationValue += (ddX != 0.0f ? 1.0f : -1.0f) * GroundedHorizontalAcceleration * HorizontalConversionFactor * dT;
                 GroundedAccelerationValue = Mathf.Clamp(GroundedAccelerationValue, 0.0f, 1.0f);
 
-                float Acceleration = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed;
+                float Acceleration = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed * HorizontalConversionFactor;
                 Position.x += Acceleration * dT;
 
                 if (ShouldJump) {
-                    CurrentMovementMode = MovementMode.Ballistic;
-                    HasDoubleJumped = false;
+                    ChangeMovementMode(MovementMode.Ballistic);
                     
                     GraphicAnimator.SetTrigger("Jump");
-                    BallisticVelocity = new Vector2(Acceleration, GroundedJumpStrength);
+                    BallisticVelocity = new Vector2(ddX * GroundedHorizontalSpeed * HorizontalConversionFactor, GroundedJumpStrength);
                 }
                 else {
                     RaycastHit hit;
                     if (!Physics.Raycast(new Ray(transform.position, new Vector3(0.0f, -1.0f, 0.0f)), out hit, 0.1f)) {
-                        CurrentMovementMode = MovementMode.Ballistic;
-                        HasDoubleJumped = false;
+                        ChangeMovementMode(MovementMode.Ballistic);
                         BallisticVelocity = new Vector2(Acceleration, 0.0f);
                     }
                 }
 
-                GraphicAnimator.SetBool("IsMoving", dX != 0.0f);
+                GraphicAnimator.SetBool("IsMoving", ddX != 0.0f);
                 GraphicAnimator.SetBool("IsFalling", false);
 
                 break;
             }
             case MovementMode.Ballistic: {
+                JumpGracePeriodTimer -= dT;
                 if (!HasDoubleJumped && ShouldJump) {
-                    BallisticVelocity = new Vector2(dX * BallisticHorizontalSpeed, BallisticJumpStrength);
-                    HasDoubleJumped = true;
+                    BallisticVelocity = new Vector2(ddX * BallisticHorizontalSpeed * HorizontalConversionFactor, BallisticJumpStrength);
 
-                    GraphicAnimator.SetTrigger("DoubleJump");
+                    if (JumpGracePeriodTimer <= 0.0f) {
+                        GraphicAnimator.SetTrigger("DoubleJump");
+                        HasDoubleJumped = true;
+                    }
+                    else {
+                        GraphicAnimator.SetTrigger("Jump");
+                        JumpGracePeriodTimer = 0.0f;
+                    }
                 }
 
                 Vector2 Acceleration = new Vector2(0.0f, -BallisticGravity);
@@ -101,8 +131,10 @@ public class NewPlayer : MonoBehaviour {
                 RaycastHit hit;
                 if (Physics.CapsuleCast(p1, p2, radius, direction, out hit, distance)) {
                     if (hit.normal == Vector3.up) {
-                        CurrentMovementMode = MovementMode.Grounded;
-                        dPStep = (hit.distance / distance) - 0.001f;
+                        ChangeMovementMode(MovementMode.Grounded);
+                        GroundedAccelerationValue = ddX != 0.0f ? 1.0f : 0.25f;
+
+                        dPStep = (hit.distance / distance) - 0.01f;
                     }
                 }
 
@@ -113,63 +145,22 @@ public class NewPlayer : MonoBehaviour {
             }
         }
 
-        transform.position = new Vector3(Position.x, Position.y, 0.0f);
-
-        if (transform.position.y < -10.0f) {
-            transform.position = new Vector3(0.0f, 10.0f, 0.0f);
-            
-            Position = new Vector2(0.0f, transform.position.y);
-            BallisticVelocity = new Vector2();
+        transform.position = new Vector3(Mathf.Cos(Position.x) * Tower.Radius, Position.y, Mathf.Sin(Position.x) * Tower.Radius);
+        if (transform.position.y < Water.Height) {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
+        Vector2 CameraPosition = new Vector2(transform.position.x, transform.position.z).normalized;
+        CameraPosition *= Tower.Radius + CameraDistance;
 
         CameraTransform.position = Vector3.Lerp(
             CameraTransform.position, 
-            new Vector3(transform.position.x, transform.position.y + CameraVerticalOffset, CameraTransform.position.z), 
+            new Vector3(CameraPosition.x, transform.position.y + CameraVerticalOffset, CameraPosition.y), 
             CameraSpeed * dT);
 
+        CameraTransform.LookAt(transform.position);
         transform.LookAt(CameraTransform.position);
+
+        StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
     }
-
-    // public TowerTransform TowerTransform;
-    // public Transform Graphic;
-    // public Animator Animator;
-    
-    // public float MoveSpeed;
-    // public float MoveFriction;
-
-    // bool IsFacingRight;
-
-    // Vector2 Position;
-    // Vector2 Velocity;
-
-    // void Update() {
-    //     Vector2 acceleration = new Vector2(0.0f, -9.8f);
-    //     if (Input.GetKey(KeyCode.A)) {
-    //         if (IsFacingRight) {
-    //             Graphic.transform.localScale = new Vector3(-Graphic.localScale.x, Graphic.localScale.y, Graphic.localScale.z);
-    //             IsFacingRight = false;
-    //         }
-
-    //         acceleration.x -= MoveSpeed;
-    //     }
-
-    //     if (Input.GetKey(KeyCode.D)) {
-    //         if (!IsFacingRight) {
-    //             Graphic.transform.localScale = new Vector3(-Graphic.localScale.x, Graphic.localScale.y, Graphic.localScale.z);
-    //             IsFacingRight = true;
-    //         }
-
-    //         acceleration.x += MoveSpeed;
-    //     }
-
-    //     acceleration.x -= MoveFriction * Velocity.x;
-
-    //     Position += (Velocity * Time.deltaTime) + (0.5f * acceleration * Time.deltaTime * Time.deltaTime);
-	// 	Velocity += acceleration * Time.deltaTime;
-        
-    //     TowerTransform.Theta = Position.x;
-    //     TowerTransform.Height = Position.y;
-
-    //     Animator.SetBool("IsMoving", Mathf.Abs(Velocity.x) > 0.25f);
-    // }
 }
