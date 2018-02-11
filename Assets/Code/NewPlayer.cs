@@ -63,6 +63,10 @@ public class NewPlayer : MonoBehaviour {
     }
 
     void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Application.Quit();
+        }
+
         float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
         float dT = Time.deltaTime;
 
@@ -168,5 +172,9 @@ public class NewPlayer : MonoBehaviour {
 
         StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
         HeightText.text = "Height: " + Position.y + "m";
+    }
+
+    public void LoadMainMenu() {
+        SceneManager.LoadScene("Game");
     }
 }

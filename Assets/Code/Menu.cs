@@ -225,14 +225,6 @@ public class Menu : MonoBehaviour {
 
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
         LoadedPlayerPower = Resources.LoadAll("PlayerCanvasPickups", typeof(GameObject));
-
-        PlayerPrefs.SetInt("skin_unlock_1", 1);
-        PlayerPrefs.SetInt("skin_unlock_2", 0);
-        PlayerPrefs.SetInt("skin_unlock_3", 0);
-        PlayerPrefs.SetInt("skin_unlock_4", 0);
-        PlayerPrefs.SetInt("skin_unlock_5", 0);
-        PlayerPrefs.SetInt("skin_unlock_6", 0);
-        PlayerPrefs.SetInt("skin_unlock_7", 0);
     }
 
     void Start() {
@@ -279,6 +271,10 @@ public class Menu : MonoBehaviour {
     }
 
     void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Application.Quit();
+        }
+
         if (movement) {
             if (ItemIn == Home) {
                 if (ItemIn.GetComponent<RectTransform>().localPosition.x > 50) {
