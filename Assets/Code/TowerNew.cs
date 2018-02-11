@@ -39,7 +39,7 @@ public class TowerNew : MonoBehaviour
         int NextHeightIndex = (int) ((Player.transform.position.y + ForwardGenerationHeight) / PlatformSpacingHeight);
         if (NextHeightIndex > LastHeightIndex) {
             for (var HeightIndex = LastHeightIndex; HeightIndex < NextHeightIndex; HeightIndex++) {
-                var Scale = HeightIndex * HeightIndex; // Mathf.Pow(2.0f, HeightIndex / 100.0f);
+                var Scale = HeightIndex * HeightIndex;
                 
                 var MediumChance = 5 - Scale;
                 if (MediumChance < 2) {
@@ -59,42 +59,45 @@ public class TowerNew : MonoBehaviour
                     Type = PlatformType.Small;
                 }
 
-                SpawnPlatform(Type, LastTheta, HeightIndex * PlatformSpacingHeight);
+                GameObject PlatformPrefab = null;
+                switch (Type)
+                {
+                    case PlatformType.Small:
+                    {
+                        PlatformPrefab = SmallPlatforms[0];
+                        break;
+                    }
+                    case PlatformType.Medium:
+                    {
+                        PlatformPrefab = MediumPlatforms[0];
+                        break;
+                    }
+                    case PlatformType.Large:
+                    {
+                        PlatformPrefab = LargePlatforms[0];
+                        break;
+                    }
+                }
+
+                // @todo: Position the platform programatically, the offset from the center is currently
+                // set by the position of the graphic in the editor. Doesn't work with a dynamic tower
+                // radius!
+
+                Instantiate(
+                    PlatformPrefab, 
+                    new Vector3(0.0f, HeightIndex * PlatformSpacingHeight, 0.0f), 
+                    Quaternion.AngleAxis(Mathf.Rad2Deg * LastTheta, Vector3.up), 
+                    transform);
 
                 float Direction = Random.Range(0, 2) == 0 ? -1.0f : 1.0f;
                 LastTheta += Direction * PlatformSpacingWidth * (1.0f / (2.0f * Mathf.PI));
+
+                if (HeightIndex % 2 == 0) {
+                    Instantiate(CenterPiece, new Vector3(0.0f, HeightIndex * 5.0f, 0.0f), Quaternion.identity, transform);
+                }
             }
 
             LastHeightIndex = NextHeightIndex;
         }
-    }
-
-    GameObject SpawnPlatform(PlatformType Type, float Theta, float Height)
-    {
-        // @todo: Position the platform programatically, the offset from the center is currently
-        // set by the position of the graphic in the editor. Doesn't work with a dynamic tower
-        // radius!
-
-        GameObject Prefab = null;
-        switch (Type)
-        {
-            case PlatformType.Small:
-            {
-                Prefab = SmallPlatforms[0];
-                break;
-            }
-            case PlatformType.Medium:
-            {
-                Prefab = MediumPlatforms[0];
-                break;
-            }
-            case PlatformType.Large:
-            {
-                Prefab = LargePlatforms[0];
-                break;
-            }
-        }
-
-        return Instantiate(Prefab, new Vector3(0.0f, Height, 0.0f), Quaternion.AngleAxis(Mathf.Rad2Deg * Theta, Vector3.up), transform);
     }
 }

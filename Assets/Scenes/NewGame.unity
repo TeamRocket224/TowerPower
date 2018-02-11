@@ -20,9 +20,9 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientSkyColor: {r: 0.5595264, g: 0.64583653, b: 0.9632353, a: 1}
+  m_AmbientEquatorColor: {r: 0, g: 0, b: 0, a: 1}
+  m_AmbientGroundColor: {r: 0.450051, g: 0, b: 0.9191176, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
@@ -447,7 +447,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Height: 0
-  RiseSpeed: 2.5
+  MaxHeight: 500
+  RiseCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  RiseSpeed: 1.5
+  BaseSpeed: 2.5
 --- !u!1 &1028556189
 GameObject:
   m_ObjectHideFlags: 0
@@ -4103,6 +4123,7 @@ MonoBehaviour:
   HeightText: {fileID: 107407760}
   GraphicTransform: {fileID: 2054592603}
   GraphicAnimator: {fileID: 2054592605}
+  PlayerDistance: 1
   CameraTransform: {fileID: 1079676893}
   CameraDistance: 10
   CameraSpeed: 5
@@ -4113,7 +4134,7 @@ MonoBehaviour:
   BallisticHorizontalSpeed: 3
   BallisticGravity: 20
   BallisticJumpStrength: 12.5
-  JumpGracePeriod: 0.35
+  JumpGracePeriod: 0.25
 --- !u!1 &2054592602
 GameObject:
   m_ObjectHideFlags: 0

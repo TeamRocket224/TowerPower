@@ -11,6 +11,8 @@ public class NewPlayer : MonoBehaviour {
     public Transform GraphicTransform;
     public Animator GraphicAnimator;
 
+    public float PlayerDistance;
+
     public Transform CameraTransform;
     public float CameraDistance;
     public float CameraSpeed;
@@ -65,7 +67,7 @@ public class NewPlayer : MonoBehaviour {
         float dT = Time.deltaTime;
 
         float ddX = Input.GetAxisRaw("Horizontal");
-        bool ShouldJump = Input.GetKeyDown(KeyCode.W);
+        bool ShouldJump = Input.GetKeyDown(KeyCode.Space);
 
         switch (CurrentMovementMode) {
             case MovementMode.Grounded: {
@@ -147,7 +149,8 @@ public class NewPlayer : MonoBehaviour {
             }
         }
 
-        transform.position = new Vector3(Mathf.Cos(Position.x) * Tower.Radius, Position.y, Mathf.Sin(Position.x) * Tower.Radius);
+        float Radius = Tower.Radius + PlayerDistance;
+        transform.position = new Vector3(Mathf.Cos(Position.x) * Radius, Position.y, Mathf.Sin(Position.x) * Radius);
         if (transform.position.y < Water.Height) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
