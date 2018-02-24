@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour {
+public class PlayerFoo : MonoBehaviour {
     public Tower Tower;
     public Water Water;
     public Transform StarsTransform;
