@@ -39,7 +39,7 @@ public class Menu : MonoBehaviour {
 
     int[] scores;
 
-    GameObject ItemIn, ItemOut;
+    GameObject ItemIn, ItemOut, Skin;
 
     bool movement = false, towermove = false;
 
@@ -59,14 +59,14 @@ public class Menu : MonoBehaviour {
         ItemIn = Purchase;
         ItemOut = Customize;
 
-        GameObject skin = Instantiate(LoadedPlayerSkins[PlayerSkinChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        skin.transform.SetParent(PurchaseItem.GetComponent<Transform>(), false);
-        PurchaseName.text = skin.transform.GetChild(0).GetComponent<Text>().text;
-        PurchaseCost.text = "Cost: " + skin.GetComponent<CustomizeDetails>().cost.ToString("n0") + " Coins";
-        PurchaseDesc.text = skin.GetComponent<CustomizeDetails>().description;
-        skin.transform.GetChild(0).GetComponent<Text>().enabled = false;
+        Skin = Instantiate(LoadedPlayerSkins[PlayerSkinChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        Skin.transform.SetParent(PurchaseItem.GetComponent<Transform>(), false);
+        PurchaseName.text = Skin.transform.GetChild(0).GetComponent<Text>().text;
+        PurchaseCost.text = "Cost: " + Skin.GetComponent<CustomizeDetails>().cost.ToString("n0") + " Coins";
+        PurchaseDesc.text = Skin.GetComponent<CustomizeDetails>().description;
+        Skin.transform.GetChild(0).GetComponent<Text>().enabled = false;
 
-        CheckSkin(skin);
+        CheckSkin(Skin);
 
         movement = true;
     }
@@ -143,6 +143,7 @@ public class Menu : MonoBehaviour {
     public void OnPurchaseBack() {
         ItemIn = Customize;
         ItemOut = Purchase;
+        Skin.SetActive(false);
         movement = true;
     }
 
