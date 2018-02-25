@@ -20,10 +20,14 @@ public class PlayerCustomization : MonoBehaviour {
     }
 
     public void OnSkinChange() {
-        PlayerPrefs.SetInt("skin", GetComponent<Menu>().PlayerSkinChoice);
+        if (PlayerPrefs.GetInt("skin_unlock_" + (GetComponent<Menu>().PlayerSkinChoice + 1)) == 1) {
+            PlayerPrefs.SetInt("skin", GetComponent<Menu>().PlayerSkinChoice);
+        }
     }
 
-    public void OnPowerChange() {
-        PlayerPrefs.SetInt("power", GetComponent<Menu>().PlayerPowerChoice);
+    public void OnSkillChange() {
+        if (PlayerPrefs.GetInt("skill_unlock_" + (GetComponent<Menu>().PlayerSkillChoice + 1)) == 1) {
+            PlayerPrefs.SetInt("skill", GetComponent<Menu>().PlayerSkillChoice);
+        }
     }
 }
