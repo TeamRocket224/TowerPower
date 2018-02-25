@@ -18,10 +18,15 @@ public class Tower : MonoBehaviour
     public GameObject[] MediumPlatforms;
     public GameObject[] LargePlatforms;
 
+    public Skull SkullOne;
+    public Skull SkullTwo;
+
     public float Radius;
     public float PlatformSpacingWidth;
     public float PlatformSpacingHeight;
     public float ForwardGenerationHeight;
+
+    public float SkullOffset;
 
     int LastHeightIndex;
     float LastTheta;
@@ -31,14 +36,17 @@ public class Tower : MonoBehaviour
         for (var ChildIndex = 0; ChildIndex < transform.childCount; ChildIndex++)
         {
             var ChildTransform = transform.GetChild(ChildIndex);
-            if (ChildTransform.position.y < Water.Height) {
+            if (ChildTransform.position.y < Water.Height)
+            {
                 Destroy(ChildTransform.gameObject);
             }
         }
 
         int NextHeightIndex = (int) ((Player.transform.position.y + ForwardGenerationHeight) / PlatformSpacingHeight);
-        if (NextHeightIndex > LastHeightIndex) {
-            for (var HeightIndex = LastHeightIndex; HeightIndex < NextHeightIndex; HeightIndex++) {
+        if (NextHeightIndex > LastHeightIndex)
+        {
+            for (var HeightIndex = LastHeightIndex; HeightIndex < NextHeightIndex; HeightIndex++)
+            {
                 var Scale = HeightIndex * HeightIndex;
                 
                 var MediumChance = 5 - Scale;
@@ -52,10 +60,12 @@ public class Tower : MonoBehaviour
                 }
 
                 var Type = PlatformType.Large;
-                if (Random.Range(0, MediumChance) == 0) {
+                if (Random.Range(0, MediumChance) == 0)
+                {
                     Type = PlatformType.Medium;
                 }
-                else if (Random.Range(0, SmallChance) == 0) {
+                else if (Random.Range(0, SmallChance) == 0)
+                {
                     Type = PlatformType.Small;
                 }
 
@@ -92,8 +102,15 @@ public class Tower : MonoBehaviour
                 float Direction = Random.Range(0, 2) == 0 ? -1.0f : 1.0f;
                 LastTheta += Direction * PlatformSpacingWidth * (1.0f / (2.0f * Mathf.PI));
 
-                if (HeightIndex % 2 == 0) {
+                if (HeightIndex % 2 == 0)
+                {
                     Instantiate(CenterPiece, new Vector3(0.0f, HeightIndex * 5.0f, 0.0f), Quaternion.identity, transform);
+                }
+
+                if (HeightIndex > 0)
+                {
+                    var Skull = Instantiate(SkullOne, new Vector3(0.0f, (HeightIndex * PlatformSpacingHeight) + SkullOffset, 0.0f), Quaternion.identity);
+                    Skull.Radius = Radius + 1.0f;
                 }
             }
 
