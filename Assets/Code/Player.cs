@@ -40,6 +40,9 @@ public class Player : MonoBehaviour
     bool HasDoubleJumped;
     float JumpGracePeriodTimer;
 
+    bool ShouldJump = false;
+    float ddX = 0;
+
     float SleepTimer;
 
     enum MovementMode
@@ -98,8 +101,8 @@ public class Player : MonoBehaviour
         float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
         float dT = Time.deltaTime;
 
-        float ddX = Input.GetAxisRaw("Horizontal");
-        bool ShouldJump = Input.GetKeyDown(KeyCode.Space);
+        //ddX = Input.GetAxisRaw("Horizontal");
+        //ShouldJump = Input.GetKeyDown(KeyCode.Space);
 
         Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, PlayerRadius, 0.0f);
         Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, PlayerRadius * 2.0f, 0.0f);
@@ -216,6 +219,8 @@ public class Player : MonoBehaviour
             }
         }
 
+        Debug.Log(ddX);
+
         float Radius = Tower.Radius + PlayerDistance;
         transform.position = new Vector3(Mathf.Cos(Position.x) * Radius, Position.y, Mathf.Sin(Position.x) * Radius);
         if (transform.position.y < Water.Height)
@@ -231,7 +236,7 @@ public class Player : MonoBehaviour
             new Vector3(CameraPosition.x, transform.position.y + CameraVerticalOffset, CameraPosition.y), 
             CameraSpeed * dT);
 
-        CameraTransform.LookAt(transform.position);
+        CameraTransform.LookAt(transform.position + new Vector3(0, 3.5f, 0));
         transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
 
         StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
@@ -252,6 +257,26 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void moveLeftDown() {
+        ddX = -1;
+    }
+
+    public void moveLeftUp() {
+        ddX = 0;
+    }
+
+    public void moveRightDown() {
+        ddX = 1;
+    }
+
+    public void moveRightUp() {
+        ddX = 0;
+    }
+
+    public void tapJump() {
+        ShouldJump = true;
     }
 
     public void LoadMainMenu()
