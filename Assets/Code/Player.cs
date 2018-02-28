@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
     bool HasDoubleJumped;
     float JumpGracePeriodTimer;
 
-    bool ShouldJump = false;
+    bool ShouldJump = false, ButtonJump = false, MoveLeft = false, MoveRight = false;
     float ddX = 0;
 
     float SleepTimer;
@@ -98,11 +98,25 @@ public class Player : MonoBehaviour
             Application.Quit();
         }
 
+        if (!MoveRight && !MoveLeft) {
+            ddX = 0;
+            MoveRight = false;
+            MoveLeft = false;
+        }
+
         float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
         float dT = Time.deltaTime;
 
         //ddX = Input.GetAxisRaw("Horizontal");
         //ShouldJump = Input.GetKeyDown(KeyCode.Space);
+
+        if (ButtonJump) {
+            ShouldJump = true;
+            ButtonJump = false;
+        }
+        else {
+            ShouldJump = false;
+        }
 
         Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, PlayerRadius, 0.0f);
         Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, PlayerRadius * 2.0f, 0.0f);
@@ -219,8 +233,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        Debug.Log(ddX);
-
         float Radius = Tower.Radius + PlayerDistance;
         transform.position = new Vector3(Mathf.Cos(Position.x) * Radius, Position.y, Mathf.Sin(Position.x) * Radius);
         if (transform.position.y < Water.Height)
@@ -260,23 +272,25 @@ public class Player : MonoBehaviour
     }
 
     public void moveLeftDown() {
+        MoveLeft = true;
         ddX = -1;
     }
 
     public void moveLeftUp() {
-        ddX = 0;
+        MoveLeft = false;
     }
 
     public void moveRightDown() {
+        MoveRight = true;
         ddX = 1;
     }
 
     public void moveRightUp() {
-        ddX = 0;
+        MoveRight = false;
     }
 
-    public void tapJump() {
-        ShouldJump = true;
+    public void tapJumpDown() {
+        ButtonJump = true;
     }
 
     public void LoadMainMenu()
