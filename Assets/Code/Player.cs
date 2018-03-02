@@ -102,7 +102,7 @@ public class Player : MonoBehaviour
         bool ShouldJump = Input.GetKeyDown(KeyCode.Space);
 
         Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, PlayerRadius, 0.0f);
-        Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, PlayerRadius * 2.0f, 0.0f);
+        Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, 2.0f - (PlayerRadius * 2.0f), 0.0f);
         float CapsuleRadius = PlayerRadius;
 
         SleepTimer -= Time.deltaTime;
