@@ -319,9 +319,6 @@ public class Menu : MonoBehaviour {
         Customize.SetActive(false);
         Purchase.SetActive(false);
 
-        //Score stuff here
-        //PlayerPrefs.SetString("scores", "54;42;31;24;13");
-
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
         LoadedPlayerSkills = Resources.LoadAll("PlayerCanvasSkills", typeof(GameObject));
     }
