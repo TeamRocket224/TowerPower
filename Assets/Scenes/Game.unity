@@ -136,7 +136,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 107407758}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -630, y: -312.26672, z: 0}
+  m_LocalPosition: {x: -960, y: -475.6672, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 340953016}
@@ -3733,42 +3733,41 @@ MonoBehaviour:
     MediumPlatformSpawnChance: 0
     SkullOneSpawnChance: 0
     SkullTwoSpawnChance: 0
-    YellowCoinSpawnChance: 0
+    YellowCoinSpawnChance: 1
     GreenCoinSpawnChance: 0
     BlueCoinSpawnChance: 0
   - StartHeight: 10
     SmallPlatformSpawnChance: 0
-    MediumPlatformSpawnChance: 0.268
-    SkullOneSpawnChance: 0.098
+    MediumPlatformSpawnChance: 0.25
+    SkullOneSpawnChance: 0.1
     SkullTwoSpawnChance: 0
-    YellowCoinSpawnChance: 0.259
-    GreenCoinSpawnChance: 0
+    YellowCoinSpawnChance: 0.5
+    GreenCoinSpawnChance: 0.1
     BlueCoinSpawnChance: 0
   - StartHeight: 100
     SmallPlatformSpawnChance: 0
-    MediumPlatformSpawnChance: 0.506
+    MediumPlatformSpawnChance: 0.5
     SkullOneSpawnChance: 0.375
     SkullTwoSpawnChance: 0
-    YellowCoinSpawnChance: 0.538
-    GreenCoinSpawnChance: 0.33
-    BlueCoinSpawnChance: 0
-  - StartHeight: 200
-    SmallPlatformSpawnChance: 0.204
-    MediumPlatformSpawnChance: 0.817
-    SkullOneSpawnChance: 0.388
-    SkullTwoSpawnChance: 0.102
-    YellowCoinSpawnChance: 0.706
-    GreenCoinSpawnChance: 0.524
-    BlueCoinSpawnChance: 0.066
+    YellowCoinSpawnChance: 0.5
+    GreenCoinSpawnChance: 0.2
+    BlueCoinSpawnChance: 0.01
   - StartHeight: 300
-    SmallPlatformSpawnChance: 0.715
-    MediumPlatformSpawnChance: 0.911
-    SkullOneSpawnChance: 0.426
-    SkullTwoSpawnChance: 0.298
-    YellowCoinSpawnChance: 0.723
-    GreenCoinSpawnChance: 0.489
-    BlueCoinSpawnChance: 0.344
-  LastHeightIndex: 0
+    SmallPlatformSpawnChance: 0.5
+    MediumPlatformSpawnChance: 0.8
+    SkullOneSpawnChance: 0.375
+    SkullTwoSpawnChance: 0.1
+    YellowCoinSpawnChance: 0.75
+    GreenCoinSpawnChance: 0.2
+    BlueCoinSpawnChance: 0.1
+  - StartHeight: 500
+    SmallPlatformSpawnChance: 0.75
+    MediumPlatformSpawnChance: 0.9
+    SkullOneSpawnChance: 0.45
+    SkullTwoSpawnChance: 0.3
+    YellowCoinSpawnChance: 0.75
+    GreenCoinSpawnChance: 0.35
+    BlueCoinSpawnChance: 0.2
 --- !u!4 &156638322
 Transform:
   m_ObjectHideFlags: 0
@@ -3808,7 +3807,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 172487774}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 605, y: 0, z: 0}
+  m_LocalPosition: {x: 935, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1486013783}
@@ -4023,7 +4022,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 340953012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 630, y: 354.5, z: 0}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1685641811}
@@ -4088,9 +4087,9 @@ MonoBehaviour:
     RiseSpeed: 2
   - StartHeight: 100
     RiseSpeed: 3
-  - StartHeight: 200
-    RiseSpeed: 4
   - StartHeight: 300
+    RiseSpeed: 4
+  - StartHeight: 500
     RiseSpeed: 5
 --- !u!1 &795780620
 GameObject:
@@ -4117,7 +4116,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 795780620}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -549.8, y: 339.5, z: 0}
+  m_LocalPosition: {x: -879.8, y: 525, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1171954668}
@@ -4236,7 +4235,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 823129413}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -203.97668, z: 0}
+  m_LocalPosition: {x: 0, y: -310.712, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1563086061}
@@ -4272,7 +4271,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1060336863}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -0.0000038146973, z: 0}
+  m_LocalPosition: {x: -5, y: 0.0000076293945, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1301582834}
@@ -4307,7 +4306,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1074439481}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -552.0944, y: -55.693565, z: 0}
+  m_LocalPosition: {x: -863.65344, y: -178.92082, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1103951004}
@@ -4472,7 +4471,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1103951003}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0000038146973, z: 0}
+  m_LocalPosition: {x: 0, y: 0.0000076293945, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1074439482}
@@ -4614,7 +4613,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1301582833}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -58.705566, y: 0, z: 0}
+  m_LocalPosition: {x: -77.146576, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1060336864}
@@ -8411,7 +8410,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1563086060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -605, y: 0, z: 0}
+  m_LocalPosition: {x: -935, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1512770290}
@@ -8568,7 +8567,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1685641810}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -630, y: -256.57074, z: 0}
+  m_LocalPosition: {x: -960, y: -419.97122, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 340953016}
@@ -8644,7 +8643,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1822752063}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 505, y: 0, z: 0}
+  m_LocalPosition: {x: 835, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1427984836}
