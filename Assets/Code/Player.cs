@@ -40,6 +40,9 @@ public class Player : MonoBehaviour
     bool HasDoubleJumped;
     float JumpGracePeriodTimer;
 
+    bool ShouldJump = false, ButtonJump = false, MoveLeft = false, MoveRight = false;
+    float ddX = 0;
+
     float SleepTimer;
 
     enum MovementMode
@@ -95,11 +98,25 @@ public class Player : MonoBehaviour
             Application.Quit();
         }
 
+        if (!MoveRight && !MoveLeft) {
+            ddX = 0;
+            MoveRight = false;
+            MoveLeft = false;
+        }
+
         float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
         float dT = Time.deltaTime;
 
-        float ddX = Input.GetAxisRaw("Horizontal");
-        bool ShouldJump = Input.GetKeyDown(KeyCode.Space);
+        //ddX = Input.GetAxisRaw("Horizontal");
+        //ShouldJump = Input.GetKeyDown(KeyCode.Space);
+
+        if (ButtonJump) {
+            ShouldJump = true;
+            ButtonJump = false;
+        }
+        else {
+            ShouldJump = false;
+        }
 
         Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, PlayerRadius, 0.0f);
         Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, 2.0f - (PlayerRadius * 2.0f), 0.0f);
@@ -231,7 +248,7 @@ public class Player : MonoBehaviour
             new Vector3(CameraPosition.x, transform.position.y + CameraVerticalOffset, CameraPosition.y), 
             CameraSpeed * dT);
 
-        CameraTransform.LookAt(transform.position);
+        CameraTransform.LookAt(transform.position + new Vector3(0, 3.5f, 0));
         transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
 
         StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
@@ -252,6 +269,28 @@ public class Player : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void moveLeftDown() {
+        MoveLeft = true;
+        ddX = -1;
+    }
+
+    public void moveLeftUp() {
+        MoveLeft = false;
+    }
+
+    public void moveRightDown() {
+        MoveRight = true;
+        ddX = 1;
+    }
+
+    public void moveRightUp() {
+        MoveRight = false;
+    }
+
+    public void tapJumpDown() {
+        ButtonJump = true;
     }
 
     public void LoadMainMenu()

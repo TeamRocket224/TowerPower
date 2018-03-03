@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 6a869c00e5349be4187331bb193b8a41
+timeCreated: 1519844205
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: BitFont
+  fontNames:
+  - BitFont
+  fallbackFontReferences: []
+  customCharacters: T
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
