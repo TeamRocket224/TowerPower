@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
-    public GameObject MenuHold;
     public GameObject Home;
     public GameObject Scoreboard;
     public GameObject Options;
@@ -39,8 +38,6 @@ public class Menu : MonoBehaviour {
     Object[] LoadedPlayerSkills;
     GameObject[] PlayerSkills;
     public int PlayerSkillChoice = 0, PreviousSkillChoice = 1;
-
-    int[] scores;
 
     GameObject ItemIn, ItemOut, Skin, Skill;
 
@@ -316,13 +313,14 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
-        //MenuHold.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width / 2, Screen.height);
-
         Home.SetActive(true);
         Scoreboard.SetActive(false);
         Options.SetActive(false);
         Customize.SetActive(false);
         Purchase.SetActive(false);
+
+        //Score stuff here
+        //PlayerPrefs.SetString("scores", "54;42;31;24;13");
 
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
         LoadedPlayerSkills = Resources.LoadAll("PlayerCanvasSkills", typeof(GameObject));
@@ -332,12 +330,7 @@ public class Menu : MonoBehaviour {
         ItemIn = Options;
         ItemOut = Home;
 
-        scores = new int[5];
-
-        for (int i = 0; i < 5; i++) {
-            scores[i] = PlayerPrefs.GetInt("scores_" + i);
-        }
-
+        string[] scores = PlayerPrefs.GetString("scores").Split(';');
 
         ScoresOne.GetComponent<Text>().text   = "Top Height: "    + scores[0] + "m";
         ScoresTwo.GetComponent<Text>().text   = "Second Height: " + scores[1] + "m";
@@ -379,9 +372,6 @@ public class Menu : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         }
-
-        Debug.Log(Home.GetComponent<RectTransform>().localPosition.x);
-
         if (movement) {
             if (ItemIn.GetComponent<RectTransform>().localPosition.x > -480) {
                 ItemIn.SetActive(true);
