@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
     public Water Water;
     public Transform StarsTransform;
     public Text HeightText;
+    public Text CoinsText;
 
     public Transform GraphicTransform;
     public Animator GraphicAnimator;
@@ -33,6 +35,8 @@ public class Player : MonoBehaviour
     public float BallisticGravity;
     public float BallisticJumpStrength;
     public float JumpGracePeriod;
+
+    public int Coins;
 
     Vector2 Position;
     float GroundedAccelerationValue;
@@ -242,10 +246,6 @@ public class Player : MonoBehaviour
 
         float Radius = Tower.Radius + PlayerDistance;
         transform.position = new Vector3(Mathf.Cos(Position.x) * Radius, Position.y, Mathf.Sin(Position.x) * Radius);
-        if (transform.position.y < Water.Height)
-        {
-            SceneManager.LoadScene("Game");
-        }
 
         Vector2 CameraPosition = new Vector2(transform.position.x, transform.position.z).normalized;
         CameraPosition *= Tower.Radius + CameraDistance;
@@ -261,20 +261,62 @@ public class Player : MonoBehaviour
         StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
         HeightText.text = "Height: " + Position.y + "m";
 
-        if (SleepTimer <= 0.0f)
+        var Colliders = Physics.OverlapCapsule(CapsuleP1, CapsuleP2, CapsuleRadius);
+        foreach (var Collider in Colliders)
         {
-            var SkullColliders = Physics.OverlapCapsule(CapsuleP1, CapsuleP2, CapsuleRadius, LayerMask.GetMask("Skull"));
-            foreach (var SkullCollider in SkullColliders)
+            if (SleepTimer <= 0.0f)
             {
-                var Skull = SkullCollider.GetComponent<Skull>();
+                var Skull = Collider.GetComponent<Skull>();
                 if (Skull)
                 {
                     SleepTimer = Skull.SleepTime;
                     HitParticleSystem.Play();
 
+                    Coins -= Skull.CoinDrop;
+                    if (Coins < 0)
+                    {
+                        Coins = 0;
+                    }
+
+                    Destroy(Skull.gameObject);
+                }
+            }
+
+            var Coin = Collider.GetComponent<Coin>();
+            if (Coin)
+            {
+                Coins += Coin.Value;
+                Destroy(Coin.gameObject);
+            }
+        }
+
+        CoinsText.text = "Coins: " + Coins;
+
+        if (transform.position.y < Water.Height)
+        {
+            var OldCoins = PlayerPrefs.GetInt("coins", 0);
+            PlayerPrefs.SetInt("coins", OldCoins + Coins);
+
+            var NewScore = (int) transform.position.y;
+
+            var Scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';').Select(s => int.Parse(s)).ToArray();
+            for (var ScoresIndex = 0; ScoresIndex < Scores.Length; ScoresIndex++)
+            {
+                if (NewScore > Scores[ScoresIndex])
+                {
+                    for (var ScoresShiftIndex = Scores.Length - 1; ScoresShiftIndex > ScoresIndex; ScoresShiftIndex--)
+                    {
+                        Scores[ScoresShiftIndex] = Scores[ScoresShiftIndex - 1];
+                    }
+
+                    Scores[ScoresIndex] = NewScore;
+
                     break;
                 }
             }
+
+            PlayerPrefs.SetString("scores", string.Join(";", Scores.Select(i => i.ToString()).ToArray()));
+            SceneManager.LoadScene("Game");
         }
     }
 

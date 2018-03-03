@@ -5,6 +5,7 @@ public class Skull : MonoBehaviour
     public float Radius;
     public float SleepTime;
     public float Speed;
+    public int CoinDrop;
 
     float CurrentTheta;
 

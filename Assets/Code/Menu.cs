@@ -330,7 +330,7 @@ public class Menu : MonoBehaviour {
         ItemIn = Options;
         ItemOut = Home;
 
-        string[] scores = PlayerPrefs.GetString("scores").Split(';');
+        var scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';');
 
         ScoresOne.GetComponent<Text>().text   = "Top Height: "    + scores[0] + "m";
         ScoresTwo.GetComponent<Text>().text   = "Second Height: " + scores[1] + "m";

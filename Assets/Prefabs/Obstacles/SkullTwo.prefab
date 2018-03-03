@@ -146,6 +146,7 @@ MonoBehaviour:
   Radius: 0
   SleepTime: 5
   Speed: 1
+  CoinDrop: 15
 --- !u!198 &198602950134260432
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -2,7 +2,5 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    void Update()
-    {
-    }
+    public int Value;
 }
