@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public Animator GraphicAnimator;
     public Transform ShadowTransform;
     public Animator ShadowAnimator;
+    public RuntimeAnimatorController[] SkinAnimatorControllers;
 
     public float PlayerDistance;
     public float PlayerRadius;
@@ -79,6 +80,10 @@ public class Player : MonoBehaviour
         CurrentMovementMode = MovementMode.Ballistic;
         GroundedDirection = 1.0f;
         Position = new Vector2(0.0f, transform.position.y);
+
+        var SkinIndex = PlayerPrefs.GetInt("skin", 0);
+        GraphicAnimator.runtimeAnimatorController = SkinAnimatorControllers[SkinIndex];
+        ShadowAnimator.runtimeAnimatorController = SkinAnimatorControllers[SkinIndex];
     }
 
     void ChangeMovementMode(MovementMode NewMovementMode)

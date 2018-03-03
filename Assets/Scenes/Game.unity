@@ -12324,6 +12324,14 @@ MonoBehaviour:
   GraphicAnimator: {fileID: 2054592605}
   ShadowTransform: {fileID: 1874971583}
   ShadowAnimator: {fileID: 1874971584}
+  SkinAnimatorControllers:
+  - {fileID: 9100000, guid: 07ebafbb7e0f2a44ea8d6e009645ab1e, type: 2}
+  - {fileID: 22100000, guid: 5ef4350140988374f93153bdf3957bf0, type: 2}
+  - {fileID: 22100000, guid: df40814792e9c38469dea31a96c564f9, type: 2}
+  - {fileID: 22100000, guid: 623f27f783068d74ca3e48750a893bfa, type: 2}
+  - {fileID: 22100000, guid: 3fde9014192745e47aab5d60d768800d, type: 2}
+  - {fileID: 22100000, guid: 512fbefe9efe93b4e9ad12e7c51b695c, type: 2}
+  - {fileID: 22100000, guid: 2edd576121c09b5438acce1b1c363c27, type: 2}
   PlayerDistance: 1
   PlayerRadius: 0.75
   CameraTransform: {fileID: 1079676893}
