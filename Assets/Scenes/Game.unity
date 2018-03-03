@@ -3718,11 +3718,22 @@ MonoBehaviour:
   - {fileID: 1693695088070304, guid: 09271d6f6cca5114ea26fd0c357e3636, type: 2}
   SkullOne: {fileID: 114531599068561132, guid: 28a3ca556dd2d154992a506063f24821, type: 2}
   SkullTwo: {fileID: 114660887345507198, guid: f3745651f3debb84ca24414574ae4be8, type: 2}
+  SkullOffset: 2
   Radius: 15
   PlatformSpacingWidth: 5
   PlatformSpacingHeight: 5
   ForwardGenerationHeight: 30
-  SkullOffset: 2
+  Ranges:
+  - StartHeight: 0
+    SmallPlatformSpawnChance: 0
+    MediumPlatformSpawnChance: 0
+    SkullOneSpawnChance: 0
+    SkullTwoSpawnChance: 0
+  - StartHeight: 10
+    SmallPlatformSpawnChance: 0
+    MediumPlatformSpawnChance: 0.247
+    SkullOneSpawnChance: 0.077
+    SkullTwoSpawnChance: 0
 --- !u!4 &156638322
 Transform:
   m_ObjectHideFlags: 0
@@ -3874,27 +3885,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Height: 0
-  MaxHeight: 500
-  RiseCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  RiseSpeed: 1.5
-  BaseSpeed: 2.5
+  Ranges:
+  - StartHeight: 0
+    RiseSpeed: 1
+  - StartHeight: 50
+    RiseSpeed: 2.5
+  - StartHeight: 250
+    RiseSpeed: 5
 --- !u!1 &795780620
 GameObject:
   m_ObjectHideFlags: 0
@@ -4709,7 +4706,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1975409166
+  randomSeed: 1613901155
   InitialModule:
     serializedVersion: 3
     enabled: 1

@@ -3,11 +3,15 @@ using UnityEngine;
 public class Water : MonoBehaviour
 {
     public float Height;
-    public float MaxHeight;
 
-    public AnimationCurve RiseCurve;
-    public float RiseSpeed;
-    public float BaseSpeed;
+    [System.Serializable]
+    public class RiseSpeedRange
+    {
+        public float StartHeight;
+        public float RiseSpeed;
+    }
+
+    public RiseSpeedRange[] Ranges;
 
     void Awake()
     {
@@ -16,8 +20,20 @@ public class Water : MonoBehaviour
 
     void Update()
     {
-        float RiseScale = RiseCurve.Evaluate(Height / MaxHeight);
-        Height += (BaseSpeed + (RiseScale * RiseSpeed)) * Time.deltaTime;
+        RiseSpeedRange Range = null;
+        foreach (var R in Ranges)
+        {
+            if (Range == null)
+            {
+                Range = R;
+            }
+            else if (R.StartHeight <= Height && R.StartHeight >= Range.StartHeight)
+            {
+                Range = R;
+            }
+        }
+
+        Height += Range.RiseSpeed * Time.deltaTime;
         transform.position = new Vector3(0.0f, Height, 0.0f);
     }
 }
