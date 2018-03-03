@@ -149,9 +149,9 @@ public class Tower : MonoBehaviour
                         if (OtherPathIndex != PathIndex)
                         {
                             var OtherPath = GenerationPaths[OtherPathIndex];
-                            if (Mathf.Abs(OtherPath.DesiredTheta - Path.DesiredTheta) < 0.1f)
+                            if (Mathf.Abs(OtherPath.DesiredTheta - Path.DesiredTheta) < 1.0f)
                             {
-                                if (Mathf.Abs(OtherPath.DesiredTheta - Path.OtherTheta) < 0.1f)
+                                if (Mathf.Abs(OtherPath.DesiredTheta - Path.OtherTheta) < 1.0f)
                                 {
                                     Debug.Log("Failed to redirect generation path, there were no good options to take.");
                                 }

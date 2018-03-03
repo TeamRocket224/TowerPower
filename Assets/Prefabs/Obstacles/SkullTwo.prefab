@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9faf4e019dc291a44b7928f7e1f3b737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpriteRenderer: {fileID: 212625032307940606}
   Radius: 0
   SleepTime: 5
   Speed: 1
