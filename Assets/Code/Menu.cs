@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
+    public GameObject MenuHold;
     public GameObject Home;
     public GameObject Scoreboard;
     public GameObject Options;
@@ -315,6 +316,8 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
+        //MenuHold.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width / 2, Screen.height);
+
         Home.SetActive(true);
         Scoreboard.SetActive(false);
         Options.SetActive(false);
@@ -377,20 +380,16 @@ public class Menu : MonoBehaviour {
             Application.Quit();
         }
 
+        Debug.Log(Home.GetComponent<RectTransform>().localPosition.x);
+
         if (movement) {
-            if (ItemIn == Home) {
-                if (ItemIn.GetComponent<RectTransform>().localPosition.x > 0) {
-                    ItemIn.SetActive(true);
-                    ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 1000;
-                }
-            }
-            else if (ItemIn.GetComponent<RectTransform>().localPosition.x > 0) {
+            if (ItemIn.GetComponent<RectTransform>().localPosition.x > -480) {
                 ItemIn.SetActive(true);
-                ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 1000;
+                ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 1500;
             }
 
             if (ItemOut.GetComponent<RectTransform>().localPosition.x < 700) {
-                ItemOut.GetComponent<RectTransform>().localPosition += Vector3.right * Time.deltaTime * 1000;
+                ItemOut.GetComponent<RectTransform>().localPosition += Vector3.right * Time.deltaTime * 1500;
             }
             else {
                 ItemOut.SetActive(false);
