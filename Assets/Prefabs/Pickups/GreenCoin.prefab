@@ -36,8 +36,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4883167157815264}
-  - component: {fileID: 114738286176188768}
   - component: {fileID: 65831897509669068}
+  - component: {fileID: 114211219219446322}
   m_Layer: 0
   m_Name: GreenCoin
   m_TagString: Untagged
@@ -211,7 +211,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114738286176188768
+--- !u!114 &114211219219446322
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -219,11 +219,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1253390419668986}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19f3159ee46ccb148b7651fda7b683ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 9959340157010bc4cbf175957b781983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collect: {fileID: 82682801638101856}
-  graphic: {fileID: 1073632820067992}
 --- !u!212 &212878745779426404
 SpriteRenderer:
   m_ObjectHideFlags: 1

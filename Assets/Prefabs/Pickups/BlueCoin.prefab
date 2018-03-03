@@ -36,8 +36,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4764411885466390}
-  - component: {fileID: 114632895257913430}
   - component: {fileID: 65242575297135776}
+  - component: {fileID: 114843479694941712}
   m_Layer: 0
   m_Name: BlueCoin
   m_TagString: Untagged
@@ -211,7 +211,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114632895257913430
+--- !u!114 &114843479694941712
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -219,11 +219,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1452438414083578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19f3159ee46ccb148b7651fda7b683ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 9959340157010bc4cbf175957b781983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collect: {fileID: 82495795765163598}
-  graphic: {fileID: 1009668529748252}
 --- !u!212 &212792915042447944
 SpriteRenderer:
   m_ObjectHideFlags: 1

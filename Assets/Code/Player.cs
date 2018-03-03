@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public PlayerSkill PlayerSkill;
     public ParticleSystem HitParticleSystem;
+    public ParticleSystem MotionParticleSystem;
 
     public Tower Tower;
     public Water Water;
@@ -40,8 +41,11 @@ public class Player : MonoBehaviour
     bool HasDoubleJumped;
     float JumpGracePeriodTimer;
 
-    bool ShouldJump = false, ButtonJump = false, MoveLeft = false, MoveRight = false;
-    float ddX = 0;
+    bool ShouldJump;
+    bool ButtonJump;
+    bool MoveLeft;
+    bool MoveRight;
+    float ddX;
 
     float SleepTimer;
 
@@ -78,12 +82,15 @@ public class Player : MonoBehaviour
         switch (NewMovementMode) {
             case MovementMode.Grounded:
             {
+                MotionParticleSystem.Play();
                 break;
             }
             case MovementMode.Ballistic:
             {
                 JumpGracePeriodTimer = JumpGracePeriod;
                 HasDoubleJumped = false;
+
+                MotionParticleSystem.Play();
                 break;
             }
         }
@@ -107,16 +114,16 @@ public class Player : MonoBehaviour
         float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
         float dT = Time.deltaTime;
 
-        //ddX = Input.GetAxisRaw("Horizontal");
-        //ShouldJump = Input.GetKeyDown(KeyCode.Space);
+        ddX = Input.GetAxisRaw("Horizontal");
+        ShouldJump = Input.GetKeyDown(KeyCode.Space);
 
-        if (ButtonJump) {
-            ShouldJump = true;
-            ButtonJump = false;
-        }
-        else {
-            ShouldJump = false;
-        }
+        // if (ButtonJump) {
+        //     ShouldJump = true;
+        //     ButtonJump = false;
+        // }
+        // else {
+        //     ShouldJump = false;
+        // }
 
         Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, PlayerRadius, 0.0f);
         Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, 2.0f - (PlayerRadius * 2.0f), 0.0f);
