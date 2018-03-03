@@ -61,7 +61,7 @@ public class Menu : MonoBehaviour {
         ItemOut = Customize;
 
         Skin = Instantiate(LoadedPlayerSkins[PlayerSkinChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        Skin.transform.SetParent(PurchaseItem.GetComponent<Transform>(), false);
+        Skin.transform.SetParent(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Transform>(), false);
         PurchaseName.text = Skin.transform.GetChild(0).GetComponent<Text>().text;
         PurchaseCost.text = "Cost: " + Skin.GetComponent<CustomizeDetails>().cost.ToString("n0") + " Coins";
         PurchaseDesc.text = Skin.GetComponent<CustomizeDetails>().description;
@@ -90,7 +90,7 @@ public class Menu : MonoBehaviour {
         ItemOut = Customize;
 
         Skill = Instantiate(LoadedPlayerSkills[PlayerSkillChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-        Skill.transform.SetParent(PurchaseItem.GetComponent<Transform>(), false);
+        Skill.transform.SetParent(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Transform>(), false);
         PurchaseName.text = Skill.transform.GetChild(0).GetComponent<Text>().text;
         PurchaseCost.text = "Cost: " + Skill.GetComponent<CustomizeDetails>().cost.ToString("n0") + " Coins";
         PurchaseDesc.text = Skill.GetComponent<CustomizeDetails>().description;
@@ -139,6 +139,7 @@ public class Menu : MonoBehaviour {
 
         //Player Skin
         PlayerSkinChoice = PlayerPrefs.GetInt("skin");
+        Debug.Log(PlayerSkinChoice);
 
         for (int i = 0; i < PlayerSkins.Length; i++) {
             PlayerSkins[i].SetActive(false);
@@ -189,9 +190,10 @@ public class Menu : MonoBehaviour {
     }
 
     void CheckSkin(GameObject skin) {
-        int check = PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1));
+        int check = PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1), 1);
         if (check == 1) {
             skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            skin.transform.GetChild(1).gameObject.SetActive(false);
         }
         else {
             skin.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
@@ -199,10 +201,11 @@ public class Menu : MonoBehaviour {
     }
 
     void CheckSkill(GameObject skill) {
-        int check = PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1));
+        int check = PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
         if (check == 1)
         {
             skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            skill.transform.GetChild(1).gameObject.SetActive(false);
         }
         else {
             skill.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
@@ -281,14 +284,9 @@ public class Menu : MonoBehaviour {
 
                     Skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PlayerSkins[PlayerSkinChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                    Debug.Log("Bought");
+                    PurchaseButton.interactable = false;
+                    Skin.transform.GetChild(1).gameObject.SetActive(false);
                 }
-                else {
-                    Debug.Log("Not Enough Coins");
-                }
-            }
-            else {
-                Debug.Log("Skin Already Owned");
             }
         }
         else {
@@ -300,14 +298,9 @@ public class Menu : MonoBehaviour {
 
                     Skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                    Debug.Log("Bought");
+                    PurchaseButton.interactable = false;
+                    Skill.transform.GetChild(1).gameObject.SetActive(false);
                 }
-                else {
-                    Debug.Log("Not Enough Coins");
-                }
-            }
-            else {
-                Debug.Log("Skin Already Owned");
             }
         }
     }
