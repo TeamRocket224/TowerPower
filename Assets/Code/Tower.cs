@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Tower : MonoBehaviour
 {
@@ -61,15 +62,44 @@ public class Tower : MonoBehaviour
 
     public SpawnChanceRange[] Ranges;
 
-    int LastHeightIndex;
-    float LastTheta;
+    class GenerationPath
+    {
+        public float DesiredTheta;
+        public float OtherTheta;
+        public float Theta;
+    }
+
+    public int LastHeightIndex;
+    List<GenerationPath> GenerationPaths;
+
+    void Start()
+    {
+        LastHeightIndex = 1;
+
+        GenerationPaths = new List<GenerationPath>();
+        GenerationPaths.Add(new GenerationPath());
+        GenerationPaths.Add(new GenerationPath());
+
+        var FirstPlatform = Instantiate(
+            LargePlatform, 
+            new Vector3(
+                Mathf.Cos(0.0f) * Radius, 
+                0.0f, 
+                Mathf.Sin(0.0f) * Radius), 
+            Quaternion.identity, 
+            transform);
+
+        FirstPlatform.transform.LookAt(new Vector3(0.0f, FirstPlatform.transform.position.y, 0.0f));
+
+        Instantiate(CenterPiece, new Vector3(0.0f, -10.0f, 0.0f), Quaternion.identity, transform);
+    }
 
     void Update()
     {
         for (var ChildIndex = 0; ChildIndex < transform.childCount; ChildIndex++)
         {
             var ChildTransform = transform.GetChild(ChildIndex);
-            if (ChildTransform.position.y < Water.Height)
+            if (ChildTransform.position.y < Water.Height - 10.0f)
             {
                 Destroy(ChildTransform.gameObject);
             }
@@ -95,105 +125,141 @@ public class Tower : MonoBehaviour
                     }
                 }
 
-                var PlatformSpawnValue = Random.Range(0.0f, Range.SmallPlatformSpawnChance + Range.MediumPlatformSpawnChance + 1.0f);
-                var SmallPlatformChanceStart = 0.0f;
-                var SmallPlatformChanceEnd = SmallPlatformChanceStart + Range.SmallPlatformSpawnChance;
-                var MediumPlatformChanceStart = SmallPlatformChanceEnd;
-                var MediumPlatformChanceEnd = MediumPlatformChanceStart + Range.MediumPlatformSpawnChance;
-                var LargePlatformChanceStart = MediumPlatformChanceEnd;
-                var LargePlatformChanceEnd = LargePlatformChanceStart + 1.0f;
+                for (var PathIndex = 0; PathIndex < GenerationPaths.Count; PathIndex++)
+                {
+                    var Path = GenerationPaths[PathIndex];
+                    
+                    float Direction = Random.Range(0, 2) == 0 ? -1.0f : 1.0f;
+                    float ThetaDelta = (2.0f * Mathf.PI) / PlatformSpacingWidth;
 
-                var Type = PlatformType.None;
-                if (SmallPlatformChanceStart <= PlatformSpawnValue && PlatformSpawnValue < SmallPlatformChanceEnd)
-                {
-                    Type = PlatformType.Small;
-                }
-                else if (MediumPlatformChanceStart <= PlatformSpawnValue && PlatformSpawnValue < MediumPlatformChanceEnd)
-                {
-                    Type = PlatformType.Medium;
-                }
-                else if (LargePlatformChanceStart <= PlatformSpawnValue && PlatformSpawnValue < LargePlatformChanceEnd)
-                {
-                    Type = PlatformType.Large;
-                }
-                else
-                {
-                    Debug.Log("Failed to spawn a platform, something is off with the random generation");
+                    Path.DesiredTheta = Path.Theta + (Direction * ThetaDelta);
+                    Path.OtherTheta = Path.Theta + (-Direction * ThetaDelta);
+
+                    Path.DesiredTheta -= (2.0f * Mathf.PI) * Mathf.Floor((Path.DesiredTheta + Mathf.PI) / (2.0f * Mathf.PI));
+                    Path.OtherTheta -= (2.0f * Mathf.PI) * Mathf.Floor((Path.OtherTheta + Mathf.PI) / (2.0f * Mathf.PI));
                 }
 
-                GameObject PlatformPrefab = null;
-                switch (Type)
+                for (var PathIndex = 0; PathIndex < GenerationPaths.Count; PathIndex++)
                 {
-                    case PlatformType.Small:
+                    var Path = GenerationPaths[PathIndex];
+                    
+                    var NewTheta = Path.DesiredTheta;
+                    for (var OtherPathIndex = 0; OtherPathIndex < GenerationPaths.Count; OtherPathIndex++)
                     {
-                        SpawnCoin(Range, CurrentHeight, LastTheta);
-
-                        PlatformPrefab = SmallPlatform;
-                        break;
+                        if (OtherPathIndex != PathIndex)
+                        {
+                            var OtherPath = GenerationPaths[OtherPathIndex];
+                            if (Mathf.Abs(OtherPath.DesiredTheta - Path.DesiredTheta) < 0.1f)
+                            {
+                                if (Mathf.Abs(OtherPath.DesiredTheta - Path.OtherTheta) < 0.1f)
+                                {
+                                    Debug.Log("Failed to redirect generation path, there were no good options to take.");
+                                }
+                                else
+                                {
+                                    NewTheta = Path.OtherTheta;
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    case PlatformType.Medium:
+
+                    Path.Theta = NewTheta;
+                    Path.DesiredTheta = Path.Theta;
+
+                    var PlatformSpawnValue = Random.Range(0.0f, Range.SmallPlatformSpawnChance + Range.MediumPlatformSpawnChance + 1.0f);
+                    var SmallPlatformChanceStart = 0.0f;
+                    var SmallPlatformChanceEnd = SmallPlatformChanceStart + Range.SmallPlatformSpawnChance;
+                    var MediumPlatformChanceStart = SmallPlatformChanceEnd;
+                    var MediumPlatformChanceEnd = MediumPlatformChanceStart + Range.MediumPlatformSpawnChance;
+                    var LargePlatformChanceStart = MediumPlatformChanceEnd;
+                    var LargePlatformChanceEnd = LargePlatformChanceStart + 1.0f;
+
+                    var Type = PlatformType.None;
+                    if (SmallPlatformChanceStart <= PlatformSpawnValue && PlatformSpawnValue < SmallPlatformChanceEnd)
                     {
-                        SpawnCoin(Range, CurrentHeight, LastTheta + 0.1f);
-                        SpawnCoin(Range, CurrentHeight, LastTheta - 0.1f);
-
-                        PlatformPrefab = MediumPlatform;
-                        break;
+                        Type = PlatformType.Small;
                     }
-                    case PlatformType.Large:
+                    else if (MediumPlatformChanceStart <= PlatformSpawnValue && PlatformSpawnValue < MediumPlatformChanceEnd)
                     {
-                        SpawnCoin(Range, CurrentHeight, LastTheta + 0.2f);
-                        SpawnCoin(Range, CurrentHeight, LastTheta);
-                        SpawnCoin(Range, CurrentHeight, LastTheta - 0.2f);
-
-                        PlatformPrefab = LargePlatform;
-                        break;
+                        Type = PlatformType.Medium;
                     }
-                }
+                    else if (LargePlatformChanceStart <= PlatformSpawnValue && PlatformSpawnValue < LargePlatformChanceEnd)
+                    {
+                        Type = PlatformType.Large;
+                    }
+                    else
+                    {
+                        Debug.Log("Failed to spawn a platform, something is off with the random generation");
+                    }
 
-                // @todo: Position the platform programatically, the offset from the center is currently
-                // set by the position of the graphic in the editor. Doesn't work with a dynamic tower
-                // radius!
+                    GameObject PlatformPrefab = null;
+                    switch (Type)
+                    {
+                        case PlatformType.Small:
+                        {
+                            SpawnCoin(Range, CurrentHeight, Path.Theta);
 
-                var Platform = Instantiate(
-                    PlatformPrefab, 
-                    new Vector3(
-                        Mathf.Cos(LastTheta) * Radius, 
-                        CurrentHeight, 
-                        Mathf.Sin(LastTheta) * Radius), 
-                    Quaternion.identity, 
-                    transform);
+                            PlatformPrefab = SmallPlatform;
+                            break;
+                        }
+                        case PlatformType.Medium:
+                        {
+                            SpawnCoin(Range, CurrentHeight, Path.Theta + 0.1f);
+                            SpawnCoin(Range, CurrentHeight, Path.Theta - 0.1f);
 
-                Platform.transform.LookAt(new Vector3(0.0f, Platform.transform.position.y, 0.0f));
+                            PlatformPrefab = MediumPlatform;
+                            break;
+                        }
+                        case PlatformType.Large:
+                        {
+                            SpawnCoin(Range, CurrentHeight, Path.Theta + 0.2f);
+                            SpawnCoin(Range, CurrentHeight, Path.Theta);
+                            SpawnCoin(Range, CurrentHeight, Path.Theta - 0.2f);
 
-                float Direction = Random.Range(0, 2) == 0 ? -1.0f : 1.0f;
-                LastTheta += Direction * PlatformSpacingWidth * (1.0f / (2.0f * Mathf.PI));
+                            PlatformPrefab = LargePlatform;
+                            break;
+                        }
+                    }
 
-                if (HeightIndex % 2 == 0)
-                {
-                    Instantiate(CenterPiece, new Vector3(0.0f, HeightIndex * 5.0f, 0.0f), Quaternion.identity, transform);
-                }
+                    var Platform = Instantiate(
+                        PlatformPrefab, 
+                        new Vector3(
+                            Mathf.Cos(Path.Theta) * Radius, 
+                            CurrentHeight, 
+                            Mathf.Sin(Path.Theta) * Radius), 
+                        Quaternion.identity, 
+                        transform);
 
-                var SkullSpawnValue = Random.Range(0.0f, 2.0f);
+                    Platform.transform.LookAt(new Vector3(0.0f, Platform.transform.position.y, 0.0f));
 
-                var SkullOneChanceStart = 0.0f;
-                var SkullOneChanceEnd = SkullOneChanceStart + Range.SkullOneSpawnChance;
-                var SkullTwoChanceStart = SkullOneChanceEnd;
-                var SkullTwoChanceEnd = SkullTwoChanceStart + Range.SkullTwoSpawnChance;
+                    if (HeightIndex % 2 == 0)
+                    {
+                        Instantiate(CenterPiece, new Vector3(0.0f, HeightIndex * 5.0f, 0.0f), Quaternion.identity, transform);
+                    }
 
-                GameObject SkullPrefab = null;
-                if (SkullOneChanceStart <= SkullSpawnValue && SkullSpawnValue < SkullOneChanceEnd)
-                {
-                    SkullPrefab = SkullOne;
-                }
-                else if (SkullTwoChanceStart <= SkullSpawnValue && SkullSpawnValue < SkullTwoChanceEnd)
-                {
-                    SkullPrefab = SkullTwo;
-                }
+                    var SkullSpawnValue = Random.Range(0.0f, 2.0f);
 
-                if (SkullPrefab != null)
-                {
-                    var Skull = Instantiate(SkullPrefab, new Vector3(0.0f, CurrentHeight + SkullOffset, 0.0f), Quaternion.identity, transform);
-                    Skull.GetComponent<Skull>().Radius = Radius + 1.0f;
+                    var SkullOneChanceStart = 0.0f;
+                    var SkullOneChanceEnd = SkullOneChanceStart + Range.SkullOneSpawnChance;
+                    var SkullTwoChanceStart = SkullOneChanceEnd;
+                    var SkullTwoChanceEnd = SkullTwoChanceStart + Range.SkullTwoSpawnChance;
+
+                    GameObject SkullPrefab = null;
+                    if (SkullOneChanceStart <= SkullSpawnValue && SkullSpawnValue < SkullOneChanceEnd)
+                    {
+                        SkullPrefab = SkullOne;
+                    }
+                    else if (SkullTwoChanceStart <= SkullSpawnValue && SkullSpawnValue < SkullTwoChanceEnd)
+                    {
+                        SkullPrefab = SkullTwo;
+                    }
+
+                    if (SkullPrefab != null)
+                    {
+                        var Skull = Instantiate(SkullPrefab, new Vector3(0.0f, CurrentHeight + SkullOffset, 0.0f), Quaternion.identity, transform);
+                        Skull.GetComponent<Skull>().Radius = Radius + 1.0f;
+                    }
                 }
             }
 
