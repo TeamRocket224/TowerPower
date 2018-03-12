@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: 6a869c00e5349be4187331bb193b8a41
-timeCreated: 1519844205
+guid: 49762b101c35ab848b133703b66d5e42
+timeCreated: 1520809867
 licenseType: Free
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
   fontSize: 16
-  forceTextureCase: -2
+  forceTextureCase: -1
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
@@ -14,9 +14,9 @@ TrueTypeFontImporter:
   fontNames:
   - BitFont
   fallbackFontReferences: []
-  customCharacters: T
+  customCharacters: 
   fontRenderingMode: 0
-  ascentCalculationMode: 1
+  ascentCalculationMode: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

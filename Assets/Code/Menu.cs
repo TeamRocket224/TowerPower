@@ -186,22 +186,24 @@ public class Menu : MonoBehaviour {
     public void OnPurchaseBack() {
         ItemIn = Customize;
         ItemOut = Purchase;
+        CheckSkin(PlayerSkins[PlayerSkinChoice]);
         movement = true;
     }
 
     void CheckSkin(GameObject skin) {
-        int check = PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1), 1);
+        int check = PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1));
         if (check == 1) {
             skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             skin.transform.GetChild(1).gameObject.SetActive(false);
         }
         else {
             skin.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
+            skin.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 
     void CheckSkill(GameObject skill) {
-        int check = PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
+        int check = PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1));
         if (check == 1)
         {
             skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
@@ -376,7 +378,7 @@ public class Menu : MonoBehaviour {
                 movement = false;
 
                 if (ItemOut == Purchase) {
-                    Destroy(PurchaseItem.transform.GetChild(1).gameObject);
+                    Destroy(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).gameObject);
                 }
             }
         }
