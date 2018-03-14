@@ -123,15 +123,18 @@ public class Player : MonoBehaviour
         float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
         float dT = Time.deltaTime;
 
-        //ddX = Input.GetAxisRaw("Horizontal");
-        //ShouldJump = Input.GetKeyDown(KeyCode.Space);
-
         if (ButtonJump) {
             ShouldJump = true;
             ButtonJump = false;
         }
         else {
             ShouldJump = false;
+        }
+
+        if (Application.isEditor)
+        {
+            ddX = Input.GetAxisRaw("Horizontal");
+            ShouldJump = Input.GetKeyDown(KeyCode.Space);
         }
 
         Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, PlayerRadius, 0.0f);

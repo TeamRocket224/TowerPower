@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4566753773663422}
   - component: {fileID: 212625032307940606}
   - component: {fileID: 95496338409741142}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4367176277486442}
   - component: {fileID: 198602950134260432}
   - component: {fileID: 199289400187831750}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4646035981061880}
   - component: {fileID: 114660887345507198}
   - component: {fileID: 65863491288850718}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: SkullTwo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
