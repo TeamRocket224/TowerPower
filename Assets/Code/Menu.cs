@@ -276,11 +276,17 @@ public class Menu : MonoBehaviour {
         CheckSkill(PlayerSkills[PlayerSkillChoice]);
     }
 
+    public void delete_this() {
+        PlayerPrefs.SetInt("coins", 100000);
+        Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins") + " Coins";
+    }
+
     public void onPurchaseItem() {
         if (isSkin) {
             if (PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1)) == 0) {
                 if (PlayerPrefs.GetInt("coins") >= Skin.GetComponent<CustomizeDetails>().cost) {
                     PlayerPrefs.SetInt("skin_unlock_" + (PlayerSkinChoice + 1), 1);
+                    PlayerPrefs.SetInt("skin", PlayerSkinChoice);
                     PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skin.GetComponent<CustomizeDetails>().cost);
                     Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins") + " Coins";
 
@@ -295,6 +301,7 @@ public class Menu : MonoBehaviour {
             if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 0) {
                 if (PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost) {
                     PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
+                    PlayerPrefs.SetInt("skill", PlayerSkinChoice);
                     PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
                     Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins") + " Coins";
 

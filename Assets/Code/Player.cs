@@ -124,7 +124,6 @@ public class Player : MonoBehaviour
         float dT = Time.deltaTime;
 
         //ddX = Input.GetAxisRaw("Horizontal");
-        Debug.Log(ddX);
         //ShouldJump = Input.GetKeyDown(KeyCode.Space);
 
         if (ButtonJump) {
