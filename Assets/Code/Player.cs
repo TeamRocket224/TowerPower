@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     bool ButtonJump;
     bool MoveLeft;
     bool MoveRight;
-    float ddX;
+    public float ddX;
 
     float SleepTimer;
 
@@ -114,25 +114,25 @@ public class Player : MonoBehaviour
             Application.Quit();
         }
 
-        if (!MoveRight && !MoveLeft) {
-            ddX = 0;
-            MoveRight = false;
-            MoveLeft = false;
-        }
+        // if (!MoveRight && !MoveLeft) {
+        //     ddX = 0;
+        //     MoveRight = false;
+        //     MoveLeft = false;
+        // }
 
         float HorizontalConversionFactor = 1.0f / (2.0f * Mathf.PI);
         float dT = Time.deltaTime;
 
-        ddX = Input.GetAxisRaw("Horizontal");
-        ShouldJump = Input.GetKeyDown(KeyCode.Space);
+        //ddX = Input.GetAxisRaw("Horizontal");
+        //ShouldJump = Input.GetKeyDown(KeyCode.Space);
 
-        // if (ButtonJump) {
-        //     ShouldJump = true;
-        //     ButtonJump = false;
-        // }
-        // else {
-        //     ShouldJump = false;
-        // }
+        if (ButtonJump) {
+            ShouldJump = true;
+            ButtonJump = false;
+        }
+        else {
+            ShouldJump = false;
+        }
 
         Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, PlayerRadius, 0.0f);
         Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, 2.0f - (PlayerRadius * 2.0f), 0.0f);
