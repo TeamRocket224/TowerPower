@@ -5,6 +5,7 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
+    public CapsuleCollider Capsule;
     public PlayerSkill PlayerSkill;
     public ParticleSystem HitParticleSystem;
     public ParticleSystem MotionParticleSystem;
@@ -22,7 +23,6 @@ public class Player : MonoBehaviour
     public RuntimeAnimatorController[] SkinAnimatorControllers;
 
     public float PlayerDistance;
-    public float PlayerRadius;
 
     public Transform CameraTransform;
     public float CameraDistance;
@@ -137,9 +137,9 @@ public class Player : MonoBehaviour
             ShouldJump = Input.GetKeyDown(KeyCode.Space);
         }
 
-        Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, PlayerRadius, 0.0f);
-        Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, 2.0f - (PlayerRadius * 2.0f), 0.0f);
-        float CapsuleRadius = PlayerRadius;
+        Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, Capsule.radius, 0.0f);
+        Vector3 CapsuleP2 = CapsuleP1 + new Vector3(0.0f, Capsule.height - (Capsule.radius * 2.0f), 0.0f);
+        float CapsuleRadius = Capsule.radius;
 
         SleepTimer -= Time.deltaTime;
 
@@ -269,34 +269,11 @@ public class Player : MonoBehaviour
         StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
         HeightText.text = "Height: " + Position.y + "m";
 
-        var Colliders = Physics.OverlapCapsule(CapsuleP1, CapsuleP2, CapsuleRadius);
-        foreach (var Collider in Colliders)
-        {
-            if (SleepTimer <= 0.0f)
-            {
-                var Skull = Collider.GetComponent<Skull>();
-                if (Skull)
-                {
-                    SleepTimer = Skull.SleepTime;
-                    HitParticleSystem.Play();
-
-                    Coins -= Skull.CoinDrop;
-                    if (Coins < 0)
-                    {
-                        Coins = 0;
-                    }
-
-                    Destroy(Skull.gameObject);
-                }
-            }
-
-            var Coin = Collider.GetComponent<Coin>();
-            if (Coin)
-            {
-                Coins += Coin.Value;
-                Destroy(Coin.gameObject);
-            }
-        }
+        // var Colliders = Physics.OverlapCapsule(CapsuleP1, CapsuleP2, CapsuleRadius);
+        // foreach (var Collider in Colliders)
+        // {
+            
+        // }
 
         CoinsText.text = "Coins: " + Coins;
 
@@ -353,5 +330,35 @@ public class Player : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    void OnTriggerEnter(Collider Them)
+    {
+        Debug.Log("foobar");
+
+        if (SleepTimer <= 0.0f)
+        {
+            var Skull = Them.GetComponent<Skull>();
+            if (Skull)
+            {
+                SleepTimer = Skull.SleepTime;
+                HitParticleSystem.Play();
+
+                Coins -= Skull.CoinDrop;
+                if (Coins < 0)
+                {
+                    Coins = 0;
+                }
+
+                Destroy(Skull.gameObject);
+            }
+        }
+
+        var Coin = Them.GetComponent<Coin>();
+        if (Coin)
+        {
+            Coins += Coin.Value;
+            Destroy(Coin.gameObject);
+        }
     }
 }
