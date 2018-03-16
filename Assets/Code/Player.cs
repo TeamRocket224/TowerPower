@@ -301,7 +301,7 @@ public class Player : MonoBehaviour
             }
 
             PlayerPrefs.SetString("scores", string.Join(";", Scores.Select(i => i.ToString()).ToArray()));
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("Menu");
         }
     }
 
