@@ -106,8 +106,7 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
-        if (Player.Position.y > CurrentHighScore) {
-            Debug.Log("WHY");
+        if (Player.Position.y > CurrentHighScore && HighScoreParticle != null) {
             HighScoreParticle.GetComponent<HighScoreDespawn>().NewHighScore();
         }
 
