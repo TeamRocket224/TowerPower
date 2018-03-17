@@ -14,6 +14,10 @@ public class Tower : MonoBehaviour
         Large
     };
 
+    public GameObject HighScore;
+    GameObject HighScoreParticle;
+    float CurrentHighScore;
+
     public GameObject CenterPiece;
     public GameObject SmallPlatform;
     public GameObject MediumPlatform;
@@ -92,10 +96,21 @@ public class Tower : MonoBehaviour
         FirstPlatform.transform.LookAt(new Vector3(0.0f, FirstPlatform.transform.position.y, 0.0f));
 
         Instantiate(CenterPiece, new Vector3(0.0f, -10.0f, 0.0f), Quaternion.identity, transform);
+
+        var scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';');
+        CurrentHighScore = float.Parse(scores[0]);
+        if (CurrentHighScore >= 50) {
+            HighScoreParticle = Instantiate(HighScore, new Vector3(-15.75f, float.Parse(scores[0]) + 3f, 0.0f), HighScore.transform.rotation, transform);
+        }
     }
 
     void Update()
     {
+        if (Player.Position.y > CurrentHighScore) {
+            Debug.Log("WHY");
+            HighScoreParticle.GetComponent<HighScoreDespawn>().NewHighScore();
+        }
+
         for (var ChildIndex = 0; ChildIndex < transform.childCount; ChildIndex++)
         {
             var ChildTransform = transform.GetChild(ChildIndex);

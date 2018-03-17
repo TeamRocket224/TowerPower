@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
 
     public int Coins;
 
-    Vector2 Position;
+    public Vector2 Position;
     float GroundedAccelerationValue;
     float GroundedDirection;
     Vector2 BallisticVelocity;
