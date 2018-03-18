@@ -310,6 +310,7 @@ public class Player : MonoBehaviour
 
             transform.position = new Vector3(0.0f, 1.0f, 0.0f);
             Position = new Vector2(0.0f, transform.position.y);
+            BallisticVelocity = new Vector2();
 
             Tower.Reset();
             Water.Reset();

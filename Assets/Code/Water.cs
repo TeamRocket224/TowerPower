@@ -4,8 +4,12 @@ public class Water : MonoBehaviour
 {
     public bool IsRising;
     public float Height;
+    public float ScrollSpeed;
+
+    public MeshRenderer MeshRenderer;
 
     float StartHeight;
+    Vector2 TextureOffset;
 
     [System.Serializable]
     public class RiseSpeedRange
@@ -48,5 +52,8 @@ public class Water : MonoBehaviour
             Height += Range.RiseSpeed * Time.deltaTime;
             transform.position = new Vector3(0.0f, Height, 0.0f);
         }
+
+        TextureOffset += new Vector2(1.0f, 1.0f) * ScrollSpeed * Time.deltaTime;
+        MeshRenderer.material.SetTextureOffset("_MainTex", TextureOffset);
     }
 }
