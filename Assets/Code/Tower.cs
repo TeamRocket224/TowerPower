@@ -32,6 +32,13 @@ public class Tower : MonoBehaviour
     public GameObject BlueCoin;
     public float CoinOffset;
 
+    public GameObject Grass_01;
+    public GameObject Grass_02;
+    public GameObject Vase;
+    public GameObject ChainSmall;
+    public GameObject ChainMedium;
+    public GameObject ChainLarge;
+
     public float Radius;
     public float PlatformSpacingWidth;
     public float PlatformSpacingHeight;
@@ -212,6 +219,7 @@ public class Tower : MonoBehaviour
                     {
                         case PlatformType.Small:
                         {
+                            SpawnDecorations(Path.Theta - 0.03f, Path.Theta + 0.03f, CurrentHeight);
                             SpawnCoin(Range, CurrentHeight, Path.Theta);
 
                             PlatformPrefab = SmallPlatform;
@@ -219,6 +227,8 @@ public class Tower : MonoBehaviour
                         }
                         case PlatformType.Medium:
                         {
+                            SpawnDecorations(Path.Theta - 0.1f, Path.Theta + 0.1f, CurrentHeight);
+
                             SpawnCoin(Range, CurrentHeight, Path.Theta + 0.1f);
                             SpawnCoin(Range, CurrentHeight, Path.Theta - 0.1f);
 
@@ -227,6 +237,8 @@ public class Tower : MonoBehaviour
                         }
                         case PlatformType.Large:
                         {
+                            SpawnDecorations(Path.Theta - 0.2f, Path.Theta + 0.2f, CurrentHeight);
+
                             SpawnCoin(Range, CurrentHeight, Path.Theta + 0.2f);
                             SpawnCoin(Range, CurrentHeight, Path.Theta);
                             SpawnCoin(Range, CurrentHeight, Path.Theta - 0.2f);
@@ -278,6 +290,42 @@ public class Tower : MonoBehaviour
             }
 
             LastHeightIndex = NextHeightIndex;
+        }
+    }
+
+    void SpawnDecorations(float ThetaMin, float ThetaMax, float Height)
+    {
+        if (ThetaMin > ThetaMax)
+        {
+            var T = ThetaMax;
+            ThetaMax = ThetaMin;
+            ThetaMin = T;
+        }
+
+        var Step = 0.05f;
+        var CurrentTheta = ThetaMin;
+
+        while (CurrentTheta <= ThetaMax)
+        {
+            var RadiusOffset = Random.Range(0.1f, 1.75f);
+            var Scale = Random.Range(1.0f, 2.5f);
+            var Position = new Vector3(Mathf.Cos(CurrentTheta) * (Radius + RadiusOffset), Height, Mathf.Sin(CurrentTheta) * (Radius + RadiusOffset));
+
+            if (Random.value < 0.6f)
+            {
+                var TheGrass = Instantiate(Random.value < 0.5f ? Grass_01 : Grass_02, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.25f, 0.0f), Quaternion.identity, transform);
+                TheGrass.transform.localScale = new Vector3(Scale, Scale, Scale);
+                TheGrass.transform.LookAt(new Vector3(0.0f, TheGrass.transform.position.y, 0.0f));
+            }
+
+            if (Random.value < 0.2f)
+            {
+                var TheVase = Instantiate(Vase, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.25f, 0.0f), Quaternion.identity, transform);
+                TheVase.transform.localScale = new Vector3(Scale, Scale, Scale);
+                TheVase.transform.LookAt(new Vector3(0.0f, TheVase.transform.position.y, 0.0f));
+            }
+
+            CurrentTheta += Step;
         }
     }
 

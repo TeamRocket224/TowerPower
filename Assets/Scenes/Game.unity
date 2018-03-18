@@ -3724,6 +3724,13 @@ MonoBehaviour:
   GreenCoin: {fileID: 1253390419668986, guid: a15cf8e52f7a8fc409c4e066a593fb5f, type: 2}
   BlueCoin: {fileID: 1452438414083578, guid: cd36127a72d757342801b77700f8202a, type: 2}
   CoinOffset: 1.5
+  Grass_01: {fileID: 1174026452017224, guid: 872bbee3a30bee44689aaadc3002c751, type: 2}
+  Grass_02: {fileID: 1766773350354082, guid: 1b2b0da151b8c4c4e8f38c7b16527cc5, type: 2}
+  Vase: {fileID: 1807073816032584, guid: aca8d49d9d53126489c4303c4c7cef55, type: 2}
+  ChainSmall: {fileID: 1113942899451938, guid: 3cac9e30a0ae66a4980990a6faf8ce94, type: 2}
+  ChainMedium: {fileID: 1343191304729768, guid: f8f7bba132502af4782f94b240d9c5dc,
+    type: 2}
+  ChainLarge: {fileID: 1905785363357518, guid: 867c98e7c17bc0b4f8f315e9fc43da92, type: 2}
   Radius: 15
   PlatformSpacingWidth: 8
   PlatformSpacingHeight: 5
@@ -8658,7 +8665,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 386997076
+  randomSeed: 594974610
   InitialModule:
     serializedVersion: 3
     enabled: 1
