@@ -42,11 +42,10 @@ public class Menu : MonoBehaviour {
 
     GameObject ItemIn, ItemOut, Skin, Skill;
 
-    bool movement = false, towermove = false, isSkin = false;
+    bool movement = false, isSkin = false;
 
     public void OnHomePlay() {
         Home.SetActive(false);
-        towermove = true;
         SceneManager.LoadScene("Game");
     }
 
@@ -390,12 +389,6 @@ public class Menu : MonoBehaviour {
                 if (ItemOut == Purchase) {
                     Destroy(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).gameObject);
                 }
-            }
-        }
-
-        if (towermove) {
-            if (Tower.transform.position.x > 0) {
-                Tower.transform.position += Vector3.left * Time.deltaTime * 20;
             }
         }
     }
