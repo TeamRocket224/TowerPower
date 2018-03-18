@@ -26,13 +26,13 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
     }
 
     public virtual void OnPointerDown(PointerEventData eventData) {
-        handle.anchoredPosition = Vector2.zero;
+        //handle.anchoredPosition = Vector2.zero;
         joystickCenter = eventData.position;
     }
 
     public virtual void OnPointerUp(PointerEventData eventData) {
-        handle.anchoredPosition = Vector2.zero;
-        inputVector = Vector2.zero;
-        Player.GetComponent<Player>().ddX = 0;
+        //handle.anchoredPosition = Vector2.zero;
+        //inputVector = Vector2.zero;
+        //Player.GetComponent<Player>().ddX = 0;
     }
 }
