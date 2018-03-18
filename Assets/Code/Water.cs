@@ -5,6 +5,8 @@ public class Water : MonoBehaviour
     public bool IsRising;
     public float Height;
 
+    float StartHeight;
+
     [System.Serializable]
     public class RiseSpeedRange
     {
@@ -14,9 +16,16 @@ public class Water : MonoBehaviour
 
     public RiseSpeedRange[] Ranges;
 
-    void Awake()
+    public void Reset()
+    {
+        Height = StartHeight;
+        transform.position = new Vector3(transform.position.x, StartHeight, transform.position.z);
+    }
+
+    void Start()
     {
         Height = transform.position.y;
+        StartHeight = Height;
     }
 
     void Update()

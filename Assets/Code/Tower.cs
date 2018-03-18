@@ -83,6 +83,17 @@ public class Tower : MonoBehaviour
     public int LastHeightIndex;
     List<GenerationPath> GenerationPaths;
 
+    public void Reset()
+    {
+        for (var ChildIndex = 0; ChildIndex < transform.childCount; ChildIndex++)
+        {
+            var ChildTransform = transform.GetChild(ChildIndex);
+            Destroy(ChildTransform.gameObject);
+        }
+
+        Start();
+    }
+
     void Start()
     {
         LastHeightIndex = 1;
@@ -101,7 +112,6 @@ public class Tower : MonoBehaviour
             transform);
 
         FirstPlatform.transform.LookAt(new Vector3(0.0f, FirstPlatform.transform.position.y, 0.0f));
-
         Instantiate(CenterPiece, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, transform);
 
         var scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';');

@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
@@ -11,7 +9,6 @@ public class Menu : MonoBehaviour {
     public GameObject Purchase;
     public GameObject PlayerSkin;
     public GameObject PlayerSkill;
-    public GameObject Tower;
 
     public GameObject ControlDropdown;
     public GameObject PurchaseItem;
@@ -44,9 +41,11 @@ public class Menu : MonoBehaviour {
 
     bool movement = false, isSkin = false;
 
+    public System.Action PlayGame;
+
     public void OnHomePlay() {
         Home.SetActive(false);
-        SceneManager.LoadScene("Game");
+        PlayGame();
     }
 
     public void OnHomeScoreboard() {

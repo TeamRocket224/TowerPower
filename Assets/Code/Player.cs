@@ -6,6 +6,7 @@ using System.Linq;
 public class Player : MonoBehaviour
 {
     public bool IsControlling;
+    public System.Action Dead;
 
     public CapsuleCollider Capsule;
     public PlayerSkill PlayerSkill;
@@ -263,26 +264,23 @@ public class Player : MonoBehaviour
         float Radius = Tower.Radius + PlayerDistance;
         transform.position = new Vector3(Mathf.Cos(Position.x) * Radius, Position.y, Mathf.Sin(Position.x) * Radius);
 
-        Vector2 CameraPosition = new Vector2(transform.position.x, transform.position.z).normalized;
-        CameraPosition *= Tower.Radius + CameraDistance;
+        if (IsControlling)
+        {
+            Vector2 CameraPosition = new Vector2(transform.position.x, transform.position.z).normalized;
+            CameraPosition *= Tower.Radius + CameraDistance;
 
-        CameraTransform.position = Vector3.Lerp(
-            CameraTransform.position, 
-            new Vector3(CameraPosition.x, transform.position.y + CameraVerticalOffset, CameraPosition.y), 
-            CameraSpeed * dT);
+            CameraTransform.position = Vector3.Lerp(
+                CameraTransform.position,
+                new Vector3(CameraPosition.x, transform.position.y + CameraVerticalOffset, CameraPosition.y),
+                CameraSpeed * dT);
 
-        CameraTransform.LookAt(transform.position + new Vector3(0, 3.5f, 0));
+            CameraTransform.LookAt(transform.position + new Vector3(0, 3.5f, 0));
+        }
+
         transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
-
         StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
+
         HeightText.text = "Height: " + Position.y + "m";
-
-        // var Colliders = Physics.OverlapCapsule(CapsuleP1, CapsuleP2, CapsuleRadius);
-        // foreach (var Collider in Colliders)
-        // {
-            
-        // }
-
         CoinsText.text = "Coins: " + Coins;
 
         if (transform.position.y < Water.Height)
@@ -309,7 +307,14 @@ public class Player : MonoBehaviour
             }
 
             PlayerPrefs.SetString("scores", string.Join(";", Scores.Select(i => i.ToString()).ToArray()));
-            SceneManager.LoadScene("Menu");
+
+            transform.position = new Vector3(0.0f, 1.0f, 0.0f);
+            Position = new Vector2(0.0f, transform.position.y);
+
+            Tower.Reset();
+            Water.Reset();
+
+            Dead();
         }
     }
 
