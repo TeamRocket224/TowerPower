@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Water : MonoBehaviour
 {
+    public bool IsRising;
     public float Height;
 
     [System.Serializable]
@@ -20,20 +21,23 @@ public class Water : MonoBehaviour
 
     void Update()
     {
-        RiseSpeedRange Range = null;
-        foreach (var R in Ranges)
+        if (IsRising)
         {
-            if (Range == null)
+            RiseSpeedRange Range = null;
+            foreach (var R in Ranges)
             {
-                Range = R;
+                if (Range == null)
+                {
+                    Range = R;
+                }
+                else if (R.StartHeight <= Height && R.StartHeight >= Range.StartHeight)
+                {
+                    Range = R;
+                }
             }
-            else if (R.StartHeight <= Height && R.StartHeight >= Range.StartHeight)
-            {
-                Range = R;
-            }
-        }
 
-        Height += Range.RiseSpeed * Time.deltaTime;
-        transform.position = new Vector3(0.0f, Height, 0.0f);
+            Height += Range.RiseSpeed * Time.deltaTime;
+            transform.position = new Vector3(0.0f, Height, 0.0f);
+        }
     }
 }

@@ -5,6 +5,8 @@ using System.Linq;
 
 public class Player : MonoBehaviour
 {
+    public bool IsControlling;
+
     public CapsuleCollider Capsule;
     public PlayerSkill PlayerSkill;
     public ParticleSystem HitParticleSystem;
@@ -135,6 +137,12 @@ public class Player : MonoBehaviour
         {
             ddX = Input.GetAxisRaw("Horizontal");
             ShouldJump = Input.GetKeyDown(KeyCode.Space);
+        }
+
+        if (!IsControlling)
+        {
+            ddX = 0.0f;
+            ShouldJump = false;
         }
 
         Vector3 CapsuleP1 = transform.position + new Vector3(0.0f, Capsule.radius, 0.0f);
