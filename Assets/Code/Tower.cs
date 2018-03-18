@@ -102,7 +102,7 @@ public class Tower : MonoBehaviour
 
         FirstPlatform.transform.LookAt(new Vector3(0.0f, FirstPlatform.transform.position.y, 0.0f));
 
-        Instantiate(CenterPiece, new Vector3(0.0f, -10.0f, 0.0f), Quaternion.identity, transform);
+        Instantiate(CenterPiece, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, transform);
 
         var scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';');
         CurrentHighScore = float.Parse(scores[0]);
@@ -258,34 +258,34 @@ public class Tower : MonoBehaviour
                         transform);
 
                     Platform.transform.LookAt(new Vector3(0.0f, Platform.transform.position.y, 0.0f));
+                }
 
-                    if (HeightIndex % 2 == 0)
-                    {
-                        Instantiate(CenterPiece, new Vector3(0.0f, HeightIndex * 5.0f, 0.0f), Quaternion.identity, transform);
-                    }
+                // if (HeightIndex % 2 == 0)
+                {
+                    Instantiate(CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
+                }
 
-                    var SkullSpawnValue = Random.Range(0.0f, 2.0f);
+                var SkullSpawnValue = Random.Range(0.0f, 2.0f);
 
-                    var SkullOneChanceStart = 0.0f;
-                    var SkullOneChanceEnd = SkullOneChanceStart + Range.SkullOneSpawnChance;
-                    var SkullTwoChanceStart = SkullOneChanceEnd;
-                    var SkullTwoChanceEnd = SkullTwoChanceStart + Range.SkullTwoSpawnChance;
+                var SkullOneChanceStart = 0.0f;
+                var SkullOneChanceEnd = SkullOneChanceStart + Range.SkullOneSpawnChance;
+                var SkullTwoChanceStart = SkullOneChanceEnd;
+                var SkullTwoChanceEnd = SkullTwoChanceStart + Range.SkullTwoSpawnChance;
 
-                    GameObject SkullPrefab = null;
-                    if (SkullOneChanceStart <= SkullSpawnValue && SkullSpawnValue < SkullOneChanceEnd)
-                    {
-                        SkullPrefab = SkullOne;
-                    }
-                    else if (SkullTwoChanceStart <= SkullSpawnValue && SkullSpawnValue < SkullTwoChanceEnd)
-                    {
-                        SkullPrefab = SkullTwo;
-                    }
+                GameObject SkullPrefab = null;
+                if (SkullOneChanceStart <= SkullSpawnValue && SkullSpawnValue < SkullOneChanceEnd)
+                {
+                    SkullPrefab = SkullOne;
+                }
+                else if (SkullTwoChanceStart <= SkullSpawnValue && SkullSpawnValue < SkullTwoChanceEnd)
+                {
+                    SkullPrefab = SkullTwo;
+                }
 
-                    if (SkullPrefab != null)
-                    {
-                        var Skull = Instantiate(SkullPrefab, new Vector3(0.0f, CurrentHeight + SkullOffset, 0.0f), Quaternion.identity, transform);
-                        Skull.GetComponent<Skull>().Radius = Radius + 1.0f;
-                    }
+                if (SkullPrefab != null)
+                {
+                    var Skull = Instantiate(SkullPrefab, new Vector3(0.0f, CurrentHeight + SkullOffset, 0.0f), Quaternion.identity, transform);
+                    Skull.GetComponent<Skull>().Radius = Radius + 1.0f;
                 }
             }
 
