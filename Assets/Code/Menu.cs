@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour {
     public GameObject PlayerSkill;
     public GameObject Tower;
 
+    public GameObject ControlDropdown;
     public GameObject PurchaseItem;
     public Button PurchaseButton;
     public Text PurchaseName;
@@ -130,6 +131,8 @@ public class Menu : MonoBehaviour {
             SFX.isOn = false;
         }
 
+        ControlDropdown.GetComponent<Dropdown>().value = PlayerPrefs.GetInt("controls", 0);
+
         movement = true;
     }
 
@@ -165,10 +168,6 @@ public class Menu : MonoBehaviour {
         ItemIn = Home;
         ItemOut = Scoreboard;
         movement = true;
-    }
-
-    public void OnScoreboardReset() {
-
     }
 
     public void OnOptionsBack() {
@@ -312,6 +311,10 @@ public class Menu : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void ChangeControls() {
+        PlayerPrefs.SetInt("controls", ControlDropdown.GetComponent<Dropdown>().value);
     }
 
     void Awake() {
