@@ -113,7 +113,9 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
-        if (Player.Position.y > CurrentHighScore && HighScoreParticle != null) {
+        var GenerationHeight = Player != null ? Player.Position.y : 0.0f;
+
+        if (GenerationHeight > CurrentHighScore && HighScoreParticle != null) {
             HighScoreParticle.GetComponent<HighScoreDespawn>().NewHighScore();
         }
 
@@ -126,7 +128,7 @@ public class Tower : MonoBehaviour
             }
         }
 
-        int NextHeightIndex = (int) ((Player.transform.position.y + ForwardGenerationHeight) / PlatformSpacingHeight);
+        int NextHeightIndex = (int) ((GenerationHeight + ForwardGenerationHeight) / PlatformSpacingHeight);
         if (NextHeightIndex > LastHeightIndex)
         {
             for (var HeightIndex = LastHeightIndex; HeightIndex < NextHeightIndex; HeightIndex++)
