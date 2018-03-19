@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public Text HeightText;
     public Text CoinsText;
 
+    public GameObject Menu;
     public GameObject Joystick;
 
     public Transform GraphicTransform;
@@ -319,6 +320,7 @@ public class Player : MonoBehaviour
             }
 
             PlayerPrefs.SetString("scores", string.Join(";", Scores.Select(i => i.ToString()).ToArray()));
+            Menu.GetComponent<Menu>().UpdateScores();
 
             transform.position = new Vector3(0.0f, 1.0f, 0.0f);
             Position = new Vector2(0.0f, transform.position.y);

@@ -12854,6 +12854,7 @@ MonoBehaviour:
   StarsTransform: {fileID: 1997645367}
   HeightText: {fileID: 107407760}
   CoinsText: {fileID: 1685641812}
+  Menu: {fileID: 2096089947}
   Joystick: {fileID: 1135955847}
   GraphicTransform: {fileID: 2054592603}
   GraphicAnimator: {fileID: 2054592605}
@@ -13123,3 +13124,8 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2074366936}
+--- !u!1 &2096089947 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1327111117962868, guid: dda5049ca961ac84dbc0356d087fa622,
+    type: 2}
+  m_PrefabInternal: {fileID: 217141432}

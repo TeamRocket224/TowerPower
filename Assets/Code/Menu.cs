@@ -367,10 +367,7 @@ public class Menu : MonoBehaviour {
         LoadedPlayerSkills = Resources.LoadAll("PlayerCanvasSkills", typeof(GameObject));
     }
 
-    void Start() {
-        ItemIn = Options;
-        ItemOut = Home;
-
+    public void UpdateScores() {
         var scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';');
 
         ScoresOne.GetComponent<Text>().text   = "Top Height: "    + scores[0] + "m";
@@ -378,6 +375,13 @@ public class Menu : MonoBehaviour {
         ScoresThree.GetComponent<Text>().text = "Third Height: "  + scores[2] + "m";
         ScoresFour.GetComponent<Text>().text  = "Fourth Height: " + scores[3] + "m";
         ScoresFive.GetComponent<Text>().text  = "Fifth Height: "  + scores[4] + "m";
+    }
+
+    void Start() {
+        ItemIn = Options;
+        ItemOut = Home;
+
+        UpdateScores();
 
         Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
 
