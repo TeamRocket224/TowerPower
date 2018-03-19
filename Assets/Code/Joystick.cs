@@ -16,6 +16,11 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
 
     Vector2 joystickCenter = Vector2.zero;
 
+    public void ResetJoystick() {
+        handle.anchoredPosition = Vector2.zero;
+        inputVector = Vector2.zero;
+    }
+
     public virtual void OnDrag(PointerEventData eventData) {
         Vector2 direction = new Vector2(eventData.position.x - joystickCenter.x, 0);
         Vector2 player = direction;

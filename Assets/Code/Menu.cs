@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
+    public GameObject Player;
+
     public GameObject Home;
     public GameObject Scoreboard;
     public GameObject Options;
@@ -88,7 +90,6 @@ public class Menu : MonoBehaviour {
 
         if (!(PlayerPrefs.GetInt("coins") >= Skin.GetComponent<CustomizeDetails>().cost)) {
             PurchaseButton.interactable = false;
-
         }
 
         CheckSkin(Skin);
@@ -208,6 +209,7 @@ public class Menu : MonoBehaviour {
         if (check == 1) {
             skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             skin.transform.GetChild(1).gameObject.SetActive(false);
+            PlayerPrefs.SetInt("skin", PlayerSkinChoice);
         }
         else {
             skin.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
@@ -240,6 +242,7 @@ public class Menu : MonoBehaviour {
         PlayerSkins[PreviousSkinChoice].SetActive(false);
         PlayerSkins[PlayerSkinChoice].SetActive(true);
         CheckSkin(PlayerSkins[PlayerSkinChoice]);
+        Player.GetComponent<Player>().ChangeSkin();
     }
 
     public void OnSkinRight() {
@@ -255,6 +258,10 @@ public class Menu : MonoBehaviour {
         PlayerSkins[PreviousSkinChoice].SetActive(false);
         PlayerSkins[PlayerSkinChoice].SetActive(true);
         CheckSkin(PlayerSkins[PlayerSkinChoice]);
+
+        Debug.Log(PlayerPrefs.GetInt("skin") + ", " + PlayerSkinChoice);
+
+        Player.GetComponent<Player>().ChangeSkin();
     }
 
     public void OnSkillLeft() {
@@ -302,11 +309,13 @@ public class Menu : MonoBehaviour {
                     PlayerPrefs.SetInt("skin", PlayerSkinChoice);
                     PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skin.GetComponent<CustomizeDetails>().cost);
                     Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
+                    Player.GetComponent<Player>().UpdateCoins();
 
                     Skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PlayerSkins[PlayerSkinChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PurchaseButton.interactable = false;
                     Skin.transform.GetChild(1).gameObject.SetActive(false);
+                    Player.GetComponent<Player>().ChangeSkin();
                 }
             }
         }
@@ -338,7 +347,7 @@ public class Menu : MonoBehaviour {
         Customize.SetActive(false);
         Purchase.SetActive(false);
 
-        PlayerPrefs.SetInt("skin_unlock_1", 1);
+        PlayerPrefs.SetInt("skin_unlock_5", 0);
 
         if (PlayerPrefs.GetInt("customize_tutorial") == 0) {
             CustomizeTutorial.SetActive(true);

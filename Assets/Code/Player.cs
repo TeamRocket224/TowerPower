@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public Text HeightText;
     public Text CoinsText;
 
+    public GameObject Joystick;
+
     public Transform GraphicTransform;
     public Animator GraphicAnimator;
     public Transform ShadowTransform;
@@ -84,10 +86,18 @@ public class Player : MonoBehaviour
         GroundedDirection = 1.0f;
         Position = new Vector2(0.0f, transform.position.y);
 
+        ChangeSkin();
+
+        UpdateCoins();
+    }
+
+    public void ChangeSkin() {
         var SkinIndex = PlayerPrefs.GetInt("skin", 0);
         GraphicAnimator.runtimeAnimatorController = SkinAnimatorControllers[SkinIndex];
         ShadowAnimator.runtimeAnimatorController = SkinAnimatorControllers[SkinIndex];
+    }
 
+    public void UpdateCoins() {
         Coins = PlayerPrefs.GetInt("coins");
     }
 
@@ -288,6 +298,7 @@ public class Player : MonoBehaviour
         if (transform.position.y < Water.Height)
         {
             PlayerPrefs.SetInt("coins", Coins);
+            Joystick.GetComponent<Joystick>().ResetJoystick();
 
             var NewScore = (int) transform.position.y;
 
