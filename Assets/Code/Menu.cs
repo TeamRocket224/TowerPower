@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,9 @@ public class Menu : MonoBehaviour {
     public GameObject PlayerSkin;
     public GameObject PlayerSkill;
 
+    public GameObject SkinPanel;
+    public GameObject SkillPanel;
+
     public GameObject ControlDropdown;
     public GameObject PurchaseItem;
     public Button PurchaseButton;
@@ -17,6 +21,11 @@ public class Menu : MonoBehaviour {
     public Text PurchaseCost;
     public Text PurchaseDesc;
     public Text Coins;
+
+    public AudioSource MainMusic;
+    public AudioSource AllSFX;
+
+    public GameObject CustomizeTutorial;
 
     public Toggle Music;
     public Toggle SFX;
@@ -39,7 +48,8 @@ public class Menu : MonoBehaviour {
 
     GameObject ItemIn, ItemOut, Skin, Skill;
 
-    bool movement = false, isSkin = false;
+    bool movement = false;
+    bool isSkin = false;
 
     public System.Action PlayGame;
 
@@ -58,6 +68,9 @@ public class Menu : MonoBehaviour {
         isSkin = true;
         ItemIn = Purchase;
         ItemOut = Customize;
+
+        PlayerPrefs.SetInt("customize_tutorial", 1);
+        CustomizeTutorial.SetActive(false);
 
         Skin = Instantiate(LoadedPlayerSkins[PlayerSkinChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         Skin.transform.SetParent(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Transform>(), false);
@@ -87,6 +100,9 @@ public class Menu : MonoBehaviour {
         isSkin = false;
         ItemIn = Purchase;
         ItemOut = Customize;
+
+        PlayerPrefs.SetInt("customize_tutorial", 1);
+        CustomizeTutorial.SetActive(false);
 
         Skill = Instantiate(LoadedPlayerSkills[PlayerSkillChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         Skill.transform.SetParent(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Transform>(), false);
@@ -140,7 +156,6 @@ public class Menu : MonoBehaviour {
 
         //Player Skin
         PlayerSkinChoice = PlayerPrefs.GetInt("skin");
-        Debug.Log(PlayerSkinChoice);
 
         for (int i = 0; i < PlayerSkins.Length; i++) {
             PlayerSkins[i].SetActive(false);
@@ -184,6 +199,7 @@ public class Menu : MonoBehaviour {
         ItemIn = Customize;
         ItemOut = Purchase;
         CheckSkin(PlayerSkins[PlayerSkinChoice]);
+        CheckSkill(PlayerSkills[PlayerSkillChoice]);
         movement = true;
     }
 
@@ -201,13 +217,13 @@ public class Menu : MonoBehaviour {
 
     void CheckSkill(GameObject skill) {
         int check = PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1));
-        if (check == 1)
-        {
+        if (check == 1) {
             skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             skill.transform.GetChild(1).gameObject.SetActive(false);
         }
         else {
             skill.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
+            skill.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 
@@ -275,7 +291,7 @@ public class Menu : MonoBehaviour {
 
     public void delete_this() {
         PlayerPrefs.SetInt("coins", 100000);
-        Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins") + " Coins";
+        Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
     }
 
     public void onPurchaseItem() {
@@ -285,7 +301,7 @@ public class Menu : MonoBehaviour {
                     PlayerPrefs.SetInt("skin_unlock_" + (PlayerSkinChoice + 1), 1);
                     PlayerPrefs.SetInt("skin", PlayerSkinChoice);
                     PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skin.GetComponent<CustomizeDetails>().cost);
-                    Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins") + " Coins";
+                    Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
 
                     Skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PlayerSkins[PlayerSkinChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
@@ -300,7 +316,7 @@ public class Menu : MonoBehaviour {
                     PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
                     PlayerPrefs.SetInt("skill", PlayerSkinChoice);
                     PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
-                    Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins") + " Coins";
+                    Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
 
                     Skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
@@ -322,6 +338,22 @@ public class Menu : MonoBehaviour {
         Customize.SetActive(false);
         Purchase.SetActive(false);
 
+        PlayerPrefs.SetInt("skin_unlock_1", 1);
+
+        if (PlayerPrefs.GetInt("customize_tutorial") == 0) {
+            CustomizeTutorial.SetActive(true);
+        }
+        else {
+            CustomizeTutorial.SetActive(false);
+        }
+
+        if (PlayerPrefs.GetInt("music") == 1) {
+            MainMusic.enabled = true;
+        }
+        else {
+            MainMusic.enabled = false;
+        }
+
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
         LoadedPlayerSkills = Resources.LoadAll("PlayerCanvasSkills", typeof(GameObject));
     }
@@ -338,7 +370,7 @@ public class Menu : MonoBehaviour {
         ScoresFour.GetComponent<Text>().text  = "Fourth Height: " + scores[3] + "m";
         ScoresFive.GetComponent<Text>().text  = "Fifth Height: "  + scores[4] + "m";
 
-        Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins") + " Coins";
+        Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
 
         //Player Skins
         PlayerSkins = new GameObject[LoadedPlayerSkins.Length];
@@ -389,6 +421,15 @@ public class Menu : MonoBehaviour {
                     Destroy(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).gameObject);
                 }
             }
+        }
+
+        if (PlayerPrefs.GetInt("customize_tutorial") == 0) {
+            SkinPanel.GetComponent<Image>().color  = Color.Lerp(Color.white, Color.magenta, Mathf.PingPong(Time.time, 1));
+            SkillPanel.GetComponent<Image>().color = Color.Lerp(Color.white, Color.magenta, Mathf.PingPong(Time.time, 1));
+        }
+        else {
+            SkinPanel.GetComponent<Image>().color  = new Color32(255, 255, 255, 255);
+            SkillPanel.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
     }
 }

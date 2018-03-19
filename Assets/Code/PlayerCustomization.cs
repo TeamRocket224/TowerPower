@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerCustomization : MonoBehaviour {
+    public AudioSource MainMusic;
+    public AudioSource MainSFX;
+
     public Toggle Music;
     public Toggle SFX;
 
@@ -15,6 +18,7 @@ public class PlayerCustomization : MonoBehaviour {
     public void OnMusicChange() {
         bool music_choice = Music.isOn;
         PlayerPrefs.SetInt("music", music_choice ? 1 : 0);
+        MainMusic.enabled = Music.isOn;
 
         Debug.Log(PlayerPrefs.GetInt("music"));
     }

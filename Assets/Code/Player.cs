@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
     public float BallisticJumpStrength;
     public float JumpGracePeriod;
 
-    public int Coins;
+    int Coins;
 
     public Vector2 Position;
     float GroundedAccelerationValue;
@@ -87,6 +87,8 @@ public class Player : MonoBehaviour
         var SkinIndex = PlayerPrefs.GetInt("skin", 0);
         GraphicAnimator.runtimeAnimatorController = SkinAnimatorControllers[SkinIndex];
         ShadowAnimator.runtimeAnimatorController = SkinAnimatorControllers[SkinIndex];
+
+        Coins = PlayerPrefs.GetInt("coins");
     }
 
     void ChangeMovementMode(MovementMode NewMovementMode)
@@ -280,13 +282,12 @@ public class Player : MonoBehaviour
         transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
         StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
 
-        HeightText.text = "Height: " + Position.y + "m";
-        CoinsText.text = "Coins: " + Coins;
+        HeightText.text = Mathf.Floor(Position.y) + "m";
+        CoinsText.GetComponent<Text>().text = Coins.ToString("n0");
 
         if (transform.position.y < Water.Height)
         {
-            var OldCoins = PlayerPrefs.GetInt("coins", 0);
-            PlayerPrefs.SetInt("coins", OldCoins + Coins);
+            PlayerPrefs.SetInt("coins", Coins);
 
             var NewScore = (int) transform.position.y;
 
