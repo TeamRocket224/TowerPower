@@ -107,7 +107,9 @@ public class Player : MonoBehaviour
         switch (NewMovementMode) {
             case MovementMode.Grounded:
             {
-                MotionParticleSystem.Play();
+                if (ddX != 0) {
+                    MotionParticleSystem.Play();
+                }
                 break;
             }
             case MovementMode.Ballistic:
@@ -115,7 +117,7 @@ public class Player : MonoBehaviour
                 JumpGracePeriodTimer = JumpGracePeriod;
                 HasDoubleJumped = false;
 
-                MotionParticleSystem.Play();
+                //MotionParticleSystem.Stop();
                 break;
             }
         }
@@ -165,6 +167,18 @@ public class Player : MonoBehaviour
 
         SleepTimer -= Time.deltaTime;
 
+        if (ddX != 0) {
+            if (CurrentMovementMode == MovementMode.Grounded) {
+                MotionParticleSystem.Play();
+            }
+            else {
+                MotionParticleSystem.Stop();    
+            }
+        }
+        else {
+            MotionParticleSystem.Stop();
+        }
+
         switch (CurrentMovementMode)
         {
             case MovementMode.Grounded:
@@ -193,6 +207,7 @@ public class Player : MonoBehaviour
 
                     if (ShouldJump)
                     {
+                        MotionParticleSystem.Stop();
                         ChangeMovementMode(MovementMode.Ballistic);
                         
                         SetTrigger("Jump");
