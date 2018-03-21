@@ -427,6 +427,8 @@ public class Menu : MonoBehaviour {
     }
 
     void Update() {
+        Debug.Log(PlayerPrefs.GetInt("skill"));
+
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         }

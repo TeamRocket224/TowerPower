@@ -36,19 +36,18 @@ public class PlayerSkill : MonoBehaviour
         return CurrentEnergy == 1.0f;
     }
 
-    //@todo: Redo Skills to line up correctly
     public void ChangeSkill() {
-        // if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerPrefs.GetInt("skill"))) == 1) {
-        //     switch (PlayerPrefs.GetInt("skill", 0)) {
-        //         case 0: {Type = SkillType.None; break;}
-        //         case 1: {Type = SkillType.ExtraPlatform; break;}
-        //         case 2: {Type = SkillType.TripleJump; break;}
-        //         case 3: {Type = SkillType.CloudTravel; break;}
-        //         case 4: {Type = SkillType.AbsorbShield; break;}
-        //         case 5: {Type = SkillType.Rewind; break;}
-        //         case 6: {Type = SkillType.SecondLife; break;}
-        //     }
-        // }
+        if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerPrefs.GetInt("skill") + 1)) == 1) {
+            switch (PlayerPrefs.GetInt("skill", 0)) {
+                case 0: {Type = SkillType.None; break;}
+                case 1: {Type = SkillType.ExtraPlatform; break;}
+                case 2: {Type = SkillType.TripleJump; break;}
+                case 3: {Type = SkillType.CloudTravel; break;}
+                case 4: {Type = SkillType.AbsorbShield; break;}
+                case 5: {Type = SkillType.Rewind; break;}
+                case 6: {Type = SkillType.SecondLife; break;}
+            }
+        }
     }
 
     public void Use()
