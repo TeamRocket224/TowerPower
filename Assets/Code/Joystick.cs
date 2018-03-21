@@ -44,5 +44,12 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
             inputVector = Vector2.zero;
             Player.GetComponent<Player>().ddX = 0;
         }
+        else if (PlayerPrefs.GetInt("controls") == 1) {
+            if (Mathf.Abs(inputVector.x) <= 0.75f) {
+                inputVector = Vector2.zero;
+                handle.anchoredPosition = Vector2.zero;
+                Player.GetComponent<Player>().ddX = 0;
+            }
+        }
     }
 }

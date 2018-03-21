@@ -16,6 +16,10 @@ public class Menu : MonoBehaviour {
     public GameObject SkinPanel;
     public GameObject SkillPanel;
 
+    public GameObject Joystick;
+    public GameObject InnerOne;
+    public GameObject InnerTwo;
+
     public GameObject ControlDropdown;
     public GameObject PurchaseItem;
     public Button PurchaseButton;
@@ -222,6 +226,7 @@ public class Menu : MonoBehaviour {
         if (check == 1) {
             skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             skill.transform.GetChild(1).gameObject.SetActive(false);
+            PlayerPrefs.SetInt("skill", PlayerSkillChoice);
         }
         else {
             skill.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
@@ -258,8 +263,6 @@ public class Menu : MonoBehaviour {
         PlayerSkins[PreviousSkinChoice].SetActive(false);
         PlayerSkins[PlayerSkinChoice].SetActive(true);
         CheckSkin(PlayerSkins[PlayerSkinChoice]);
-
-        Debug.Log(PlayerPrefs.GetInt("skin") + ", " + PlayerSkinChoice);
 
         Player.GetComponent<Player>().ChangeSkin();
     }
@@ -314,7 +317,7 @@ public class Menu : MonoBehaviour {
                     Skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PlayerSkins[PlayerSkinChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PurchaseButton.interactable = false;
-                    Skin.transform.GetChild(1).gameObject.SetActive(false);
+                    Skin.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
                     Player.GetComponent<Player>().ChangeSkin();
                 }
             }
@@ -323,21 +326,33 @@ public class Menu : MonoBehaviour {
             if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 0) {
                 if (PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost) {
                     PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
-                    PlayerPrefs.SetInt("skill", PlayerSkinChoice);
+                    PlayerPrefs.SetInt("skill", PlayerSkillChoice);
                     PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
                     Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
 
                     Skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PurchaseButton.interactable = false;
-                    Skill.transform.GetChild(1).gameObject.SetActive(false);
+                    Skill.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
                 }
             }
         }
     }
 
     public void ChangeControls() {
-        PlayerPrefs.SetInt("controls", ControlDropdown.GetComponent<Dropdown>().value);
+        int joystick = ControlDropdown.GetComponent<Dropdown>().value;
+        PlayerPrefs.SetInt("controls", joystick);
+
+        if (joystick == 0) {
+            InnerOne.SetActive(true);
+            InnerTwo.SetActive(false);
+            Joystick.GetComponent<Joystick>().handle = InnerOne.GetComponent<RectTransform>();
+        }
+        else {
+            InnerOne.SetActive(false);
+            InnerTwo.SetActive(true);
+            Joystick.GetComponent<Joystick>().handle = InnerTwo.GetComponent<RectTransform>();
+        }
     }
 
     void Awake() {
@@ -346,8 +361,6 @@ public class Menu : MonoBehaviour {
         Options.SetActive(false);
         Customize.SetActive(false);
         Purchase.SetActive(false);
-
-        PlayerPrefs.SetInt("skin_unlock_5", 0);
 
         if (PlayerPrefs.GetInt("customize_tutorial") == 0) {
             CustomizeTutorial.SetActive(true);

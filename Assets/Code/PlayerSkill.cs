@@ -4,13 +4,18 @@ using UnityEngine.UI;
 public class PlayerSkill : MonoBehaviour
 {
     public Player Player;
+    public GameObject EnergyBar;
+    public GameObject Platform;
 
     public enum SkillType
     {
         None,
-        Jump,
-        Run,
+        ExtraPlatform,
         TripleJump,
+        CloudTravel,
+        AbsorbShield,
+        Rewind,
+        SecondLife,
     }
 
     public SkillType Type;
@@ -29,6 +34,21 @@ public class PlayerSkill : MonoBehaviour
     public bool CanUse()
     {
         return CurrentEnergy == 1.0f;
+    }
+
+    //@todo: Redo Skills to line up correctly
+    public void ChangeSkill() {
+        // if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerPrefs.GetInt("skill"))) == 1) {
+        //     switch (PlayerPrefs.GetInt("skill", 0)) {
+        //         case 0: {Type = SkillType.None; break;}
+        //         case 1: {Type = SkillType.ExtraPlatform; break;}
+        //         case 2: {Type = SkillType.TripleJump; break;}
+        //         case 3: {Type = SkillType.CloudTravel; break;}
+        //         case 4: {Type = SkillType.AbsorbShield; break;}
+        //         case 5: {Type = SkillType.Rewind; break;}
+        //         case 6: {Type = SkillType.SecondLife; break;}
+        //     }
+        // }
     }
 
     public void Use()
@@ -50,16 +70,27 @@ public class PlayerSkill : MonoBehaviour
 
                 switch (Type)
                 {
-                    case SkillType.Jump:
+                    case SkillType.ExtraPlatform:
                     {
-                        break;
-                    }
-                    case SkillType.Run:
-                    {
-                        Player.GroundedHorizontalSpeed = PreviousGroundedHorizontalSpeed;
                         break;
                     }
                     case SkillType.TripleJump:
+                    {
+                        break;
+                    }
+                    case SkillType.CloudTravel:
+                    {
+                        break;
+                    }
+                    case SkillType.AbsorbShield:
+                    {
+                        break;
+                    }
+                    case SkillType.Rewind:
+                    {
+                        break;
+                    }
+                    case SkillType.SecondLife:
                     {
                         break;
                     }
@@ -71,10 +102,12 @@ public class PlayerSkill : MonoBehaviour
             if (CurrentEnergy < 1.0f)
             {
                 CurrentEnergy += EnergyChargeRate * Time.deltaTime;
+                EnergyBar.GetComponent<Animator>().SetInteger("energy", 0);
             }
             else
             {
                 CurrentEnergy = 1.0f;
+                EnergyBar.GetComponent<Animator>().SetInteger("energy", 1);
             }
 
             if (Input.GetKeyDown(KeyCode.Tab) && CurrentEnergy == 1.0f)
@@ -86,18 +119,28 @@ public class PlayerSkill : MonoBehaviour
                 
                 switch (Type)
                 {
-                    case SkillType.Jump:
+                    case SkillType.ExtraPlatform:
                     {
-                        break;
-                    }
-                    case SkillType.Run:
-                    {
-                        PreviousGroundedHorizontalSpeed = Player.GroundedHorizontalSpeed;
-                        Player.GroundedHorizontalSpeed *= 1.25f;
-                        
+                        Instantiate(Platform, transform.position - new Vector3(0, 3, 0), transform.rotation);
                         break;
                     }
                     case SkillType.TripleJump:
+                    {
+                        break;
+                    }
+                    case SkillType.CloudTravel:
+                    {
+                        break;
+                    }
+                    case SkillType.AbsorbShield:
+                    {
+                        break;
+                    }
+                    case SkillType.Rewind:
+                    {
+                        break;
+                    }
+                    case SkillType.SecondLife:
                     {
                         break;
                     }

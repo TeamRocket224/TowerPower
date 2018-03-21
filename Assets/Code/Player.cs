@@ -116,8 +116,6 @@ public class Player : MonoBehaviour
             {
                 JumpGracePeriodTimer = JumpGracePeriod;
                 HasDoubleJumped = false;
-
-                //MotionParticleSystem.Stop();
                 break;
             }
         }
