@@ -16,7 +16,7 @@ public class HighScoreDespawn : MonoBehaviour {
 		main.startLifetime = 10f;
 
         Gradient grad = new Gradient();
-        grad.SetKeys( new GradientColorKey[] { new GradientColorKey(Color.blue, 0.0f), new GradientColorKey(Color.red, 1.0f) }, new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } );
+        grad.SetKeys( new GradientColorKey[] { new GradientColorKey(Color.blue, 0.0f), new GradientColorKey(Color.red, 1.0f) }, new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(1.0f, 1.0f) } );
         col.color = grad;
 
 		AnimationCurve curve_x = new AnimationCurve();
@@ -24,12 +24,12 @@ public class HighScoreDespawn : MonoBehaviour {
 		curve_x.AddKey(0.25f, 1.0f);
 		curve_x.AddKey(0.75f, -1.0f);
         curve_x.AddKey(1.0f,  0.0f);
-        vel.x = new ParticleSystem.MinMaxCurve(50f, curve_x);
+        vel.x = new ParticleSystem.MinMaxCurve(30f, curve_x);
 
 		AnimationCurve curve_y = new AnimationCurve();
         curve_y.AddKey(0.0f, 1.0f);
 		curve_y.AddKey(0.5f, -1.0f);
         curve_y.AddKey(1.0f, 1.0f);
-        vel.y = new ParticleSystem.MinMaxCurve(50f, curve_y);
+        vel.y = new ParticleSystem.MinMaxCurve(30f, curve_y);
 	}
 }

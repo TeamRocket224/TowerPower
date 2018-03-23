@@ -29,6 +29,8 @@ public class PlayerSkill : MonoBehaviour
     bool IsActivated;
     float CurrentDuration;
 
+    bool buttonAbility = false;
+
     float PreviousGroundedHorizontalSpeed;
 
     public bool CanUse()
@@ -109,7 +111,7 @@ public class PlayerSkill : MonoBehaviour
                 EnergyBar.GetComponent<Animator>().SetInteger("energy", 1);
             }
 
-            if (Input.GetKeyDown(KeyCode.Tab) && CurrentEnergy == 1.0f)
+            if (buttonAbility && CurrentEnergy == 1.0f)
             {
                 IsActivated = true;
 
@@ -144,9 +146,15 @@ public class PlayerSkill : MonoBehaviour
                         break;
                     }
                 }
+
+                buttonAbility = false;
             }
         }
 
         EnergySlider.value = CurrentEnergy;
+    }
+
+    public void tapAbilityButton() {
+        buttonAbility = true;
     }
 }

@@ -320,7 +320,7 @@ public class Tower : MonoBehaviour
         while (CurrentTheta <= ThetaMax)
         {
             var RadiusOffset = Random.Range(0.1f, 1.5f);
-            var Scale = Random.Range(1.0f, 2.5f);
+            var Scale = Random.Range(1.0f, 1.75f);
             var Position = new Vector3(Mathf.Cos(CurrentTheta) * (Radius + RadiusOffset), Height, Mathf.Sin(CurrentTheta) * (Radius + RadiusOffset));
 
             if (Random.value < 0.6f)
