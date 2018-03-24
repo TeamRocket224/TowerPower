@@ -356,6 +356,8 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
+        Application.targetFrameRate = 60;
+
         Home.SetActive(true);
         Scoreboard.SetActive(false);
         Options.SetActive(false);
