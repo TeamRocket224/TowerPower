@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class GameController : MonoBehaviour
 
     public void Start()
     {
-        Player.Dead = ChangeToDeath;
+        Player.Dead   = ChangeToDeath;
         Menu.PlayGame = ChangeToGame;
         Menu.MainMenu = ChangeToMenu;
 
@@ -62,6 +63,20 @@ public class GameController : MonoBehaviour
         GameUI.SetActive(false);
 
         State = GameState.Death;
+    }
+
+    public void ChangeToPause()
+    {
+        Water.IsRising = false;
+        Player.IsControlling = false;
+        Menu.gameObject.SetActive(true);
+        Menu.Customize.GetComponent<Button>().enabled = false;
+        Menu.Scoreboard.GetComponent<Button>().enabled = false;
+        Menu.Home.SetActive(true);
+        GameUI.SetActive(false);
+        DeathScreen.SetActive(false);
+
+        State = GameState.Menu;
     }
 
     private void Update()
