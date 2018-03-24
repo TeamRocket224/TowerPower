@@ -58,6 +58,7 @@ public class Menu : MonoBehaviour {
     bool isSkin = false;
 
     public System.Action PlayGame;
+    public System.Action MainMenu;
 
     public void OnHomePlay() {
         Home.SetActive(false);
@@ -390,6 +391,14 @@ public class Menu : MonoBehaviour {
         ScoresThree.GetComponent<Text>().text = "Third Height: "  + scores[2] + "m";
         ScoresFour.GetComponent<Text>().text  = "Fourth Height: " + scores[3] + "m";
         ScoresFive.GetComponent<Text>().text  = "Fifth Height: "  + scores[4] + "m";
+    }
+
+    public void PlayAgain() {
+        PlayGame();
+    }
+
+    public void ToMainMenu() {
+        MainMenu();
     }
 
     void Start() {

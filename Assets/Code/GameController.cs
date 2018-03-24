@@ -8,20 +8,23 @@ public class GameController : MonoBehaviour
 
     public Menu Menu;
     public GameObject GameUI;
+    public GameObject DeathScreen;
 
     enum GameState
     {
         None,
         Menu,
-        Game
+        Game,
+        Death
     }
 
     GameState State;
 
     public void Start()
     {
-        Player.Dead = ChangeToMenu;
+        Player.Dead = ChangeToDeath;
         Menu.PlayGame = ChangeToGame;
+        Menu.MainMenu = ChangeToMenu;
 
         ChangeToMenu();
     }
@@ -33,6 +36,7 @@ public class GameController : MonoBehaviour
         Menu.gameObject.SetActive(true);
         Menu.Home.SetActive(true);
         GameUI.SetActive(false);
+        DeathScreen.SetActive(false);
 
         State = GameState.Menu;
     }
@@ -43,8 +47,21 @@ public class GameController : MonoBehaviour
         Player.IsControlling = true;
         Menu.gameObject.SetActive(false);
         GameUI.SetActive(true);
+        DeathScreen.SetActive(false);
 
         State = GameState.Game;
+    }
+
+    public void ChangeToDeath()
+    {
+        Water.IsRising = false;
+        Player.IsControlling = false;
+        DeathScreen.SetActive(true);
+        Menu.gameObject.SetActive(false);
+        Menu.Home.SetActive(false);
+        GameUI.SetActive(false);
+
+        State = GameState.Death;
     }
 
     private void Update()

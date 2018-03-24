@@ -18,9 +18,12 @@ public class Player : MonoBehaviour
     public Transform StarsTransform;
     public Text HeightText;
     public Text CoinsText;
+    public Text DeathCoinsText;
+    public Text DeathHeightText;
 
     public GameObject Menu;
     public GameObject Joystick;
+    public GameObject DeathScreen;
 
     public Transform GraphicTransform;
     public Animator GraphicAnimator;
@@ -44,6 +47,7 @@ public class Player : MonoBehaviour
     public float JumpGracePeriod;
 
     int Coins;
+    int CollectedCoins = 0;
 
     public Vector2 Position;
     float GroundedAccelerationValue;
@@ -311,6 +315,9 @@ public class Player : MonoBehaviour
 
         if (transform.position.y < Water.Height)
         {
+            DeathCoinsText.GetComponent<Text>().text = "Coins Gathered: " + CollectedCoins + " Coins";
+            DeathHeightText.GetComponent<Text>().text = "Final Height: " + Mathf.Floor(Position.y) + "m";
+
             PlayerPrefs.SetInt("coins", Coins);
             Joystick.GetComponent<Joystick>().ResetJoystick();
 
@@ -399,6 +406,7 @@ public class Player : MonoBehaviour
         if (Coin)
         {
             Coins += Coin.Value;
+            CollectedCoins += Coin.Value;
             var coin = Instantiate(Coin.particle, transform.position, Coin.particle.transform.rotation);
             Destroy(coin, 3);
             Destroy(Coin.gameObject);
