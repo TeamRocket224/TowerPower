@@ -5,9 +5,11 @@ public class Water : MonoBehaviour
     public bool IsRising;
     public float Height;
     public float ScrollSpeed;
+    public GameObject Player;
 
     public MeshRenderer MeshRenderer;
 
+    float SpeedMultiplier = 1f;
     float StartHeight;
     Vector2 TextureOffset;
 
@@ -34,6 +36,15 @@ public class Water : MonoBehaviour
 
     void Update()
     {
+        if (Player.transform.position.y - Height >= 100) {
+            SpeedMultiplier = 10f;
+        }
+        else {
+            if (Player.transform.position.y - Height <= 25) {
+                SpeedMultiplier = 1f;
+            }
+        }
+
         if (IsRising)
         {
             RiseSpeedRange Range = null;
@@ -49,7 +60,7 @@ public class Water : MonoBehaviour
                 }
             }
 
-            Height += Range.RiseSpeed * Time.deltaTime;
+            Height += (Range.RiseSpeed * SpeedMultiplier) * Time.deltaTime;
             transform.position = new Vector3(0.0f, Height, 0.0f);
         }
 

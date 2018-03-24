@@ -83,8 +83,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        PlayerPrefs.SetString("scores", "55;0;0;0;0");
-
         CurrentMovementMode = MovementMode.Ballistic;
         GroundedDirection = 1.0f;
         Position = new Vector2(0.0f, transform.position.y);
@@ -401,7 +399,8 @@ public class Player : MonoBehaviour
         if (Coin)
         {
             Coins += Coin.Value;
-            Instantiate(Coin.particle, transform.position, Coin.particle.transform.rotation);
+            var coin = Instantiate(Coin.particle, transform.position, Coin.particle.transform.rotation);
+            Destroy(coin, 3);
             Destroy(Coin.gameObject);
         }
     }

@@ -5,6 +5,8 @@ public class PlayerSkill : MonoBehaviour
 {
     public Player Player;
     public GameObject EnergyBar;
+    public GameObject JumpEnergyBar;
+    public GameObject Ability;
     public GameObject Platform;
 
     public enum SkillType
@@ -22,7 +24,8 @@ public class PlayerSkill : MonoBehaviour
     
     public float Duration;
     
-    public Slider EnergySlider;
+    public Slider AbilityEnergySlider;
+    public Slider JumpEnergySlider;
     public float EnergyChargeRate;
     float CurrentEnergy;
 
@@ -41,13 +44,48 @@ public class PlayerSkill : MonoBehaviour
     public void ChangeSkill() {
         if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerPrefs.GetInt("skill") + 1)) == 1) {
             switch (PlayerPrefs.GetInt("skill", 0)) {
-                case 0: {Type = SkillType.None; break;}
-                case 1: {Type = SkillType.ExtraPlatform; break;}
-                case 2: {Type = SkillType.TripleJump; break;}
-                case 3: {Type = SkillType.CloudTravel; break;}
-                case 4: {Type = SkillType.AbsorbShield; break;}
-                case 5: {Type = SkillType.Rewind; break;}
-                case 6: {Type = SkillType.SecondLife; break;}
+                case 0: {
+                    Type = SkillType.None; 
+                    Ability.SetActive(false);
+                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                    break;
+                }
+                case 1: {
+                    Type = SkillType.ExtraPlatform;
+                    Ability.SetActive(true);
+                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                    break;
+                }
+                case 2: {
+                    Type = SkillType.TripleJump;
+                    Ability.SetActive(false);
+                    JumpEnergyBar.transform.parent.gameObject.SetActive(true);
+                    break;
+                }
+                case 3: {
+                    Type = SkillType.CloudTravel;
+                    Ability.SetActive(true);
+                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                    break;
+                }
+                case 4: {
+                    Type = SkillType.AbsorbShield;
+                    Ability.SetActive(true);
+                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                    break;
+                }
+                case 5: {
+                    Type = SkillType.Rewind;
+                    Ability.SetActive(true);
+                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                    break;
+                }
+                case 6: {
+                    Type = SkillType.SecondLife;
+                    Ability.SetActive(true);
+                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                    break;
+                }
             }
         }
     }
@@ -60,8 +98,13 @@ public class PlayerSkill : MonoBehaviour
         CurrentDuration = Duration;
     }
 
+    void Awake() {
+        ChangeSkill();
+    }
+
     void Update()
     {
+
         if (IsActivated)
         {
             CurrentDuration -= Time.deltaTime;
@@ -104,11 +147,13 @@ public class PlayerSkill : MonoBehaviour
             {
                 CurrentEnergy += EnergyChargeRate * Time.deltaTime;
                 EnergyBar.GetComponent<Animator>().SetInteger("energy", 0);
+                JumpEnergyBar.GetComponent<Animator>().SetInteger("energy", 0);
             }
             else
             {
                 CurrentEnergy = 1.0f;
                 EnergyBar.GetComponent<Animator>().SetInteger("energy", 1);
+                JumpEnergyBar.GetComponent<Animator>().SetInteger("energy", 1);                
             }
 
             if (buttonAbility && CurrentEnergy == 1.0f)
@@ -151,7 +196,8 @@ public class PlayerSkill : MonoBehaviour
             }
         }
 
-        EnergySlider.value = CurrentEnergy;
+        AbilityEnergySlider.value = CurrentEnergy;
+        JumpEnergySlider.value = CurrentEnergy;
     }
 
     public void tapAbilityButton() {
