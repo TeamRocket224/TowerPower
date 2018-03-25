@@ -206,6 +206,7 @@ public class Menu : MonoBehaviour {
         Customize.SetActive(true);
         Purchase.GetComponent<Animator>().SetTrigger("Purchase_Out");
         Customize.GetComponent<Animator>().SetTrigger("Customize_In");
+        Destroy(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).gameObject, 1.5f);
         CheckSkin(PlayerSkins[PlayerSkinChoice]);
         CheckSkill(PlayerSkills[PlayerSkillChoice]);
     }
@@ -359,6 +360,9 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
+        PlayerPrefs.SetInt("skill_unlock_1", 1);
+        PlayerPrefs.SetInt("skin_unlock_1", 1);
+
         Home.SetActive(true);
         Scoreboard.SetActive(false);
         Options.SetActive(false);
@@ -370,6 +374,8 @@ public class Menu : MonoBehaviour {
         }
         else {
             CustomizeTutorial.SetActive(false);
+            PlayerPrefs.SetInt("skin", 0);
+            PlayerPrefs.SetInt("skill", 0);
         }
 
         if (PlayerPrefs.GetInt("music") == 1) {

@@ -31718,7 +31718,7 @@ MonoBehaviour:
   Shield: {fileID: 1194859155}
   Rewind: {fileID: 518282253}
   RewindParticle: {fileID: 1195483597}
-  Type: 3
+  Type: 0
   IsPaused: 0
   EnergyChargeRate: 0.25
   RechargeCooldown: 1
