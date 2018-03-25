@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public GameObject MenuPauseActions;
     public GameObject GameUI;
     public GameObject DeathScreen;
+    public GameObject NewHighScore;
 
     enum GameState
     {
@@ -106,6 +107,15 @@ public class GameController : MonoBehaviour
         Menu.Home.SetActive(false);
         MenuMainActions.SetActive(true);
         MenuPauseActions.SetActive(false);
+
+        if (Player.GetComponent<Player>().BeatHighScore)
+        {
+            NewHighScore.SetActive(true);
+            Player.GetComponent<Player>().BeatHighScore = false;
+        }
+        else {
+            NewHighScore.SetActive(false);
+        }
 
         State = GameState.Death;
         IsDead = true;
