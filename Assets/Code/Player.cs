@@ -49,6 +49,7 @@ public class Player : MonoBehaviour
 
     int Coins;
     int CollectedCoins = 0;
+    public bool BeatHighScore = false;
 
     public Vector2 Position;
     float GroundedAccelerationValue;
@@ -94,6 +95,12 @@ public class Player : MonoBehaviour
 
         ChangeSkin();
         UpdateCoins();
+    }
+
+    public void NewHighScore() {
+        Coins += 100;
+        CollectedCoins += 100;
+        CoinsText.GetComponent<Text>().text = Coins.ToString("n0");
     }
 
     public void ChangeSkin() {
@@ -315,6 +322,7 @@ public class Player : MonoBehaviour
                 DeathHeightText.GetComponent<Text>().text = "Final Height: " + Mathf.Floor(Position.y) + "m";
 
                 PlayerPrefs.SetInt("coins", Coins);
+                CollectedCoins = 0;
                 Joystick.GetComponent<Joystick>().ResetJoystick();
 
                 var NewScore = (int) transform.position.y;
@@ -324,6 +332,8 @@ public class Player : MonoBehaviour
                 {
                     if (NewScore > Scores[ScoresIndex])
                     {
+                        BeatHighScore = true;
+
                         for (var ScoresShiftIndex = Scores.Length - 1; ScoresShiftIndex > ScoresIndex; ScoresShiftIndex--)
                         {
                             Scores[ScoresShiftIndex] = Scores[ScoresShiftIndex - 1];
@@ -333,6 +343,10 @@ public class Player : MonoBehaviour
 
                         break;
                     }
+                }
+
+                if (BeatHighScore) {
+                    Coins += 100;
                 }
 
                 PlayerPrefs.SetString("scores", string.Join(";", Scores.Select(i => i.ToString()).ToArray()));
@@ -406,7 +420,7 @@ public class Player : MonoBehaviour
             Coins += Coin.Value;
             CollectedCoins += Coin.Value;
             var coin = Instantiate(Coin.particle, transform.position, Coin.particle.transform.rotation);
-            Destroy(coin, 3);
+            Destroy(coin.gameObject, 1f);
             Destroy(Coin.gameObject);
         }
     }

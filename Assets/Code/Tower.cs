@@ -127,6 +127,7 @@ public class Tower : MonoBehaviour
 
         if (GenerationHeight > CurrentHighScore && HighScoreParticle != null) {
             HighScoreParticle.GetComponent<HighScoreDespawn>().NewHighScore();
+            Destroy(HighScoreParticle, 3f);
         }
 
         for (var ChildIndex = 0; ChildIndex < transform.childCount; ChildIndex++)
