@@ -8,6 +8,8 @@ public class Skull : MonoBehaviour
     public float Speed;
     public int CoinDrop;
 
+    public bool IsPaused;
+
     float CurrentTheta;
     float Direction;
 
@@ -24,9 +26,12 @@ public class Skull : MonoBehaviour
 
     void Update()
     {
-        CurrentTheta += Direction * Speed * Time.deltaTime;
+        if (!IsPaused)
+        {
+            CurrentTheta += Direction * Speed * Time.deltaTime;
 
-        transform.position = new Vector3(Mathf.Cos(CurrentTheta) * Radius, transform.position.y, Mathf.Sin(CurrentTheta) * Radius);
-        transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
+            transform.position = new Vector3(Mathf.Cos(CurrentTheta) * Radius, transform.position.y, Mathf.Sin(CurrentTheta) * Radius);
+            transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
+        }
     }
 }

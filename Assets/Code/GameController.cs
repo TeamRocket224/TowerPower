@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
     }
 
     GameState State;
+    bool IsPaused;
 
     public void Start()
     {
@@ -33,6 +34,7 @@ public class GameController : MonoBehaviour
     public void ChangeToMenu()
     {
         Water.IsRising = false;
+        Player.Reset();
         Player.IsControlling = false;
         Menu.gameObject.SetActive(true);
         Menu.Home.SetActive(true);
@@ -44,23 +46,39 @@ public class GameController : MonoBehaviour
 
     public void ChangeToGame()
     {
+        if (!IsPaused)
+        {
+            Player.Reset();
+            Tower.Reset();
+            Water.Reset();
+        }
+
         Water.IsRising = true;
         Player.IsControlling = true;
+        Player.IsPaused = false;
+
+        var skulls = Tower.GetComponentsInChildren<Skull>();
+        foreach (var skull in skulls)
+        {
+            skull.IsPaused = false;
+        }
+
         Menu.gameObject.SetActive(false);
         GameUI.SetActive(true);
         DeathScreen.SetActive(false);
 
         State = GameState.Game;
+        IsPaused = false;
     }
 
     public void ChangeToDeath()
     {
         Water.IsRising = false;
         Player.IsControlling = false;
+        Player.IsPaused = true;
         DeathScreen.SetActive(true);
         Menu.gameObject.SetActive(false);
         Menu.Home.SetActive(false);
-        GameUI.SetActive(false);
 
         State = GameState.Death;
     }
@@ -69,14 +87,23 @@ public class GameController : MonoBehaviour
     {
         Water.IsRising = false;
         Player.IsControlling = false;
+        Player.IsPaused = true;
+
+        var skulls = Tower.GetComponentsInChildren<Skull>();
+        foreach (var skull in skulls)
+        {
+            skull.IsPaused = true;
+        }
+
         Menu.gameObject.SetActive(true);
-        Menu.Customize.GetComponent<Button>().enabled = false;
-        Menu.Scoreboard.GetComponent<Button>().enabled = false;
+        Menu.CustomizeButton.GetComponent<Button>().enabled = false;
+        Menu.ScoreboardButton.GetComponent<Button>().enabled = false;
         Menu.Home.SetActive(true);
         GameUI.SetActive(false);
         DeathScreen.SetActive(false);
 
         State = GameState.Menu;
+        IsPaused = true;
     }
 
     private void Update()
