@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerSkill : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerSkill : MonoBehaviour
     public GameObject JumpEnergyBar;
     public GameObject Ability;
     public GameObject Platform;
+    public GameObject Shield;
 
     public enum SkillType
     {
@@ -31,6 +33,10 @@ public class PlayerSkill : MonoBehaviour
 
     bool IsActivated;
     float CurrentDuration;
+
+    bool TapAbility = false;
+    float TapTimer = 3f;
+    int TapCount = 0;
 
     bool buttonAbility = false;
 
@@ -104,6 +110,11 @@ public class PlayerSkill : MonoBehaviour
 
     void Update()
     {
+        if (TapAbility) {
+            if (Input.touchCount > 0  && Input.GetTouch(0).phase == TouchPhase.Began) {
+                TapCount++;
+            }
+        }
 
         if (IsActivated)
         {
@@ -176,10 +187,13 @@ public class PlayerSkill : MonoBehaviour
                     }
                     case SkillType.CloudTravel:
                     {
+                        StartCoroutine(CloudTimer());
                         break;
                     }
                     case SkillType.AbsorbShield:
                     {
+                        var shield = Instantiate(Shield, transform.position + new Vector3(0, 0.75f, 0), transform.rotation);
+                        shield.transform.parent = gameObject.transform;
                         break;
                     }
                     case SkillType.Rewind:
@@ -202,5 +216,12 @@ public class PlayerSkill : MonoBehaviour
 
     public void tapAbilityButton() {
         buttonAbility = true;
+    }
+
+    private IEnumerator CloudTimer() {
+        TapAbility = true;
+        yield return new WaitForSeconds(TapTimer);
+        TapAbility = false;
+        Debug.Log(TapCount);
     }
 }

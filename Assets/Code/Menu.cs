@@ -340,6 +340,7 @@ public class Menu : MonoBehaviour {
                     PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                     PurchaseButton.interactable = false;
                     Skill.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
+                    Player.GetComponent<PlayerSkill>().ChangeSkill();
                 }
             }
         }
@@ -362,8 +363,6 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
-        Application.targetFrameRate = 60;
-
         Home.SetActive(true);
         Scoreboard.SetActive(false);
         Options.SetActive(false);
@@ -443,8 +442,6 @@ public class Menu : MonoBehaviour {
     }
 
     void Update() {
-        Debug.Log(PlayerPrefs.GetInt("skill"));
-
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         }

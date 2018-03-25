@@ -46,6 +46,8 @@ public class GameController : MonoBehaviour
         MenuPauseActions.SetActive(false);
         GameUI.SetActive(false);
         DeathScreen.SetActive(false);
+        Menu.CustomizeButton.GetComponent<Button>().enabled = true;
+        Menu.ScoreboardButton.GetComponent<Button>().enabled = true;
 
         Tower.Reset();
         Water.Reset();
@@ -126,6 +128,23 @@ public class GameController : MonoBehaviour
 
         State = GameState.Menu;
         IsPaused = true;
+    }
+
+    void Awake() {
+        Application.targetFrameRate = 60;
+        Application.runInBackground = false;
+    }
+
+    void OnApplicationFocus(bool hasFocus) {
+        if (!hasFocus) {
+            ChangeToPause();
+        }
+    }
+
+    void OnApplicationPause(bool pauseStatus) {
+        if (pauseStatus) {
+            ChangeToPause();
+        }
     }
 
     private void Update()
