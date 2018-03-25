@@ -71,15 +71,16 @@ public class Menu : MonoBehaviour {
     }
 
     public void OnHomeScoreboard() {
-        ItemIn = Scoreboard;
-        ItemOut = Home;
-        movement = true;
+        Scoreboard.SetActive(true);
+        Home.GetComponent<Animator>().SetTrigger("Home_Out");
+        Scoreboard.GetComponent<Animator>().SetTrigger("Scoreboard_In");
     }
 
     public void OnHomePurchaseSkin () {
+        Purchase.SetActive(true);
+        Customize.GetComponent<Animator>().SetTrigger("Customize_Out");
+        Purchase.GetComponent<Animator>().SetTrigger("Purchase_In");
         isSkin = true;
-        ItemIn = Purchase;
-        ItemOut = Customize;
 
         PlayerPrefs.SetInt("customize_tutorial", 1);
         CustomizeTutorial.SetActive(false);
@@ -103,14 +104,13 @@ public class Menu : MonoBehaviour {
         }
 
         CheckSkin(Skin);
-
-        movement = true;
     }
 
     public void OnHomePurchaseSkill() {
+        Purchase.SetActive(true);
+        Customize.GetComponent<Animator>().SetTrigger("Customize_Out");
+        Purchase.GetComponent<Animator>().SetTrigger("Purchase_In");
         isSkin = false;
-        ItemIn = Purchase;
-        ItemOut = Customize;
 
         PlayerPrefs.SetInt("customize_tutorial", 1);
         CustomizeTutorial.SetActive(false);
@@ -134,13 +134,12 @@ public class Menu : MonoBehaviour {
         }
 
         CheckSkill(Skill);
-
-        movement = true;
     }
 
     public void OnHomeOptions() {
-        ItemIn = Options;
-        ItemOut = Home;
+        Options.SetActive(true);
+        Home.GetComponent<Animator>().SetTrigger("Home_Out");
+        Options.GetComponent<Animator>().SetTrigger("Options_In");
 
         if (PlayerPrefs.GetInt("music") == 1) {
             Music.isOn = true;
@@ -157,13 +156,12 @@ public class Menu : MonoBehaviour {
         }
 
         ControlDropdown.GetComponent<Dropdown>().value = PlayerPrefs.GetInt("controls", 0);
-
-        movement = true;
     }
 
     public void OnHomeCustomize() {
-        ItemIn = Customize;
-        ItemOut = Home;
+        Customize.SetActive(true);
+        Home.GetComponent<Animator>().SetTrigger("Home_Out");
+        Customize.GetComponent<Animator>().SetTrigger("Customize_In");
 
         //Player Skin
         PlayerSkinChoice = PlayerPrefs.GetInt("skin");
@@ -184,34 +182,32 @@ public class Menu : MonoBehaviour {
 
         PlayerSkills[PlayerSkillChoice].SetActive(true);
         CheckSkill(PlayerSkills[PlayerSkillChoice]);
-
-        movement = true;
     }
 
     public void OnScoreboardBack() {
-        ItemIn = Home;
-        ItemOut = Scoreboard;
-        movement = true;
+        Home.SetActive(true);
+        Scoreboard.GetComponent<Animator>().SetTrigger("Scoreboard_Out");
+        Home.GetComponent<Animator>().SetTrigger("Home_In");
     }
 
     public void OnOptionsBack() {
-        ItemIn = Home;
-        ItemOut = Options;
-        movement = true;
+        Home.SetActive(true);
+        Options.GetComponent<Animator>().SetTrigger("Options_Out");
+        Home.GetComponent<Animator>().SetTrigger("Home_In");
     }
 
     public void OnCustomizeBack() {
-        ItemIn = Home;
-        ItemOut = Customize;
-        movement = true;
+        Home.SetActive(true);
+        Home.GetComponent<Animator>().SetTrigger("Home_In");
+        Customize.GetComponent<Animator>().SetTrigger("Customize_Out");
     }
 
     public void OnPurchaseBack() {
-        ItemIn = Customize;
-        ItemOut = Purchase;
+        Customize.SetActive(true);
+        Purchase.GetComponent<Animator>().SetTrigger("Purchase_Out");
+        Customize.GetComponent<Animator>().SetTrigger("Customize_In");
         CheckSkin(PlayerSkins[PlayerSkinChoice]);
         CheckSkill(PlayerSkills[PlayerSkillChoice]);
-        movement = true;
     }
 
     void CheckSkin(GameObject skin) {
@@ -444,24 +440,6 @@ public class Menu : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
-        }
-        if (movement) {
-            if (ItemIn.GetComponent<RectTransform>().localPosition.x > -480) {
-                ItemIn.SetActive(true);
-                ItemIn.GetComponent<RectTransform>().localPosition += Vector3.left * Time.deltaTime * 1500;
-            }
-
-            if (ItemOut.GetComponent<RectTransform>().localPosition.x < 700) {
-                ItemOut.GetComponent<RectTransform>().localPosition += Vector3.right * Time.deltaTime * 1500;
-            }
-            else {
-                ItemOut.SetActive(false);
-                movement = false;
-
-                if (ItemOut == Purchase) {
-                    Destroy(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).gameObject);
-                }
-            }
         }
 
         if (PlayerPrefs.GetInt("customize_tutorial") == 0) {

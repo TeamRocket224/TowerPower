@@ -14,6 +14,8 @@ public class PlayerSkill : MonoBehaviour
     public GameObject Platform;
     public GameObject Cloud;
     public GameObject Shield;
+    public GameObject Rewind;
+    public GameObject RewindParticle;
 
     public enum SkillType
     {
@@ -42,6 +44,9 @@ public class PlayerSkill : MonoBehaviour
 
     public float ShieldActiveTime;
     public float ShieldActiveTimer { get; set; }
+
+    public float RewindActiveTime;
+    public float RewindActiveTimer { get; set; }
 
     public void ChangeSkill()
     {
@@ -115,6 +120,8 @@ public class PlayerSkill : MonoBehaviour
                 case SkillType.AbsorbShield:
                 {
                     Shield.SetActive(true);
+                    Shield.transform.GetChild(0).GetComponent<Animator>().SetInteger("shield", 0);
+                    Shield.transform.GetChild(1).GetComponent<Animator>().SetInteger("shield", 0);
                     ShieldActiveTimer = ShieldActiveTime;
                     DidUse = true;
                     break;
@@ -123,7 +130,11 @@ public class PlayerSkill : MonoBehaviour
                 {
                     if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
                     {
-                        Player.Position = Player.LastPlatformPosition + new Vector2(0.0f, 1.5f);
+                        Time.timeScale = 0.1f;
+                        Rewind.SetActive(true);
+                        RewindActiveTimer = RewindActiveTime;
+                        Rewind.GetComponent<Animator>().speed = 10;
+                        Rewind.GetComponent<Animator>().Play("Rewind");
                         Player.BallisticVelocity = new Vector2();
                         IsOnCooldown = true;
                         DidUse = true;
@@ -232,12 +243,27 @@ public class PlayerSkill : MonoBehaviour
                         ShieldActiveTimer -= Time.deltaTime;
                         if (ShieldActiveTimer <= 0.0f)
                         {
-                            Shield.SetActive(false);
+                            Shield.transform.GetChild(0).GetComponent<Animator>().SetInteger("shield", 1);
+                            Shield.transform.GetChild(1).GetComponent<Animator>().SetInteger("shield", 1);
                             ShieldActiveTimer = 0.0f;
                             IsOnCooldown = true;
                         }
                     }
 
+                    break;
+                }
+                case SkillType.Rewind:
+                {
+                    if (RewindActiveTimer > 0.0f) {
+                        RewindActiveTimer -= Time.deltaTime * 20;
+                        if (RewindActiveTimer <= 0.0f) {
+                            Rewind.SetActive(false);
+                            RewindParticle.GetComponent<ParticleSystem>().Play();
+                            Time.timeScale = 1;
+                            Player.Position = Player.LastPlatformPosition + new Vector2(0.0f, 1.5f);
+                        }
+                    }
+                    
                     break;
                 }
             }
