@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
     public Water Water;
 
     public Menu Menu;
+    public GameObject MenuMainActions;
+    public GameObject MenuPauseActions;
     public GameObject GameUI;
     public GameObject DeathScreen;
 
@@ -21,6 +23,7 @@ public class GameController : MonoBehaviour
 
     GameState State;
     bool IsPaused;
+    bool IsDead;
 
     public void Start()
     {
@@ -33,15 +36,23 @@ public class GameController : MonoBehaviour
 
     public void ChangeToMenu()
     {
+        Camera.main.transform.position = new Vector3(30.0f, 2.0f, 0.0f);
         Water.IsRising = false;
         Player.Reset();
         Player.IsControlling = false;
         Menu.gameObject.SetActive(true);
         Menu.Home.SetActive(true);
+        MenuMainActions.SetActive(true);
+        MenuPauseActions.SetActive(false);
         GameUI.SetActive(false);
         DeathScreen.SetActive(false);
 
+        Tower.Reset();
+        Water.Reset();
+
         State = GameState.Menu;
+        IsPaused = false;
+        IsDead = false;
     }
 
     public void ChangeToGame()
@@ -51,6 +62,11 @@ public class GameController : MonoBehaviour
             Player.Reset();
             Tower.Reset();
             Water.Reset();
+        }
+
+        if (IsDead)
+        {
+            Camera.main.transform.position = new Vector3(30.0f, 2.0f, 0.0f);
         }
 
         Water.IsRising = true;
@@ -69,6 +85,7 @@ public class GameController : MonoBehaviour
 
         State = GameState.Game;
         IsPaused = false;
+        IsDead = false;
     }
 
     public void ChangeToDeath()
@@ -79,8 +96,11 @@ public class GameController : MonoBehaviour
         DeathScreen.SetActive(true);
         Menu.gameObject.SetActive(false);
         Menu.Home.SetActive(false);
+        MenuMainActions.SetActive(true);
+        MenuPauseActions.SetActive(false);
 
         State = GameState.Death;
+        IsDead = true;
     }
 
     public void ChangeToPause()
@@ -99,6 +119,8 @@ public class GameController : MonoBehaviour
         Menu.CustomizeButton.GetComponent<Button>().enabled = false;
         Menu.ScoreboardButton.GetComponent<Button>().enabled = false;
         Menu.Home.SetActive(true);
+        MenuMainActions.SetActive(false);
+        MenuPauseActions.SetActive(true);
         GameUI.SetActive(false);
         DeathScreen.SetActive(false);
 
