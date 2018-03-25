@@ -5,6 +5,7 @@ public class GameController : MonoBehaviour
 {
     public Tower Tower;
     public Player Player;
+    public PlayerSkill PlayerSkill;
     public Water Water;
 
     public Menu Menu;
@@ -39,7 +40,9 @@ public class GameController : MonoBehaviour
         Camera.main.transform.position = new Vector3(30.0f, 2.0f, 0.0f);
         Water.IsRising = false;
         Player.Reset();
+        PlayerSkill.Reset();
         Player.IsControlling = false;
+        Player.OwnsCamera = false;
         Menu.gameObject.SetActive(true);
         Menu.Home.SetActive(true);
         MenuMainActions.SetActive(true);
@@ -62,6 +65,7 @@ public class GameController : MonoBehaviour
         if (!IsPaused)
         {
             Player.Reset();
+            PlayerSkill.Reset();
             Tower.Reset();
             Water.Reset();
         }
@@ -73,7 +77,9 @@ public class GameController : MonoBehaviour
 
         Water.IsRising = true;
         Player.IsControlling = true;
+        Player.OwnsCamera = true;
         Player.IsPaused = false;
+        PlayerSkill.IsPaused = false;
 
         var skulls = Tower.GetComponentsInChildren<Skull>();
         foreach (var skull in skulls)
@@ -109,7 +115,9 @@ public class GameController : MonoBehaviour
     {
         Water.IsRising = false;
         Player.IsControlling = false;
+        Player.OwnsCamera = false;
         Player.IsPaused = true;
+        PlayerSkill.IsPaused = true;
 
         var skulls = Tower.GetComponentsInChildren<Skull>();
         foreach (var skull in skulls)
@@ -136,13 +144,13 @@ public class GameController : MonoBehaviour
     }
 
     void OnApplicationFocus(bool hasFocus) {
-        if (!hasFocus) {
+        if (!hasFocus && State == GameState.Game) {
             ChangeToPause();
         }
     }
 
     void OnApplicationPause(bool pauseStatus) {
-        if (pauseStatus) {
+        if (pauseStatus && State == GameState.Game) {
             ChangeToPause();
         }
     }

@@ -5,10 +5,14 @@ using System.Collections;
 public class PlayerSkill : MonoBehaviour
 {
     public Player Player;
-    public GameObject EnergyBar;
-    public GameObject JumpEnergyBar;
-    public GameObject Ability;
+    public Tower Tower;
+
+    public GameObject UIContainer;
+    public Slider UIEnergySlider;
+    public Animator UIEnergyAnimator;
+
     public GameObject Platform;
+    public GameObject Cloud;
     public GameObject Shield;
 
     public enum SkillType
@@ -18,210 +22,225 @@ public class PlayerSkill : MonoBehaviour
         TripleJump,
         CloudTravel,
         AbsorbShield,
-        Rewind,
-        SecondLife,
+        Rewind
     }
 
     public SkillType Type;
     
-    public float Duration;
-    
-    public Slider AbilityEnergySlider;
-    public Slider JumpEnergySlider;
+    public bool IsPaused;
+
     public float EnergyChargeRate;
     float CurrentEnergy;
 
-    bool IsActivated;
-    float CurrentDuration;
+    public float RechargeCooldown;
+    float RechargeCooldownTimer;
+    bool IsOnCooldown;
 
-    bool TapAbility = false;
-    float TapTimer = 3f;
-    int TapCount = 0;
+    public float CloudActiveTime;
+    float CloudActiveTimer;
+    public float CloudRiseStrength;
 
-    bool buttonAbility = false;
+    public float ShieldActiveTime;
+    public float ShieldActiveTimer { get; set; }
 
-    float PreviousGroundedHorizontalSpeed;
+    public void ChangeSkill()
+    {
+        if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerPrefs.GetInt("skill") + 1)) == 1) {
+            Type = (SkillType) PlayerPrefs.GetInt("skill", 0);
+            
+            if (Type == SkillType.None)
+            {
+                UIContainer.SetActive(false);
+            }
+            else
+            {
+                UIContainer.SetActive(true);
+            }
+        }
+    }
 
     public bool CanUse()
     {
         return CurrentEnergy == 1.0f;
     }
 
-    public void ChangeSkill() {
-        if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerPrefs.GetInt("skill") + 1)) == 1) {
-            switch (PlayerPrefs.GetInt("skill", 0)) {
-                case 0: {
-                    Type = SkillType.None; 
-                    Ability.SetActive(false);
-                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+    public void Use()
+    {
+        if (CanUse())
+        {
+            bool DidUse = false;
+            switch (Type)
+            {
+                case SkillType.ExtraPlatform:
+                {
+                    if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                    {
+                        var Theta = Player.Position.x + (Player.BallisticVelocity.x * 0.1f);
+                        var Position = new Vector3(
+                            Mathf.Cos(Theta) * Tower.Radius, 
+                            Player.Position.y - 1.5f, 
+                            Mathf.Sin(Theta) * Tower.Radius);
+
+                        var ThePlatform = Instantiate(Platform, Position, Quaternion.identity, Tower.transform);
+                        ThePlatform.transform.LookAt(new Vector3(0.0f, ThePlatform.transform.position.y, 0.0f));
+                        
+                        IsOnCooldown = true;
+                        DidUse = true;
+                    }
+
                     break;
                 }
-                case 1: {
-                    Type = SkillType.ExtraPlatform;
-                    Ability.SetActive(true);
-                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                case SkillType.TripleJump:
+                {
+                    if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                    {
+                        Player.TripleJump = true;
+                        IsOnCooldown = true;
+                        DidUse = true;
+                    }
+                    
                     break;
                 }
-                case 2: {
-                    Type = SkillType.TripleJump;
-                    Ability.SetActive(false);
-                    JumpEnergyBar.transform.parent.gameObject.SetActive(true);
+                case SkillType.CloudTravel:
+                {
+                    Player.IsControlling = false;
+                    Player.BallisticVelocity.x = 0.0f;
+                    Player.ChangeMovementMode(Player.MovementMode.Ballistic);
+                    Cloud.SetActive(true);
+
+                    CloudActiveTimer = CloudActiveTime;
+                    DidUse = true;
                     break;
                 }
-                case 3: {
-                    Type = SkillType.CloudTravel;
-                    Ability.SetActive(true);
-                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                case SkillType.AbsorbShield:
+                {
+                    Shield.SetActive(true);
+                    ShieldActiveTimer = ShieldActiveTime;
+                    DidUse = true;
                     break;
                 }
-                case 4: {
-                    Type = SkillType.AbsorbShield;
-                    Ability.SetActive(true);
-                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
+                case SkillType.Rewind:
+                {
+                    if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                    {
+                        Player.Position = Player.LastPlatformPosition + new Vector2(0.0f, 1.5f);
+                        Player.BallisticVelocity = new Vector2();
+                        IsOnCooldown = true;
+                        DidUse = true;
+                    }
+
                     break;
                 }
-                case 5: {
-                    Type = SkillType.Rewind;
-                    Ability.SetActive(true);
-                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
-                    break;
-                }
-                case 6: {
-                    Type = SkillType.SecondLife;
-                    Ability.SetActive(true);
-                    JumpEnergyBar.transform.parent.gameObject.SetActive(false);
-                    break;
-                }
+            }
+
+            if (DidUse)
+            {
+                CurrentEnergy = 0.0f;
+                RechargeCooldownTimer = RechargeCooldown;
             }
         }
     }
 
-    public void Use()
+    public void Reset()
     {
-        IsActivated = true;
-
         CurrentEnergy = 0.0f;
-        CurrentDuration = Duration;
+        RechargeCooldownTimer = 0.0f;
+        IsOnCooldown = false;
+        CloudActiveTimer = 0.0f;
     }
 
-    void Awake() {
+    void Awake()
+    {
         ChangeSkill();
     }
 
     void Update()
     {
-        if (TapAbility) {
-            if (Input.touchCount > 0  && Input.GetTouch(0).phase == TouchPhase.Began) {
-                TapCount++;
-            }
-        }
-
-        if (IsActivated)
+        if (!IsPaused)
         {
-            CurrentDuration -= Time.deltaTime;
-            if (CurrentDuration <= 0.0f)
+            if (RechargeCooldownTimer > 0.0f && IsOnCooldown)
             {
-                IsActivated = false;
-
-                switch (Type)
+                RechargeCooldownTimer -= Time.deltaTime;
+                if (RechargeCooldownTimer <= 0.0f)
                 {
-                    case SkillType.ExtraPlatform:
-                    {
-                        break;
-                    }
-                    case SkillType.TripleJump:
-                    {
-                        break;
-                    }
-                    case SkillType.CloudTravel:
-                    {
-                        break;
-                    }
-                    case SkillType.AbsorbShield:
-                    {
-                        break;
-                    }
-                    case SkillType.Rewind:
-                    {
-                        break;
-                    }
-                    case SkillType.SecondLife:
-                    {
-                        break;
-                    }
+                    RechargeCooldownTimer = 0.0f;
+                    IsOnCooldown = false;
                 }
             }
-        }
-        else
-        {
-            if (CurrentEnergy < 1.0f)
+
+            if (CurrentEnergy < 1.0f && RechargeCooldownTimer == 0.0f && !IsOnCooldown)
             {
                 CurrentEnergy += EnergyChargeRate * Time.deltaTime;
-                EnergyBar.GetComponent<Animator>().SetInteger("energy", 0);
-                JumpEnergyBar.GetComponent<Animator>().SetInteger("energy", 0);
-            }
-            else
-            {
-                CurrentEnergy = 1.0f;
-                EnergyBar.GetComponent<Animator>().SetInteger("energy", 1);
-                JumpEnergyBar.GetComponent<Animator>().SetInteger("energy", 1);                
-            }
-
-            if (buttonAbility && CurrentEnergy == 1.0f)
-            {
-                IsActivated = true;
-
-                CurrentEnergy = 0.0f;
-                CurrentDuration = Duration;
+                UIEnergyAnimator.SetInteger("energy", 0);
                 
-                switch (Type)
+                if (CurrentEnergy >= 1.0f)
                 {
-                    case SkillType.ExtraPlatform:
-                    {
-                        Instantiate(Platform, transform.position - new Vector3(0, 3, 0), transform.rotation);
-                        break;
-                    }
-                    case SkillType.TripleJump:
-                    {
-                        break;
-                    }
-                    case SkillType.CloudTravel:
-                    {
-                        StartCoroutine(CloudTimer());
-                        break;
-                    }
-                    case SkillType.AbsorbShield:
-                    {
-                        var shield = Instantiate(Shield, transform.position + new Vector3(0, 0.75f, 0), transform.rotation);
-                        shield.transform.parent = gameObject.transform;
-                        break;
-                    }
-                    case SkillType.Rewind:
-                    {
-                        break;
-                    }
-                    case SkillType.SecondLife:
-                    {
-                        break;
-                    }
+                    CurrentEnergy = 1.0f;
+                    UIEnergyAnimator.SetInteger("energy", 1);
                 }
+            }
 
-                buttonAbility = false;
+            UIEnergySlider.value = CurrentEnergy;
+
+            switch (Type)
+            {
+                case SkillType.CloudTravel:
+                {
+                    if (CloudActiveTimer > 0.0f)
+                    {
+                        CloudActiveTimer -= Time.deltaTime;
+                        if (CloudActiveTimer <= 0.0f)
+                        {
+                            Cloud.SetActive(false);
+                            CloudActiveTimer = 0.0f;
+                            IsOnCooldown = true;
+                            Player.IsControlling = true;
+                        }
+                    }
+
+                    if (CloudActiveTimer > 0.0f)
+                    {
+                        var ShouldRise = false;
+                        if (Application.isEditor)
+                        {
+                            if (Input.GetKeyDown(KeyCode.Mouse0))
+                            {
+                                ShouldRise = true;
+                            }
+                        }
+                        else
+                        {
+                            // @todo: This is incorrect but I can't make it work without a mobile device
+                            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+                            {
+                                ShouldRise = true;
+                            }
+                        }
+
+                        if (ShouldRise)
+                        {
+                            Player.BallisticVelocity.y = CloudRiseStrength * Mathf.Max(0.25f, CloudActiveTimer);
+                        }
+                    }
+
+                    break;
+                }
+                case SkillType.AbsorbShield:
+                {
+                    if (ShieldActiveTimer > 0.0f)
+                    {
+                        ShieldActiveTimer -= Time.deltaTime;
+                        if (ShieldActiveTimer <= 0.0f)
+                        {
+                            Shield.SetActive(false);
+                            ShieldActiveTimer = 0.0f;
+                            IsOnCooldown = true;
+                        }
+                    }
+
+                    break;
+                }
             }
         }
-
-        AbilityEnergySlider.value = CurrentEnergy;
-        JumpEnergySlider.value = CurrentEnergy;
-    }
-
-    public void tapAbilityButton() {
-        buttonAbility = true;
-    }
-
-    private IEnumerator CloudTimer() {
-        TapAbility = true;
-        yield return new WaitForSeconds(TapTimer);
-        TapAbility = false;
-        Debug.Log(TapCount);
     }
 }

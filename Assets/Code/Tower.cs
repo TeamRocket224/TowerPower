@@ -272,10 +272,7 @@ public class Tower : MonoBehaviour
                     Platform.transform.LookAt(new Vector3(0.0f, Platform.transform.position.y, 0.0f));
                 }
 
-                // if (HeightIndex % 2 == 0)
-                {
-                    Instantiate(CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
-                }
+                Instantiate(CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
 
                 var SkullSpawnValue = Random.Range(0.0f, 2.0f);
 

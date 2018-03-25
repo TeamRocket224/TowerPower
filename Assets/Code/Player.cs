@@ -6,6 +6,7 @@ using System.Linq;
 public class Player : MonoBehaviour
 {
     public bool IsControlling;
+    public bool OwnsCamera;
     public bool IsPaused;
     public System.Action Dead;
 
@@ -53,11 +54,12 @@ public class Player : MonoBehaviour
     public Vector2 Position;
     float GroundedAccelerationValue;
     float GroundedDirection;
-    Vector2 BallisticVelocity;
+    public Vector2 BallisticVelocity;
     bool HasDoubleJumped;
     float JumpGracePeriodTimer;
 
     bool ShouldJump;
+    public bool TripleJump;
     bool ButtonJump;
     bool MoveLeft;
     bool MoveRight;
@@ -65,14 +67,16 @@ public class Player : MonoBehaviour
 
     float SleepTimer;
 
-    enum MovementMode
+    public Vector2 LastPlatformPosition;
+
+    public enum MovementMode
     {
         None,
         Grounded,
         Ballistic,
     }
 
-    MovementMode CurrentMovementMode;
+    public MovementMode CurrentMovementMode;
 
     void SetTrigger(string name)
     {
@@ -106,7 +110,7 @@ public class Player : MonoBehaviour
         Coins = PlayerPrefs.GetInt("coins");
     }
 
-    void ChangeMovementMode(MovementMode NewMovementMode)
+    public void ChangeMovementMode(MovementMode NewMovementMode)
     {
         switch (NewMovementMode) {
             case MovementMode.Grounded:
@@ -118,6 +122,7 @@ public class Player : MonoBehaviour
             }
             case MovementMode.Ballistic:
             {
+                LastPlatformPosition = Position + new Vector2(-GroundedDirection * 0.05f, 0.0f);
                 JumpGracePeriodTimer = JumpGracePeriod;
                 HasDoubleJumped = false;
                 break;
@@ -149,6 +154,13 @@ public class Player : MonoBehaviour
         {
             ddX = Input.GetAxisRaw("Horizontal");
             ShouldJump = Input.GetKeyDown(KeyCode.Space);
+        }
+
+        if (TripleJump)
+        {
+            ShouldJump = true;
+            HasDoubleJumped = false;
+            TripleJump = false;
         }
 
         if (!IsControlling)
@@ -232,17 +244,7 @@ public class Player : MonoBehaviour
                     JumpGracePeriodTimer -= dT;
                     if (ShouldJump && SleepTimer <= 0.0f)
                     {
-                        var CanJump = !HasDoubleJumped;
-                        if (!CanJump)
-                        {
-                            if (PlayerSkill.Type == PlayerSkill.SkillType.TripleJump && PlayerSkill.CanUse())
-                            {
-                                CanJump = true;
-                                PlayerSkill.Use();
-                            }
-                        }
-
-                        if (CanJump)
+                        if (!HasDoubleJumped)
                         {
                             BallisticVelocity = new Vector2(ddX * BallisticHorizontalSpeed * HorizontalConversionFactor, BallisticJumpStrength);
 
@@ -290,7 +292,7 @@ public class Player : MonoBehaviour
             float Radius = Tower.Radius + PlayerDistance;
             transform.position = new Vector3(Mathf.Cos(Position.x) * Radius, Position.y, Mathf.Sin(Position.x) * Radius);
 
-            if (IsControlling)
+            if (OwnsCamera)
             {
                 Vector2 CameraPosition = new Vector2(transform.position.x, transform.position.z).normalized;
                 CameraPosition *= Tower.Radius + CameraDistance;
@@ -387,15 +389,21 @@ public class Player : MonoBehaviour
             var Skull = Them.GetComponent<Skull>();
             if (Skull)
             {
-                SleepTimer = Skull.SleepTime;
-                HitParticleSystem.Play();
-
-                Coins -= Skull.CoinDrop;
-                if (Coins < 0)
+                if (PlayerSkill.Type == PlayerSkill.SkillType.AbsorbShield && PlayerSkill.ShieldActiveTimer > 0.0f)
                 {
-                    Coins = 0;
+                    PlayerSkill.ShieldActiveTimer = 0.0001f;
+                }
+                else
+                {
+                    SleepTimer = Skull.SleepTime;
+                    Coins -= Skull.CoinDrop;
+                    if (Coins < 0)
+                    {
+                        Coins = 0;
+                    }
                 }
 
+                HitParticleSystem.Play();
                 Destroy(Skull.gameObject);
             }
         }
