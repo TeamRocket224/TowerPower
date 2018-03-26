@@ -35,7 +35,8 @@ public class Menu : MonoBehaviour {
     public AudioSource MainMusic;
     public AudioSource AllSFX;
 
-    public GameObject CustomizeTutorial;
+    public GameObject CustomizeTutorialOne;
+    public GameObject CustomizeTutorialTwo;
 
     public Toggle Music;
     public Toggle SFX;
@@ -58,8 +59,9 @@ public class Menu : MonoBehaviour {
 
     GameObject ItemIn, ItemOut, Skin, Skill;
 
-    bool movement = false;
-    bool isSkin = false;
+    bool NewSkin = false;
+    bool BounceSkin = false;
+    int[] NewSkins;
 
     public System.Action PlayGame;
     public System.Action MainMenu;
@@ -80,28 +82,25 @@ public class Menu : MonoBehaviour {
         Purchase.SetActive(true);
         Customize.GetComponent<Animator>().SetTrigger("Customize_Out");
         Purchase.GetComponent<Animator>().SetTrigger("Purchase_In");
-        isSkin = true;
+
+        for (var i = 0; i < NewSkins.Length; i++) {
+            if (PlayerSkinChoice == NewSkins[i]) {
+                NewSkins[i] = 0;
+            }
+        }
 
         PlayerPrefs.SetInt("customize_tutorial", 1);
-        CustomizeTutorial.SetActive(false);
+        CustomizeTutorialOne.SetActive(false);
+        CustomizeTutorialTwo.SetActive(false);
 
         Skin = Instantiate(LoadedPlayerSkins[PlayerSkinChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         Skin.transform.SetParent(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Transform>(), false);
         PurchaseName.text = Skin.transform.GetChild(0).GetComponent<Text>().text;
-        PurchaseCost.text = "Cost: " + Skin.GetComponent<CustomizeDetails>().cost.ToString("n0") + " Coins";
+        PurchaseCost.text = "Unlock Height: " + Skin.GetComponent<CustomizeDetails>().cost.ToString("n0") + "m";
         PurchaseDesc.text = Skin.GetComponent<CustomizeDetails>().description;
         Skin.transform.GetChild(0).GetComponent<Text>().enabled = false;
 
-        if (PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1)) == 1) {
-            PurchaseButton.interactable = false;
-        }
-        else {
-            PurchaseButton.interactable = true;
-        }
-
-        if (!(PlayerPrefs.GetInt("coins") >= Skin.GetComponent<CustomizeDetails>().cost)) {
-            PurchaseButton.interactable = false;
-        }
+        PurchaseButton.gameObject.SetActive(false);
 
         CheckSkin(Skin);
     }
@@ -110,10 +109,10 @@ public class Menu : MonoBehaviour {
         Purchase.SetActive(true);
         Customize.GetComponent<Animator>().SetTrigger("Customize_Out");
         Purchase.GetComponent<Animator>().SetTrigger("Purchase_In");
-        isSkin = false;
 
         PlayerPrefs.SetInt("customize_tutorial", 1);
-        CustomizeTutorial.SetActive(false);
+        CustomizeTutorialOne.SetActive(false);
+        CustomizeTutorialTwo.SetActive(false);
 
         Skill = Instantiate(LoadedPlayerSkills[PlayerSkillChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         Skill.transform.SetParent(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Transform>(), false);
@@ -122,6 +121,8 @@ public class Menu : MonoBehaviour {
         PurchaseDesc.text = Skill.GetComponent<CustomizeDetails>().description;
         Skill.transform.GetChild(0).GetComponent<Text>().enabled = false;
 
+        PurchaseButton.gameObject.SetActive(true);
+
         if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 1) {
             PurchaseButton.interactable = false;
         }
@@ -129,8 +130,8 @@ public class Menu : MonoBehaviour {
             PurchaseButton.interactable = true;
         }
             
-        if (!(PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost)) {
-            PurchaseButton.interactable = false;
+        if ((PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost)) {
+            PurchaseButton.interactable = true;
         }
 
         CheckSkill(Skill);
@@ -159,6 +160,10 @@ public class Menu : MonoBehaviour {
     }
 
     public void OnHomeCustomize() {
+        if (NewSkin) {
+            NewSkin = false;
+        }
+
         Customize.SetActive(true);
         Home.GetComponent<Animator>().SetTrigger("Home_Out");
         Customize.GetComponent<Animator>().SetTrigger("Customize_In");
@@ -203,22 +208,35 @@ public class Menu : MonoBehaviour {
     }
 
     public void OnPurchaseBack() {
+        BounceSkin = false;
         Customize.SetActive(true);
         Purchase.GetComponent<Animator>().SetTrigger("Purchase_Out");
         Customize.GetComponent<Animator>().SetTrigger("Customize_In");
         Destroy(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).gameObject, 1.5f);
-        CheckSkin(PlayerSkins[PlayerSkinChoice]);
         CheckSkill(PlayerSkills[PlayerSkillChoice]);
     }
 
     void CheckSkin(GameObject skin) {
         int check = PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1));
         if (check == 1) {
+            for (var i = 0; i < NewSkins.Length; i++) {
+                if (PlayerSkinChoice == NewSkins[i]) {
+                    if (PlayerSkinChoice != 0) {
+                        BounceSkin = true;
+                        break;
+                    }
+                }
+                else {
+                    BounceSkin = false;
+                }
+            }
+
             skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             skin.transform.GetChild(1).gameObject.SetActive(false);
             PlayerPrefs.SetInt("skin", PlayerSkinChoice);
         }
         else {
+            BounceSkin = false;
             skin.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
             skin.transform.GetChild(1).gameObject.SetActive(true);
         }
@@ -308,37 +326,18 @@ public class Menu : MonoBehaviour {
     }
 
     public void onPurchaseItem() {
-        if (isSkin) {
-            if (PlayerPrefs.GetInt("skin_unlock_" + (PlayerSkinChoice + 1)) == 0) {
-                if (PlayerPrefs.GetInt("coins") >= Skin.GetComponent<CustomizeDetails>().cost) {
-                    PlayerPrefs.SetInt("skin_unlock_" + (PlayerSkinChoice + 1), 1);
-                    PlayerPrefs.SetInt("skin", PlayerSkinChoice);
-                    PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skin.GetComponent<CustomizeDetails>().cost);
-                    Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
-                    Player.GetComponent<Player>().UpdateCoins();
+        if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 0) {
+            if (PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost) {
+                PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
+                PlayerPrefs.SetInt("skill", PlayerSkillChoice);
+                PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
+                Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
 
-                    Skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                    PlayerSkins[PlayerSkinChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                    PurchaseButton.interactable = false;
-                    Skin.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
-                    Player.GetComponent<Player>().ChangeSkin();
-                }
-            }
-        }
-        else {
-            if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 0) {
-                if (PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost) {
-                    PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
-                    PlayerPrefs.SetInt("skill", PlayerSkillChoice);
-                    PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
-                    Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
-
-                    Skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                    PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                    PurchaseButton.interactable = false;
-                    Skill.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
-                    Player.GetComponent<PlayerSkill>().ChangeSkill();
-                }
+                Skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                PurchaseButton.interactable = false;
+                Skill.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
+                Player.GetComponent<PlayerSkill>().ChangeSkill();
             }
         }
     }
@@ -370,10 +369,12 @@ public class Menu : MonoBehaviour {
         Purchase.SetActive(false);
 
         if (PlayerPrefs.GetInt("customize_tutorial") == 0) {
-            CustomizeTutorial.SetActive(true);
+            CustomizeTutorialOne.SetActive(true);
+            CustomizeTutorialTwo.SetActive(true);
         }
         else {
-            CustomizeTutorial.SetActive(false);
+            CustomizeTutorialOne.SetActive(false);
+            CustomizeTutorialTwo.SetActive(false);
             PlayerPrefs.SetInt("skin", 0);
             PlayerPrefs.SetInt("skill", 0);
         }
@@ -397,6 +398,21 @@ public class Menu : MonoBehaviour {
         ScoresThree.GetComponent<Text>().text = "Third Height: "  + scores[2] + "m";
         ScoresFour.GetComponent<Text>().text  = "Fourth Height: " + scores[3] + "m";
         ScoresFive.GetComponent<Text>().text  = "Fifth Height: "  + scores[4] + "m";
+
+        int count = 0;
+
+        for (var i = 0; i < PlayerSkins.Length; i++) {
+            if (PlayerSkins[i].GetComponent<CustomizeDetails>().cost < int.Parse(scores[0])) {
+                if (PlayerPrefs.GetInt("skin_unlock_" + (i + 1)) == 0) {
+                    NewSkins[count] = i + 1;
+                    count++;
+                    NewSkin = true;
+                    PlayerPrefs.SetInt("skin_unlock_" + (i + 1), 1);
+                }
+            }
+        }
+
+        Debug.Log(NewSkins[0]);
     }
 
     public void PlayAgain() {
@@ -411,22 +427,23 @@ public class Menu : MonoBehaviour {
         ItemIn = Options;
         ItemOut = Home;
 
-        UpdateScores();
-
         Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
 
         //Player Skins
         PlayerSkins = new GameObject[LoadedPlayerSkins.Length];
+        NewSkins = new int[LoadedPlayerSkins.Length];
 
         for (int i = 0; i < LoadedPlayerSkins.Length; i++) {
             GameObject skin = Instantiate(LoadedPlayerSkins[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             skin.transform.SetParent(PlayerSkin.GetComponent<Transform>(), false);
-            skin.transform.SetSiblingIndex(3 + i);
+            skin.transform.SetSiblingIndex(4 + i);
             PlayerSkins[i] = skin;
 
             if (i != 0)
                 skin.SetActive(false);
         }
+
+        UpdateScores();
 
         //Player Skills
         PlayerSkills = new GameObject[LoadedPlayerSkills.Length];
@@ -435,7 +452,7 @@ public class Menu : MonoBehaviour {
         {
             GameObject skill = Instantiate(LoadedPlayerSkills[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             skill.transform.SetParent(PlayerSkill.GetComponent<Transform>(), false);
-            skill.transform.SetSiblingIndex(3 + i);
+            skill.transform.SetSiblingIndex(4 + i);
             PlayerSkills[i] = skill;
 
             if (i != 0)
@@ -448,12 +465,25 @@ public class Menu : MonoBehaviour {
             Application.Quit();
         }
 
+        if (NewSkin) {
+            CustomizeButton.GetComponent<Image>().color = Color.Lerp(Color.white, Color.magenta, Mathf.PingPong(Time.time, 1));
+        }
+        else {
+            CustomizeButton.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+        }
+
+        if (BounceSkin) {
+            SkinPanel.GetComponent<Image>().color  = Color.Lerp(Color.white, Color.magenta, Mathf.PingPong(Time.time, 1));
+        }
+
         if (PlayerPrefs.GetInt("customize_tutorial") == 0) {
             SkinPanel.GetComponent<Image>().color  = Color.Lerp(Color.white, Color.magenta, Mathf.PingPong(Time.time, 1));
             SkillPanel.GetComponent<Image>().color = Color.Lerp(Color.white, Color.magenta, Mathf.PingPong(Time.time, 1));
         }
         else {
-            SkinPanel.GetComponent<Image>().color  = new Color32(255, 255, 255, 255);
+            if (!BounceSkin) {
+                SkinPanel.GetComponent<Image>().color  = new Color32(255, 255, 255, 255);
+            }
             SkillPanel.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
     }

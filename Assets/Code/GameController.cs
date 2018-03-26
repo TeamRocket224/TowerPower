@@ -46,6 +46,10 @@ public class GameController : MonoBehaviour
         Player.OwnsCamera = false;
         Menu.gameObject.SetActive(true);
         Menu.Home.SetActive(true);
+        Menu.Scoreboard.SetActive(false);
+        Menu.Options.SetActive(false);
+        Menu.Customize.SetActive(false);
+        Menu.Purchase.SetActive(false);
         MenuMainActions.SetActive(true);
         MenuPauseActions.SetActive(false);
         GameUI.SetActive(false);
@@ -139,6 +143,10 @@ public class GameController : MonoBehaviour
         Menu.CustomizeButton.GetComponent<Button>().enabled = false;
         Menu.ScoreboardButton.GetComponent<Button>().enabled = false;
         Menu.Home.SetActive(true);
+        Menu.Scoreboard.SetActive(false);
+        Menu.Options.SetActive(false);
+        Menu.Customize.SetActive(false);
+        Menu.Purchase.SetActive(false);
         MenuMainActions.SetActive(false);
         MenuPauseActions.SetActive(true);
         GameUI.SetActive(false);

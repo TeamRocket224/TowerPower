@@ -74,7 +74,7 @@ Animator:
   m_GameObject: {fileID: 1635248508521180}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0e659c52f70a6af43bf4d5ac5a3bdbb3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1921377c4054b114e88f39cfcd101616, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -158,7 +158,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300120, guid: 897229614fced6643aeeab313e9fa911, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b7a1e5b8dc05ab64787ced73aa4583f4, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -232,8 +232,8 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.26200002, y: 0.12200001}
-  m_AnchorMax: {x: 0.73800004, y: 0.878}
+  m_AnchorMin: {x: 0.30733144, y: 0.157}
+  m_AnchorMax: {x: 0.6983343, y: 0.84300005}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -244,7 +244,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1117299412511160}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.32999992, y: 7.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224227840311930652}
@@ -252,8 +252,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.85300004}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.33, y: 7.25}
+  m_SizeDelta: {x: -25.8, y: -1.74}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224857213998777280
 RectTransform:

@@ -7,6 +7,8 @@ public class Water : MonoBehaviour
     public float ScrollSpeed;
     public GameObject Player;
 
+    public Shader shader;
+
     public MeshRenderer MeshRenderer;
 
     float SpeedMultiplier = 1f;

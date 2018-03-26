@@ -17,7 +17,6 @@ public class Player : MonoBehaviour
 
     public Tower Tower;
     public Water Water;
-    public Transform StarsTransform;
     public Text HeightText;
     public Text CoinsText;
     public Text DeathCoinsText;
@@ -313,7 +312,6 @@ public class Player : MonoBehaviour
             }
 
             transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
-            StarsTransform.position = new Vector3(0.0f, transform.position.y, 0.0f);
 
             HeightText.text = Mathf.Floor(Position.y) + "m";
             CoinsText.GetComponent<Text>().text = Coins.ToString("n0");
@@ -323,7 +321,6 @@ public class Player : MonoBehaviour
                 DeathCoinsText.GetComponent<Text>().text = "Coins Gathered: " + CollectedCoins + " Coins";
                 DeathHeightText.GetComponent<Text>().text = "Final Height: " + Mathf.Floor(Position.y) + "m";
 
-                PlayerPrefs.SetInt("coins", Coins);
                 CollectedCoins = 0;
                 Joystick.GetComponent<Joystick>().ResetJoystick();
 
@@ -334,7 +331,11 @@ public class Player : MonoBehaviour
                 {
                     if (NewScore > Scores[ScoresIndex])
                     {
-                        BeatHighScore = true;
+                        if (NewScore > 50) {
+                            if (Scores[0] != 0) {
+                                BeatHighScore = true;
+                            }
+                        }
 
                         for (var ScoresShiftIndex = Scores.Length - 1; ScoresShiftIndex > ScoresIndex; ScoresShiftIndex--)
                         {
@@ -350,6 +351,7 @@ public class Player : MonoBehaviour
                 if (BeatHighScore) {
                     Coins += 100;
                 }
+                PlayerPrefs.SetInt("coins", Coins);
 
                 PlayerPrefs.SetString("scores", string.Join(";", Scores.Select(i => i.ToString()).ToArray()));
                 Menu.GetComponent<Menu>().UpdateScores();
