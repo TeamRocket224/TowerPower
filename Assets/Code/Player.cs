@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     public GameObject Menu;
     public GameObject Joystick;
     public GameObject DeathScreen;
+    public GameObject Tutorial;
 
     public Transform GraphicTransform;
     public Animator GraphicAnimator;
@@ -154,6 +155,10 @@ public class Player : MonoBehaviour
         }
         else {
             ShouldJump = false;
+        }
+
+        if (PlayerPrefs.GetInt("game_tutorial") == 1) {
+            Tutorial.SetActive(false);
         }
 
         if (Application.isEditor)
@@ -318,6 +323,7 @@ public class Player : MonoBehaviour
 
             if (transform.position.y < Water.Height)
             {
+                PlayerPrefs.SetInt("game_tutorial", 1);
                 DeathCoinsText.GetComponent<Text>().text = "Coins Gathered: " + CollectedCoins + " Coins";
                 DeathHeightText.GetComponent<Text>().text = "Final Height: " + Mathf.Floor(Position.y) + "m";
 

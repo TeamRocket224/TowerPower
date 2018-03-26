@@ -28682,6 +28682,7 @@ MonoBehaviour:
   Menu: {fileID: 2096089947}
   Joystick: {fileID: 1135955847}
   DeathScreen: {fileID: 60805034}
+  Tutorial: {fileID: 440902767}
   GraphicTransform: {fileID: 2054592603}
   GraphicAnimator: {fileID: 2054592605}
   ShadowTransform: {fileID: 1874971583}

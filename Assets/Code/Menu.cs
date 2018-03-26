@@ -221,6 +221,7 @@ public class Menu : MonoBehaviour {
         if (check == 1) {
             for (var i = 0; i < NewSkins.Length; i++) {
                 if (PlayerSkinChoice == NewSkins[i]) {
+                    Debug.Log("PlayerSkinChoice: " + PlayerSkinChoice);
                     if (PlayerSkinChoice != 0) {
                         BounceSkin = true;
                         break;
@@ -268,6 +269,7 @@ public class Menu : MonoBehaviour {
         PlayerSkins[PreviousSkinChoice].SetActive(false);
         PlayerSkins[PlayerSkinChoice].SetActive(true);
         CheckSkin(PlayerSkins[PlayerSkinChoice]);
+
         Player.GetComponent<Player>().ChangeSkin();
     }
 
@@ -331,7 +333,7 @@ public class Menu : MonoBehaviour {
                 PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
                 PlayerPrefs.SetInt("skill", PlayerSkillChoice);
                 PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
-                Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
+                Player.GetComponent<Player>().UpdateCoins();
 
                 Skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                 PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
@@ -404,7 +406,8 @@ public class Menu : MonoBehaviour {
         for (var i = 0; i < PlayerSkins.Length; i++) {
             if (PlayerSkins[i].GetComponent<CustomizeDetails>().cost < int.Parse(scores[0])) {
                 if (PlayerPrefs.GetInt("skin_unlock_" + (i + 1)) == 0) {
-                    NewSkins[count] = i + 1;
+                    NewSkins[count] = i;
+                    Debug.Log("Skin " + i + ": " + NewSkins[i]);
                     count++;
                     NewSkin = true;
                     PlayerPrefs.SetInt("skin_unlock_" + (i + 1), 1);
