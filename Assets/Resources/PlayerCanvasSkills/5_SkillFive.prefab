@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecfd6920ab1d344b8beae6345b3a330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 3000
+  cost: 5000
   description: Anti-skull device 3000.
 --- !u!114 &114832423177385356
 MonoBehaviour:

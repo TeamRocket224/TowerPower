@@ -133,6 +133,9 @@ public class Menu : MonoBehaviour {
         if ((PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost)) {
             PurchaseButton.interactable = true;
         }
+        else {
+            PurchaseButton.interactable = false;
+        }
 
         CheckSkill(Skill);
     }
