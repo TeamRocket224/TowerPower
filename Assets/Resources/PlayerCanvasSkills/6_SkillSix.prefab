@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 10000
-  description: SUPER HOT
+  description: Brings you back to the last Platform.
 --- !u!114 &114358286657702144
 MonoBehaviour:
   m_ObjectHideFlags: 1

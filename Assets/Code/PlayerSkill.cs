@@ -255,6 +255,7 @@ public class PlayerSkill : MonoBehaviour
                 case SkillType.Rewind:
                 {
                     if (RewindActiveTimer > 0.0f) {
+                        Player.Position = Vector2.Lerp(Player.Position, Player.LastPlatformPosition, Time.deltaTime * 2);
                         RewindActiveTimer -= Time.deltaTime * 20;
                         if (RewindActiveTimer <= 0.0f) {
                             Rewind.SetActive(false);

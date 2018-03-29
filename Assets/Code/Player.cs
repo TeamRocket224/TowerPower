@@ -161,11 +161,11 @@ public class Player : MonoBehaviour
             Tutorial.SetActive(false);
         }
 
-        if (Application.isEditor)
-        {
+        // if (Application.isEditor)
+        // {
             ddX = Input.GetAxisRaw("Horizontal");
             ShouldJump = Input.GetKeyDown(KeyCode.Space);
-        }
+        //}
 
         if (TripleJump)
         {
@@ -246,6 +246,7 @@ public class Player : MonoBehaviour
 
                         SetBool("IsMoving", ddX != 0.0f);
                         SetBool("IsFalling", false);
+                        SetBool("IsStunned", false);
                     }
 
                     break;
@@ -294,7 +295,9 @@ public class Player : MonoBehaviour
                     }
 
                     Position += dP * dPStep;
-                    SetBool("IsFalling", BallisticVelocity.y < 0.0f);
+                    if (SleepTimer <= 0.0f) {
+                        SetBool("IsFalling", BallisticVelocity.y < 0.0f);
+                    }
 
                     break;
                 }
@@ -377,7 +380,7 @@ public class Player : MonoBehaviour
 
     public void moveLeftDown() {
         MoveLeft = true;
-        ddX = -1;
+        //ddX = -1;
     }
 
     public void moveLeftUp() {
@@ -386,7 +389,7 @@ public class Player : MonoBehaviour
 
     public void moveRightDown() {
         MoveRight = true;
-        ddX = 1;
+        //ddX = 1;
     }
 
     public void moveRightUp() {
@@ -418,6 +421,7 @@ public class Player : MonoBehaviour
                 else
                 {
                     SleepTimer = Skull.SleepTime;
+                    SetBool("IsStunned", true);
                     Coins -= Skull.CoinDrop;
                     if (Coins < 0)
                     {
