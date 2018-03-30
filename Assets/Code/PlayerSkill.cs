@@ -108,12 +108,14 @@ public class PlayerSkill : MonoBehaviour
                 }
                 case SkillType.CloudTravel:
                 {
+                    Cloud.SetActive(true);
+                    CloudActiveTimer = CloudActiveTime;
+
                     Player.IsControlling = false;
                     Player.BallisticVelocity.x = 0.0f;
+                    Player.BallisticVelocity.y = CloudRiseStrength * Mathf.Max(0.25f, CloudActiveTimer);
                     Player.ChangeMovementMode(Player.MovementMode.Ballistic);
-                    Cloud.SetActive(true);
-
-                    CloudActiveTimer = CloudActiveTime;
+                    
                     DidUse = true;
                     break;
                 }
@@ -148,6 +150,14 @@ public class PlayerSkill : MonoBehaviour
             {
                 CurrentEnergy = 0.0f;
                 RechargeCooldownTimer = RechargeCooldown;
+            }
+        }
+        else
+        {
+            if (Type == SkillType.CloudTravel && CloudActiveTimer > 0.0f)
+            {
+                Debug.Log("Cloud");
+                Player.BallisticVelocity.y = CloudRiseStrength * Mathf.Max(0.25f, CloudActiveTimer);
             }
         }
     }
@@ -206,31 +216,6 @@ public class PlayerSkill : MonoBehaviour
                             CloudActiveTimer = 0.0f;
                             IsOnCooldown = true;
                             Player.IsControlling = true;
-                        }
-                    }
-
-                    if (CloudActiveTimer > 0.0f)
-                    {
-                        var ShouldRise = false;
-                        if (Application.isEditor)
-                        {
-                            if (Input.GetKeyDown(KeyCode.Mouse0))
-                            {
-                                ShouldRise = true;
-                            }
-                        }
-                        else
-                        {
-                            // @todo: This is incorrect but I can't make it work without a mobile device
-                            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-                            {
-                                ShouldRise = true;
-                            }
-                        }
-
-                        if (ShouldRise)
-                        {
-                            Player.BallisticVelocity.y = CloudRiseStrength * Mathf.Max(0.25f, CloudActiveTimer);
                         }
                     }
 
