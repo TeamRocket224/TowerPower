@@ -199,6 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 5000
   description: Made for the color to match the style.
+  EnergyChargeRate: -1
 --- !u!222 &222245995184972574
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -39,7 +39,7 @@ public class Water : MonoBehaviour
     void Update()
     {
         if (Player.transform.position.y - Height >= 100) {
-            SpeedMultiplier = 10f;
+            SpeedMultiplier = 2f;
         }
         else {
             if (Player.transform.position.y - Height <= 25) {

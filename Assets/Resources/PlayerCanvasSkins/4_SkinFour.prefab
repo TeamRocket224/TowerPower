@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 550
   description: Circle Marvelous Yorkies Kicking.
+  EnergyChargeRate: -1
 --- !u!114 &114411127367522262
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -111,7 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 3000
-  description: Nimbus!
+  description: Tap the Ability button to fly higher!
+  EnergyChargeRate: 0.05
 --- !u!114 &114314119282711056
 MonoBehaviour:
   m_ObjectHideFlags: 1

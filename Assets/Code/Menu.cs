@@ -33,7 +33,7 @@ public class Menu : MonoBehaviour {
     public Text Coins;
 
     public AudioSource MainMusic;
-    public AudioSource AllSFX;
+    public GameObject AllSFX;
 
     public GameObject CustomizeTutorialOne;
     public GameObject CustomizeTutorialTwo;
@@ -145,14 +145,14 @@ public class Menu : MonoBehaviour {
         Home.GetComponent<Animator>().SetTrigger("Home_Out");
         Options.GetComponent<Animator>().SetTrigger("Options_In");
 
-        if (PlayerPrefs.GetInt("music") == 1) {
+        if (PlayerPrefs.GetInt("music", 1) == 1) {
             Music.isOn = true;
         }
         else {
             Music.isOn = false;
         }
 
-        if (PlayerPrefs.GetInt("SFX") == 1) {
+        if (PlayerPrefs.GetInt("SFX", 1) == 1) {
             SFX.isOn = true;
         }
         else {
@@ -224,7 +224,6 @@ public class Menu : MonoBehaviour {
         if (check == 1) {
             for (var i = 0; i < NewSkins.Length; i++) {
                 if (PlayerSkinChoice == NewSkins[i]) {
-                    Debug.Log("PlayerSkinChoice: " + PlayerSkinChoice);
                     if (PlayerSkinChoice != 0) {
                         BounceSkin = true;
                         break;
@@ -252,6 +251,7 @@ public class Menu : MonoBehaviour {
             skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             skill.transform.GetChild(1).gameObject.SetActive(false);
             PlayerPrefs.SetInt("skill", PlayerSkillChoice);
+            PlayerPrefs.SetFloat("energy", PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().EnergyChargeRate);
         }
         else {
             skill.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
@@ -342,6 +342,7 @@ public class Menu : MonoBehaviour {
                 PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
                 PurchaseButton.interactable = false;
                 Skill.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
+                PlayerPrefs.SetFloat("energy", Skill.GetComponent<CustomizeDetails>().EnergyChargeRate);
                 Player.GetComponent<PlayerSkill>().ChangeSkill();
             }
         }
@@ -376,19 +377,26 @@ public class Menu : MonoBehaviour {
         if (PlayerPrefs.GetInt("customize_tutorial") == 0) {
             CustomizeTutorialOne.SetActive(true);
             CustomizeTutorialTwo.SetActive(true);
+            PlayerPrefs.SetInt("skin", 0);
+            PlayerPrefs.SetInt("skill", 0);
         }
         else {
             CustomizeTutorialOne.SetActive(false);
             CustomizeTutorialTwo.SetActive(false);
-            PlayerPrefs.SetInt("skin", 0);
-            PlayerPrefs.SetInt("skill", 0);
         }
 
-        if (PlayerPrefs.GetInt("music") == 1) {
+        if (PlayerPrefs.GetInt("music", 1) == 1) {
             MainMusic.enabled = true;
         }
         else {
             MainMusic.enabled = false;
+        }
+
+        if (PlayerPrefs.GetInt("SFX", 1) == 1) {
+            AllSFX.SetActive(true);
+        }
+        else {
+            AllSFX.SetActive(false);
         }
 
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
@@ -410,15 +418,12 @@ public class Menu : MonoBehaviour {
             if (PlayerSkins[i].GetComponent<CustomizeDetails>().cost < int.Parse(scores[0])) {
                 if (PlayerPrefs.GetInt("skin_unlock_" + (i + 1)) == 0) {
                     NewSkins[count] = i;
-                    Debug.Log("Skin " + i + ": " + NewSkins[i]);
                     count++;
                     NewSkin = true;
                     PlayerPrefs.SetInt("skin_unlock_" + (i + 1), 1);
                 }
             }
         }
-
-        Debug.Log(NewSkins[0]);
     }
 
     public void PlayAgain() {

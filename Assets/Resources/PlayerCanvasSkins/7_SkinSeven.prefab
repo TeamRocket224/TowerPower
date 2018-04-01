@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 10000
   description: Very relevant to the current month.
+  EnergyChargeRate: -1
 --- !u!114 &114587181996966664
 MonoBehaviour:
   m_ObjectHideFlags: 1

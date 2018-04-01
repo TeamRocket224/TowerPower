@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerCustomization : MonoBehaviour {
     public AudioSource MainMusic;
-    public AudioSource MainSFX;
+    public GameObject MainSFX;
 
     public Toggle Music;
     public Toggle SFX;
@@ -13,14 +13,13 @@ public class PlayerCustomization : MonoBehaviour {
     public void OnSFXChange() {
         bool sfx_choice = SFX.isOn;
         PlayerPrefs.SetInt("SFX", sfx_choice ? 1 : 0);
+        MainSFX.SetActive(sfx_choice);
     }
 
     public void OnMusicChange() {
         bool music_choice = Music.isOn;
         PlayerPrefs.SetInt("music", music_choice ? 1 : 0);
         MainMusic.enabled = Music.isOn;
-
-        Debug.Log(PlayerPrefs.GetInt("music"));
     }
 
     public void OnSkinChange() {

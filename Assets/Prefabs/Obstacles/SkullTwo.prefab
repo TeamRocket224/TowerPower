@@ -61,7 +61,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4367176277486442
 Transform:
   m_ObjectHideFlags: 1
@@ -148,6 +148,7 @@ MonoBehaviour:
   SleepTime: 5
   Speed: 1
   CoinDrop: 15
+  IsPaused: 0
 --- !u!198 &198602950134260432
 ParticleSystem:
   m_ObjectHideFlags: 1

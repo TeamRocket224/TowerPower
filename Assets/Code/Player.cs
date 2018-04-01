@@ -22,6 +22,11 @@ public class Player : MonoBehaviour
     public Text DeathCoinsText;
     public Text DeathHeightText;
 
+    public AudioSource Jump;
+    public AudioSource Death;
+    public AudioSource Hit;
+    public AudioSource Collect;
+
     public GameObject Menu;
     public GameObject Joystick;
     public GameObject DeathScreen;
@@ -161,11 +166,11 @@ public class Player : MonoBehaviour
             Tutorial.SetActive(false);
         }
 
-        // if (Application.isEditor)
-        // {
+        if (Application.isEditor)
+        {
             ddX = Input.GetAxisRaw("Horizontal");
             ShouldJump = Input.GetKeyDown(KeyCode.Space);
-        //}
+        }
 
         if (TripleJump)
         {
@@ -193,7 +198,7 @@ public class Player : MonoBehaviour
                     MotionParticleSystem.Play();
                 }
                 else {
-                    MotionParticleSystem.Stop();    
+                    MotionParticleSystem.Stop();
                 }
             }
             else {
@@ -230,6 +235,7 @@ public class Player : MonoBehaviour
                         {
                             MotionParticleSystem.Stop();
                             ChangeMovementMode(MovementMode.Ballistic);
+                            Jump.Play();
                             
                             SetTrigger("Jump");
                             BallisticVelocity = new Vector2(ddX * GroundedHorizontalSpeed * HorizontalConversionFactor, GroundedJumpStrength);
@@ -258,6 +264,7 @@ public class Player : MonoBehaviour
                     {
                         if (!HasDoubleJumped)
                         {
+                            Jump.Play();
                             BallisticVelocity = new Vector2(ddX * BallisticHorizontalSpeed * HorizontalConversionFactor, BallisticJumpStrength);
 
                             if (JumpGracePeriodTimer <= 0.0f)
@@ -326,6 +333,7 @@ public class Player : MonoBehaviour
 
             if (transform.position.y < Water.Height)
             {
+                Death.Play();
                 PlayerPrefs.SetInt("game_tutorial", 1);
                 DeathCoinsText.GetComponent<Text>().text = "Coins Gathered: " + CollectedCoins + " Coins";
                 DeathHeightText.GetComponent<Text>().text = "Final Height: " + Mathf.Floor(Position.y) + "m";
@@ -407,8 +415,6 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider Them)
     {
-        Debug.Log("foobar");
-
         if (SleepTimer <= 0.0f)
         {
             var Skull = Them.GetComponent<Skull>();
@@ -420,6 +426,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
+                    Hit.Play();
                     SleepTimer = Skull.SleepTime;
                     SetBool("IsStunned", true);
                     Coins -= Skull.CoinDrop;
@@ -437,9 +444,10 @@ public class Player : MonoBehaviour
         var Coin = Them.GetComponent<Coin>();
         if (Coin)
         {
+            Collect.Play();
             Coins += Coin.Value;
             CollectedCoins += Coin.Value;
-            var coin = Instantiate(Coin.particle, transform.position, Coin.particle.transform.rotation);
+            var coin = Instantiate(Coin.particle, transform.position + new Vector3(0, 2, 0), Coin.particle.transform.rotation);
             Destroy(coin.gameObject, 1f);
             Destroy(Coin.gameObject);
         }

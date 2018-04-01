@@ -145,6 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 300
   description: Maroon and Stuff.
+  EnergyChargeRate: -1
 --- !u!114 &114825399820406668
 MonoBehaviour:
   m_ObjectHideFlags: 1

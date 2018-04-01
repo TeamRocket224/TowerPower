@@ -8,6 +8,7 @@ public class PlayerSkill : MonoBehaviour
     public Tower Tower;
 
     public GameObject UIContainer;
+    public GameObject UIAbility;
     public Slider UIEnergySlider;
     public Animator UIEnergyAnimator;
 
@@ -52,6 +53,15 @@ public class PlayerSkill : MonoBehaviour
     {
         if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerPrefs.GetInt("skill") + 1)) == 1) {
             Type = (SkillType) PlayerPrefs.GetInt("skill", 0);
+
+            for (var i = 0; i < UIAbility.transform.childCount; i++) {
+                if (i == PlayerPrefs.GetInt("skill")) {
+                    UIAbility.transform.GetChild(i).gameObject.SetActive(true);
+                }
+                else {
+                    UIAbility.transform.GetChild(i).gameObject.SetActive(false);
+                }
+            }
             
             if (Type == SkillType.None)
             {
@@ -60,6 +70,7 @@ public class PlayerSkill : MonoBehaviour
             else
             {
                 UIContainer.SetActive(true);
+                EnergyChargeRate = PlayerPrefs.GetFloat("energy", 0);
             }
         }
     }
@@ -216,6 +227,15 @@ public class PlayerSkill : MonoBehaviour
                             CloudActiveTimer = 0.0f;
                             IsOnCooldown = true;
                             Player.IsControlling = true;
+
+                            var Theta = Player.Position.x + (Player.BallisticVelocity.x * 0.1f);
+                            var Position = new Vector3(
+                                Mathf.Cos(Theta) * Tower.Radius, 
+                                Player.Position.y - 1.5f, 
+                                Mathf.Sin(Theta) * Tower.Radius);
+
+                            var ThePlatform = Instantiate(Platform, Position, Quaternion.identity, Tower.transform);
+                            ThePlatform.transform.LookAt(new Vector3(0.0f, ThePlatform.transform.position.y, 0.0f));
                         }
                     }
 

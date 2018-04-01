@@ -172,6 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 1000
   description: Nothing scares a Zombie more than water.
+  EnergyChargeRate: -1
 --- !u!114 &114890856291965106
 MonoBehaviour:
   m_ObjectHideFlags: 1

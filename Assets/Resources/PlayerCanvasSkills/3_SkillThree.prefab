@@ -139,6 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 1500
   description: A double double jump.
+  EnergyChargeRate: 0.25
 --- !u!114 &114521161966566602
 MonoBehaviour:
   m_ObjectHideFlags: 1

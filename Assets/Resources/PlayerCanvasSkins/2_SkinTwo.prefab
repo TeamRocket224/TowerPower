@@ -199,6 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 10
   description: Teal and Stuff.
+  EnergyChargeRate: -1
 --- !u!222 &222378527521091286
 CanvasRenderer:
   m_ObjectHideFlags: 1
