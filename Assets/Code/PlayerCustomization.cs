@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class PlayerCustomization : MonoBehaviour {
     public AudioSource MainMusic;
     public GameObject MainSFX;
+    public GameObject RightControls;
+    public GameObject LeftyControls;
 
     public Toggle Music;
     public Toggle SFX;
+    public Toggle Lefty;
 
     public void OnSFXChange() {
         bool sfx_choice = SFX.isOn;
@@ -20,6 +23,13 @@ public class PlayerCustomization : MonoBehaviour {
         bool music_choice = Music.isOn;
         PlayerPrefs.SetInt("music", music_choice ? 1 : 0);
         MainMusic.enabled = Music.isOn;
+    }
+
+    public void OnLeftyChange() {
+        bool lefty = Lefty.isOn;
+        PlayerPrefs.SetInt("lefty", lefty ? 1 : 0);
+        LeftyControls.SetActive(Lefty.isOn);
+        RightControls.SetActive(!Lefty.isOn);
     }
 
     public void OnSkinChange() {
