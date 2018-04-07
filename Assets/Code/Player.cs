@@ -385,6 +385,7 @@ public class Player : MonoBehaviour
         Position = new Vector2(0.0f, transform.position.y);
         BallisticVelocity = new Vector2();
         IsPaused = false;
+        SleepTimer = 0.0f;
     }
 
     public void tapJumpDown() {
@@ -412,6 +413,9 @@ public class Player : MonoBehaviour
                     Hit.Play();
                     SleepTimer = Skull.SleepTime;
                     SetBool("IsStunned", true);
+
+                    GroundedAccelerationValue = 0;
+                    
                     Coins -= Skull.CoinDrop;
                     if (Coins < 0)
                     {

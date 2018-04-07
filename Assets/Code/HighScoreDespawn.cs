@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 
-public class HighScoreDespawn : MonoBehaviour {
-	public void NewHighScore() {
+public class HighScoreDespawn : MonoBehaviour
+{
+	public void NewHighScore()
+    {
 		ParticleSystem ps = GetComponent<ParticleSystem>();
         var vel = ps.velocityOverLifetime;
         vel.space = ParticleSystemSimulationSpace.Local;
 
 		var em = ps.emission;
-        em.rate = 0;
+        em.rateOverTime = 0;
 
         var col = ps.colorOverLifetime;
         col.enabled = true;
@@ -15,8 +17,19 @@ public class HighScoreDespawn : MonoBehaviour {
 		var main = ps.main;
 		main.startLifetime = 10f;
 
-        Gradient grad = new Gradient();
-        grad.SetKeys( new GradientColorKey[] { new GradientColorKey(Color.blue, 0.0f), new GradientColorKey(Color.red, 1.0f) }, new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(1.0f, 1.0f) } );
+        var grad = new Gradient();
+        grad.SetKeys(
+            new GradientColorKey[]
+            {
+                new GradientColorKey(Color.blue, 0.0f), 
+                new GradientColorKey(Color.red, 1.0f)
+            },
+            new GradientAlphaKey[]
+            {
+                new GradientAlphaKey(1.0f, 0.0f), 
+                new GradientAlphaKey(1.0f, 1.0f)
+            });
+
         col.color = grad;
 
 		AnimationCurve curve_x = new AnimationCurve();
