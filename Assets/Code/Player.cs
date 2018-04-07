@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     public Text DeathHeightText;
 
     public AudioSource Jump;
+    public AudioSource DoubleJump;
     public AudioSource Death;
     public AudioSource Hit;
     public AudioSource Collect;
@@ -195,7 +196,9 @@ public class Player : MonoBehaviour
 
             if (ddX != 0) {
                 if (CurrentMovementMode == MovementMode.Grounded) {
-                    MotionParticleSystem.Play();
+                    if (SleepTimer <= 0) {
+                        MotionParticleSystem.Play();
+                    }
                 }
                 else {
                     MotionParticleSystem.Stop();
@@ -264,7 +267,7 @@ public class Player : MonoBehaviour
                     {
                         if (!HasDoubleJumped)
                         {
-                            Jump.Play();
+                            DoubleJump.Play();
                             BallisticVelocity = new Vector2(ddX * BallisticHorizontalSpeed * HorizontalConversionFactor, BallisticJumpStrength);
 
                             if (JumpGracePeriodTimer <= 0.0f)

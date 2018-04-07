@@ -669,7 +669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1362941279771310
 GameObject:
   m_ObjectHideFlags: 1
@@ -2838,7 +2838,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1837528575162470}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -4815,7 +4815,7 @@ MonoBehaviour:
   LeftyControls: {fileID: 0}
   Music: {fileID: 114975176150391382}
   SFX: {fileID: 114945679547097328}
-  Lefty: {fileID: 0}
+  Lefty: {fileID: 114730183119679952}
 --- !u!114 &114793505140587226
 MonoBehaviour:
   m_ObjectHideFlags: 1
