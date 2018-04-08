@@ -437,8 +437,7 @@ public class Player : MonoBehaviour
             Collect.Play();
             Coins += Coin.Value;
             CollectedCoins += Coin.Value;
-            var coin = Instantiate(Coin.particle, transform.position + new Vector3(0, 2, 0), Coin.particle.transform.rotation);
-            Destroy(coin.gameObject, 1f);
+
             Destroy(Coin.gameObject);
         }
     }
