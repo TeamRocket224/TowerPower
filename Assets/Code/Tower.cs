@@ -225,33 +225,34 @@ public class Tower : MonoBehaviour
                     }
 
                     GameObject PlatformPrefab = null;
+                    var Children = new List<GameObject>();
                     switch (Type)
                     {
                         case PlatformType.Small:
                         {
-                            SpawnDecorations(Path.Theta - 0.03f, Path.Theta + 0.03f, CurrentHeight);
-                            SpawnCoin(Range, CurrentHeight, Path.Theta);
+                            SpawnDecorations(Children, Path.Theta - 0.03f, Path.Theta + 0.03f, CurrentHeight);
+                            SpawnCoin(Children, Range, CurrentHeight, Path.Theta);
 
                             PlatformPrefab = SmallPlatform;
                             break;
                         }
                         case PlatformType.Medium:
                         {
-                            SpawnDecorations(Path.Theta - 0.1f, Path.Theta + 0.1f, CurrentHeight);
+                            SpawnDecorations(Children, Path.Theta - 0.1f, Path.Theta + 0.1f, CurrentHeight);
 
-                            SpawnCoin(Range, CurrentHeight, Path.Theta + 0.1f);
-                            SpawnCoin(Range, CurrentHeight, Path.Theta - 0.1f);
+                            SpawnCoin(Children, Range, CurrentHeight, Path.Theta + 0.1f);
+                            SpawnCoin(Children, Range, CurrentHeight, Path.Theta - 0.1f);
 
                             PlatformPrefab = MediumPlatform;
                             break;
                         }
                         case PlatformType.Large:
                         {
-                            SpawnDecorations(Path.Theta - 0.2f, Path.Theta + 0.2f, CurrentHeight);
+                            SpawnDecorations(Children, Path.Theta - 0.2f, Path.Theta + 0.2f, CurrentHeight);
 
-                            SpawnCoin(Range, CurrentHeight, Path.Theta + 0.2f);
-                            SpawnCoin(Range, CurrentHeight, Path.Theta);
-                            SpawnCoin(Range, CurrentHeight, Path.Theta - 0.2f);
+                            SpawnCoin(Children, Range, CurrentHeight, Path.Theta + 0.2f);
+                            SpawnCoin(Children, Range, CurrentHeight, Path.Theta);
+                            SpawnCoin(Children, Range, CurrentHeight, Path.Theta - 0.2f);
 
                             PlatformPrefab = LargePlatform;
                             break;
@@ -261,6 +262,11 @@ public class Tower : MonoBehaviour
                     var Platform = Instantiate(PlatformPrefab, new Vector3(), Quaternion.identity, transform);
                     bool IsMoving = Random.Range(0.0f, 1.0f) < Range.MovingPlatformSpawnChance;
                     Platform.GetComponent<Platform>().Initialize(CurrentHeight, Path.Theta, Radius, IsMoving);
+
+                    foreach (var Child in Children)
+                    {
+                        // Child.transform.SetParent(Platform.transform);
+                    }
                 }
 
                 Instantiate(CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
@@ -300,7 +306,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    void SpawnDecorations(float ThetaMin, float ThetaMax, float Height)
+    void SpawnDecorations(List<GameObject> Children, float ThetaMin, float ThetaMax, float Height)
     {
         if (ThetaMin > ThetaMax)
         {
@@ -323,6 +329,8 @@ public class Tower : MonoBehaviour
                 var TheGrass = Instantiate(Random.value < 0.5f ? Grass_01 : Grass_02, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.25f, 0.0f), Quaternion.identity, transform);
                 TheGrass.transform.localScale = new Vector3(Scale, Scale, Scale);
                 TheGrass.transform.LookAt(new Vector3(0.0f, TheGrass.transform.position.y, 0.0f));
+
+                Children.Add(TheGrass);
             }
 
             if (Random.value < 0.2f)
@@ -330,13 +338,15 @@ public class Tower : MonoBehaviour
                 var TheVase = Instantiate(Vase, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.25f, 0.0f), Quaternion.identity, transform);
                 TheVase.transform.localScale = new Vector3(Scale, Scale, Scale);
                 TheVase.transform.LookAt(new Vector3(0.0f, TheVase.transform.position.y, 0.0f));
+
+                Children.Add(TheVase);
             }
 
             CurrentTheta += Step;
         }
     }
 
-    void SpawnCoin(SpawnChanceRange Range, float Height, float Theta)
+    void SpawnCoin(List<GameObject> Children, SpawnChanceRange Range, float Height, float Theta)
     {
         var CoinSpawnValue = Random.Range(0.0f, 3.0f);
         
@@ -373,6 +383,7 @@ public class Tower : MonoBehaviour
                 transform);
 
             Coin.transform.LookAt(new Vector3(0.0f, Coin.transform.position.y, 0.0f));
+            Children.Add(Coin);
         }
     }
 }

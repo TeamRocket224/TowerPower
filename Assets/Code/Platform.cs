@@ -4,7 +4,9 @@ public class Platform : MonoBehaviour
 {
     public float Friction;
     public float MoveSpeed;
-    
+
+    public bool IsPaused;
+
     float Height1;
     float Height2;
     float Theta1;
@@ -18,35 +20,33 @@ public class Platform : MonoBehaviour
 
     bool MovingToTwo;
 
-    public void Initialize(float Height, float Theta, float Radius, bool IsMoving)
+    public void Initialize(float height, float theta, float radius, bool isMoving)
     {
-        this.Height1 = Height;
-        this.Theta1 = Theta;
-        this.Radius = Radius;
-        this.IsMoving = IsMoving;
-        this.IsMoving = false;
+        Height1 = height;
+        Height2 = Height1 + Random.Range(-2.5f, 2.5f);
+        Theta1 = theta;
+        Theta2 = Theta1 + Random.Range(-0.5f, 0.5f);
+        Radius = radius;
+        IsMoving = isMoving;
+        IsMoving = false;
 
-        CurrentHeight = Height;
+        CurrentHeight = height;
         CurrentTheta = Theta1;
     }
 
     void Update()
     {
-        if (IsMoving)
+        if (IsMoving && !IsPaused)
         {
-            var direction = 0.0f;
-            if (MovingToTwo)
+            var desired = MovingToTwo ? Theta2 : Theta1;
+            var delta = desired - CurrentTheta;
+            if (Mathf.Abs(delta) < 0.001f)
             {
-                direction = Theta2 < CurrentTheta ? -1.0f : 1.0f;
-            }
-            else
-            {
-                direction = Theta1 < CurrentTheta ? -1.0f : 1.0f;
-                // if (Mathf.Abs(CurrentTheta - Theta1))
+                MovingToTwo = !MovingToTwo;
             }
 
+            var direction = delta < 0.0f ? -1.0f : 1.0f;
             CurrentTheta += direction * MoveSpeed * Time.deltaTime;
-            
         }
 
         transform.position = new Vector3(Mathf.Cos(CurrentTheta) * Radius, CurrentHeight, Mathf.Sin(CurrentTheta) * Radius);
