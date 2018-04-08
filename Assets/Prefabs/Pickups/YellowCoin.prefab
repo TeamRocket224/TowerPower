@@ -223,7 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 1
-  particle: {fileID: 198271228461177618, guid: 2937c90c72f00aa47892df6510ff4f6e, type: 2}
+  Particle: {fileID: 1498404173543786, guid: 86679b8d742c7e94c8ded5569826bc7b, type: 2}
 --- !u!212 &212201886347690154
 SpriteRenderer:
   m_ObjectHideFlags: 1
