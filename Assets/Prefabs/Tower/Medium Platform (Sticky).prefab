@@ -310,3 +310,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Friction: 1
+  MoveSpeed: 0.1

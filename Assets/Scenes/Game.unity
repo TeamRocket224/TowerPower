@@ -4094,6 +4094,7 @@ MonoBehaviour:
   ForwardGenerationHeight: 50
   Ranges:
   - StartHeight: 0
+    MovingPlatformSpawnChance: 1
     SmallPlatformSpawnChance: 0
     MediumPlatformSpawnChance: 0
     SkullOneSpawnChance: 0
@@ -4102,14 +4103,16 @@ MonoBehaviour:
     GreenCoinSpawnChance: 0
     BlueCoinSpawnChance: 0
   - StartHeight: 10
+    MovingPlatformSpawnChance: 1
     SmallPlatformSpawnChance: 0
     MediumPlatformSpawnChance: 0.25
-    SkullOneSpawnChance: 0.1
+    SkullOneSpawnChance: 1
     SkullTwoSpawnChance: 0
     YellowCoinSpawnChance: 0.5
     GreenCoinSpawnChance: 0.1
     BlueCoinSpawnChance: 0
   - StartHeight: 100
+    MovingPlatformSpawnChance: 0
     SmallPlatformSpawnChance: 0
     MediumPlatformSpawnChance: 0.5
     SkullOneSpawnChance: 0.375
@@ -4118,6 +4121,7 @@ MonoBehaviour:
     GreenCoinSpawnChance: 0.2
     BlueCoinSpawnChance: 0.01
   - StartHeight: 300
+    MovingPlatformSpawnChance: 0
     SmallPlatformSpawnChance: 0.5
     MediumPlatformSpawnChance: 0.8
     SkullOneSpawnChance: 0.375
@@ -4126,6 +4130,7 @@ MonoBehaviour:
     GreenCoinSpawnChance: 0.2
     BlueCoinSpawnChance: 0.1
   - StartHeight: 500
+    MovingPlatformSpawnChance: 0
     SmallPlatformSpawnChance: 0.75
     MediumPlatformSpawnChance: 0.9
     SkullOneSpawnChance: 0.45

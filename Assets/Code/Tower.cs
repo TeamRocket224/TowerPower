@@ -52,6 +52,9 @@ public class Tower : MonoBehaviour
         public float StartHeight;
 
         [Range(0.0f, 1.0f)]
+        public float MovingPlatformSpawnChance;
+
+        [Range(0.0f, 1.0f)]
         public float SmallPlatformSpawnChance;
 
         [Range(0.0f, 1.0f)]
@@ -104,16 +107,8 @@ public class Tower : MonoBehaviour
         GenerationPaths.Add(new GenerationPath());
         GenerationPaths.Add(new GenerationPath());
 
-        var FirstPlatform = Instantiate(
-            LargePlatform, 
-            new Vector3(
-                Mathf.Cos(0.0f) * Radius, 
-                0.0f, 
-                Mathf.Sin(0.0f) * Radius), 
-            Quaternion.identity, 
-            transform);
-
-        FirstPlatform.transform.LookAt(new Vector3(0.0f, FirstPlatform.transform.position.y, 0.0f));
+        var FirstPlatform = Instantiate(LargePlatform, new Vector3(), Quaternion.identity, transform);
+        FirstPlatform.GetComponent<Platform>().Initialize(0.0f, 0.0f, Radius, false);
         Instantiate(CenterPiece, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, transform);
 
         var scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';');
@@ -263,16 +258,9 @@ public class Tower : MonoBehaviour
                         }
                     }
 
-                    var Platform = Instantiate(
-                        PlatformPrefab, 
-                        new Vector3(
-                            Mathf.Cos(Path.Theta) * Radius, 
-                            CurrentHeight, 
-                            Mathf.Sin(Path.Theta) * Radius), 
-                        Quaternion.identity, 
-                        transform);
-
-                    Platform.transform.LookAt(new Vector3(0.0f, Platform.transform.position.y, 0.0f));
+                    var Platform = Instantiate(PlatformPrefab, new Vector3(), Quaternion.identity, transform);
+                    bool IsMoving = Random.Range(0.0f, 1.0f) < Range.MovingPlatformSpawnChance;
+                    Platform.GetComponent<Platform>().Initialize(CurrentHeight, Path.Theta, Radius, IsMoving);
                 }
 
                 Instantiate(CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
