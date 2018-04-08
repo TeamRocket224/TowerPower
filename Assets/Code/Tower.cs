@@ -127,12 +127,11 @@ public class Tower : MonoBehaviour
             Destroy(HighScoreParticle, 3f);
         }
 
-        for (var ChildIndex = 0; ChildIndex < transform.childCount; ChildIndex++)
+        foreach (Transform child in transform)
         {
-            var ChildTransform = transform.GetChild(ChildIndex);
-            if (ChildTransform.position.y < Water.Height - 10.0f)
+            if (child.position.y < Water.Height - 10.0f)
             {
-                Destroy(ChildTransform.gameObject);
+                Destroy(child.gameObject);
             }
         }
 
@@ -263,10 +262,16 @@ public class Tower : MonoBehaviour
                     bool IsMoving = Random.Range(0.0f, 1.0f) < Range.MovingPlatformSpawnChance;
                     Platform.GetComponent<Platform>().Initialize(CurrentHeight, Path.Theta, Radius, IsMoving);
 
-                    foreach (var Child in Children)
+                    if (CurrentHeight > 90.0f)
                     {
-                        // Child.transform.SetParent(Platform.transform);
+                        Debug.Log(Type);
+                        Debug.Log(Platform);
                     }
+
+                    // foreach (var Child in Children)
+                    // {
+                    //     Child.transform.SetParent(Platform.transform);
+                    // }
                 }
 
                 Instantiate(CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);

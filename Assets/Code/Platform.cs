@@ -32,6 +32,9 @@ public class Platform : MonoBehaviour
 
         CurrentHeight = height;
         CurrentTheta = Theta1;
+
+        transform.position = new Vector3(Mathf.Cos(CurrentTheta) * Radius, CurrentHeight, Mathf.Sin(CurrentTheta) * Radius);
+        transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
     }
 
     void Update()
