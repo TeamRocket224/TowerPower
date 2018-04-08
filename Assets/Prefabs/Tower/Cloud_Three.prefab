@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4264965485867636}
+  - component: {fileID: 114673961881395086}
   m_Layer: 0
   m_Name: Cloud_Three
   m_TagString: Untagged
@@ -111,3 +112,14 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1431303821216258}
   m_Mesh: {fileID: 4300000, guid: 849a77a8f5a46ce4fbae4f9f6f7a8464, type: 3}
+--- !u!114 &114673961881395086
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1730719196008984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32417819772cae74dbf468607a07aaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

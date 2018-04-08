@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4740309838056430}
+  - component: {fileID: 114695323114491718}
   m_Layer: 0
   m_Name: Cloud_Two
   m_TagString: Untagged
@@ -111,3 +112,14 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1894150522855970}
   m_Mesh: {fileID: 4300000, guid: 9c22a29bb3c532e48b592a446db01cbd, type: 3}
+--- !u!114 &114695323114491718
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1676335669360462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32417819772cae74dbf468607a07aaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

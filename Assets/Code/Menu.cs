@@ -57,7 +57,7 @@ public class Menu : MonoBehaviour {
     GameObject[] PlayerSkills;
     public int PlayerSkillChoice = 0, PreviousSkillChoice = 1;
 
-    GameObject ItemIn, ItemOut, Skin, Skill;
+    GameObject Skin, Skill;
 
     bool NewSkin = false;
     bool BounceSkin = false;
@@ -437,9 +437,6 @@ public class Menu : MonoBehaviour {
     }
 
     void Start() {
-        ItemIn = Options;
-        ItemOut = Home;
-
         Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
 
         //Player Skins
