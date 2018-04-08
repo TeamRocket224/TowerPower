@@ -61,6 +61,7 @@ public class Player : MonoBehaviour
     public Vector2 Position;
     float GroundedAccelerationValue;
     float GroundedDirection;
+    float GroundedFrictionModifier;
     public Vector2 BallisticVelocity;
     bool HasDoubleJumped;
     float JumpGracePeriodTimer;
@@ -297,6 +298,8 @@ public class Player : MonoBehaviour
                     {
                         if (hit.normal == Vector3.up)
                         {
+                            GroundedFrictionModifier = hit.collider.GetComponent<Platform>().Friction;
+
                             ChangeMovementMode(MovementMode.Grounded);
                             GroundedAccelerationValue = ddX != 0.0f ? 1.0f : 0.25f;
 
