@@ -337,7 +337,7 @@ public class Player : MonoBehaviour
 
             if (transform.position.y < Water.Height)
             {
-                Death.Play();
+                Death.SetTrigger("DeathIn");
                 PlayerPrefs.SetInt("game_tutorial", 1);
                 DeathCoinsText.GetComponent<Text>().text = "Coins Gathered: " + CollectedCoins + " Coins";
                 DeathHeightText.GetComponent<Text>().text = "Final Height: " + Mathf.Floor(Position.y) + "m";
