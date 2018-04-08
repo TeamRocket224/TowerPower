@@ -69,8 +69,6 @@ public class Player : MonoBehaviour
     bool ShouldJump;
     public bool TripleJump;
     bool ButtonJump;
-    bool MoveLeft;
-    bool MoveRight;
     public float ddX;
 
     float SleepTimer;
@@ -390,24 +388,7 @@ public class Player : MonoBehaviour
         Position = new Vector2(0.0f, transform.position.y);
         BallisticVelocity = new Vector2();
         IsPaused = false;
-    }
-
-    public void moveLeftDown() {
-        MoveLeft = true;
-        //ddX = -1;
-    }
-
-    public void moveLeftUp() {
-        MoveLeft = false;
-    }
-
-    public void moveRightDown() {
-        MoveRight = true;
-        //ddX = 1;
-    }
-
-    public void moveRightUp() {
-        MoveRight = false;
+        SleepTimer = 0.0f;
     }
 
     public void tapJumpDown() {
@@ -435,6 +416,9 @@ public class Player : MonoBehaviour
                     Hit.Play();
                     SleepTimer = Skull.SleepTime;
                     SetBool("IsStunned", true);
+
+                    GroundedAccelerationValue = 0.0f;
+
                     Coins -= Skull.CoinDrop;
                     if (Coins < 0)
                     {
