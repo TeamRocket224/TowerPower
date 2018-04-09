@@ -15,7 +15,7 @@ public class Cloud : MonoBehaviour
         Speed = Random.Range(0.0f, 0.1f);
         Radius += Random.Range(50.0f, 100.0f);
         
-        var scale = Random.Range(1.0f, 10.0f);
+        var scale = Random.Range(1.0f, 5.0f);
         transform.localScale = new Vector3(scale, scale, scale);
     }
 

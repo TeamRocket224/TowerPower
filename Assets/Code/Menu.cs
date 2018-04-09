@@ -66,6 +66,16 @@ public class Menu : MonoBehaviour {
     public System.Action MainMenu;
     public System.Action Pause;
 
+    public void UnlockEverything() {
+        PlayerPrefs.SetInt("skill_unlock_0", 1);
+        PlayerPrefs.SetInt("skill_unlock_1", 1);
+        PlayerPrefs.SetInt("skill_unlock_2", 1);
+        PlayerPrefs.SetInt("skill_unlock_3", 1);
+        PlayerPrefs.SetInt("skill_unlock_4", 1);
+        PlayerPrefs.SetInt("skill_unlock_5", 1);
+        PlayerPrefs.SetInt("skill_unlock_6", 1);
+    }
+
     public void OnHomePlay() {
         PlayGame();
     }
@@ -363,8 +373,6 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
-        PlayerPrefs.SetString("scores", "60;0;0;0;0");
-
         PlayerPrefs.SetInt("skill_unlock_1", 1);
         PlayerPrefs.SetInt("skin_unlock_1", 1);
 
@@ -379,6 +387,7 @@ public class Menu : MonoBehaviour {
             CustomizeTutorialTwo.SetActive(true);
             PlayerPrefs.SetInt("skin", 0);
             PlayerPrefs.SetInt("skill", 0);
+            PlayerPrefs.SetInt("lefty", 0);
         }
         else {
             CustomizeTutorialOne.SetActive(false);

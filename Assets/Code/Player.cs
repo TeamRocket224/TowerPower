@@ -209,6 +209,9 @@ public class Player : MonoBehaviour
                     if (SleepTimer <= 0) {
                         MotionParticleSystem.Play();
                     }
+                    else {
+                        MotionParticleSystem.Stop();
+                    }
                 }
                 else {
                     MotionParticleSystem.Stop();
@@ -287,6 +290,7 @@ public class Player : MonoBehaviour
                             }
                             else
                             {
+                                Jump.Play();
                                 SetTrigger("Jump");
                                 JumpGracePeriodTimer = 0.0f;
                             }
@@ -425,7 +429,6 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    Hit.Play();
                     SleepTimer = Skull.SleepTime;
                     SetBool("IsStunned", true);
 
@@ -438,6 +441,7 @@ public class Player : MonoBehaviour
                     }
                 }
 
+                Hit.Play();
                 HitParticleSystem.Play();
                 Destroy(Skull.gameObject);
             }

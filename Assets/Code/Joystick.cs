@@ -27,7 +27,13 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
         player.Normalize();
         Player.GetComponent<Player>().ddX = player.x;
         inputVector = (direction.magnitude > background.sizeDelta.x / 2f) ? direction.normalized : direction / (background.sizeDelta.x / 2f);
-        handle.anchoredPosition = (inputVector * background.sizeDelta.x / 2f) * handleLimit;
+
+        if (PlayerPrefs.GetInt("lefty") == 0) {
+            handle.anchoredPosition = (inputVector * background.sizeDelta.x / 2f) * handleLimit;
+        }
+        else {
+            handle.anchoredPosition = -(inputVector * background.sizeDelta.x / 2f) * handleLimit;
+        }
     }
 
     public virtual void OnPointerDown(PointerEventData eventData) {

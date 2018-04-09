@@ -288,7 +288,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 297859029
+  randomSeed: 1126856414
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3626,7 +3626,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1052144952
+  randomSeed: 2077231600
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -6964,7 +6964,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1857665339
+  randomSeed: -154933872
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -10311,7 +10311,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: 97f53c7315f86db4bb6be51b4c704cb5, type: 2}
+  - {fileID: 2100000, guid: fd6de58469e3d4c479de2614bf9373c2, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0

@@ -237,6 +237,7 @@ public class PlayerSkill : MonoBehaviour
                                 Mathf.Sin(Theta) * Tower.Radius);
 
                             var ThePlatform = Instantiate(Platform, Position, Quaternion.identity, Tower.transform);
+                            ThePlatform.GetComponent<Platform>().Initialize(Player.Position.y - 1.5f, Theta, Tower.Radius, false);
                             ThePlatform.transform.LookAt(new Vector3(0.0f, ThePlatform.transform.position.y, 0.0f));
                         }
                     }
