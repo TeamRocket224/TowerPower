@@ -38,6 +38,12 @@ public class GameController : MonoBehaviour
 
     public void ChangeToMenu()
     {
+        if (State == GameState.Death) {
+            DeathScreen.transform.GetChild(0).GetComponent<Animator>().SetTrigger("DeathOut");
+            DeathScreen.transform.GetChild(1).GetComponent<Animator>().SetTrigger("PanelOut");
+            DeathScreen.transform.GetChild(2).GetComponent<Animator>().SetTrigger("PlayerOut");
+        }
+
         Camera.main.transform.position = new Vector3(30.0f, 2.0f, 0.0f);
         Water.IsRising = false;
         Player.Reset();
@@ -46,14 +52,13 @@ public class GameController : MonoBehaviour
         Player.OwnsCamera = false;
         Menu.gameObject.SetActive(true);
         Menu.Home.SetActive(true);
-        Menu.Scoreboard.SetActive(false);
-        Menu.Options.SetActive(false);
-        Menu.Customize.SetActive(false);
-        Menu.Purchase.SetActive(false);
+
+        if (State != GameState.Menu) {
+            Menu.Home.GetComponent<Animator>().SetTrigger("Home_In");
+        }
         MenuMainActions.SetActive(true);
         MenuPauseActions.SetActive(false);
         GameUI.SetActive(false);
-        DeathScreen.SetActive(false);
         Menu.CustomizeButton.GetComponent<Button>().enabled = true;
         Menu.ScoreboardButton.GetComponent<Button>().enabled = true;
 
@@ -67,6 +72,12 @@ public class GameController : MonoBehaviour
 
     public void ChangeToGame()
     {
+        if (State == GameState.Death) {
+            DeathScreen.transform.GetChild(0).GetComponent<Animator>().SetTrigger("DeathOut");
+            DeathScreen.transform.GetChild(1).GetComponent<Animator>().SetTrigger("PanelOut");
+            DeathScreen.transform.GetChild(2).GetComponent<Animator>().SetTrigger("PlayerOut");
+        }
+
         if (!IsPaused)
         {
             Player.Reset();
@@ -92,9 +103,8 @@ public class GameController : MonoBehaviour
             skull.IsPaused = false;
         }
 
-        Menu.gameObject.SetActive(false);
+        Menu.Home.GetComponent<Animator>().SetTrigger("Home_Out");
         GameUI.SetActive(true);
-        DeathScreen.SetActive(false);
 
         State = GameState.Game;
         IsPaused = false;
@@ -103,12 +113,16 @@ public class GameController : MonoBehaviour
 
     public void ChangeToDeath()
     {
+        DeathScreen.SetActive(true);
+        DeathScreen.transform.GetChild(0).GetComponent<Animator>().SetTrigger("DeathIn");
+        DeathScreen.transform.GetChild(1).GetComponent<Animator>().SetTrigger("PanelIn");
+        DeathScreen.transform.GetChild(2).GetComponent<Animator>().SetTrigger("PlayerIn");
+
         Water.IsRising = false;
         Player.IsControlling = false;
         Player.IsPaused = true;
-        DeathScreen.SetActive(true);
         Menu.gameObject.SetActive(false);
-        Menu.Home.SetActive(false);
+        Menu.Home.GetComponent<Animator>().SetTrigger("Home_Out");
         MenuMainActions.SetActive(true);
         MenuPauseActions.SetActive(false);
 
@@ -142,11 +156,7 @@ public class GameController : MonoBehaviour
         Menu.gameObject.SetActive(true);
         Menu.CustomizeButton.GetComponent<Button>().enabled = false;
         Menu.ScoreboardButton.GetComponent<Button>().enabled = false;
-        Menu.Home.SetActive(true);
-        Menu.Scoreboard.SetActive(false);
-        Menu.Options.SetActive(false);
-        Menu.Customize.SetActive(false);
-        Menu.Purchase.SetActive(false);
+        Menu.Home.GetComponent<Animator>().SetTrigger("Home_In");
         MenuMainActions.SetActive(false);
         MenuPauseActions.SetActive(true);
         GameUI.SetActive(false);

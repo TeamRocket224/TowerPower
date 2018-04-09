@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public Water Water;
     public Text HeightText;
     public Text CoinsText;
+    public Animator CoinsImage;
     public Text DeathCoinsText;
     public Text DeathHeightText;
 
@@ -38,6 +39,16 @@ public class Player : MonoBehaviour
     public Transform ShadowTransform;
     public Animator ShadowAnimator;
     public RuntimeAnimatorController[] SkinAnimatorControllers;
+
+    public Text HintText;
+    string[] Hints = 
+        {
+            "Hint: Release the Movement Joystick and press the Jump Button to Jump straight up!", 
+            "Hint: Change your equipped Skin and Skill in the Customize Menu!", 
+            "Hint: Use your Double Jump wisely!",
+            "Hint: The Blue Skull moves faster, and stuns for much longer than the White Skull!",
+            "Hint: Careful for moving platforms!  Don't get too hasty when jumping onto it!"
+        };
 
     public float PlayerDistance;
 
@@ -266,12 +277,12 @@ public class Player : MonoBehaviour
                     {
                         if (!HasDoubleJumped)
                         {
-                            DoubleJump.Play();
                             BallisticVelocity = new Vector2(ddX * BallisticHorizontalSpeed * HorizontalConversionFactor, BallisticJumpStrength);
 
                             if (JumpGracePeriodTimer <= 0.0f)
                             {
                                 SetTrigger("DoubleJump");
+                                DoubleJump.Play();
                                 HasDoubleJumped = true;
                             }
                             else
@@ -337,6 +348,7 @@ public class Player : MonoBehaviour
 
             if (transform.position.y < Water.Height)
             {
+                HintText.text = Hints[Random.Range(0, Hints.Length)];
                 Death.Play();
                 PlayerPrefs.SetInt("game_tutorial", 1);
                 DeathCoinsText.GetComponent<Text>().text = "Coins Gathered: " + CollectedCoins + " Coins";
@@ -438,6 +450,7 @@ public class Player : MonoBehaviour
             Coins += Coin.Value;
             CollectedCoins += Coin.Value;
             var CoinPickup = Instantiate(Coin.Particle, Coin.transform.position, Coin.transform.rotation);
+            CoinsImage.SetTrigger("AddCoin");
 
             Destroy(CoinPickup, 1);
             Destroy(Coin.gameObject);

@@ -13,7 +13,6 @@ public class Menu : MonoBehaviour {
     public GameObject PlayerSkin;
     public GameObject PlayerSkill;
 
-    public Text PlatText;
     public GameObject CustomizeButton;
     public GameObject ScoreboardButton;
 
@@ -68,7 +67,6 @@ public class Menu : MonoBehaviour {
     public System.Action Pause;
 
     public void OnHomePlay() {
-        Home.SetActive(false);
         PlayGame();
     }
 

@@ -16,7 +16,8 @@ public class PlayerSkill : MonoBehaviour
     public GameObject Cloud;
     public GameObject Shield;
     public GameObject Rewind;
-    public GameObject RewindParticle;
+    public GameObject RewindParticleIn;
+    public GameObject RewindParticleOut;
 
     public enum SkillType
     {
@@ -143,6 +144,7 @@ public class PlayerSkill : MonoBehaviour
                 {
                     if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
                     {
+                        RewindParticleIn.GetComponent<ParticleSystem>().Play();
                         Time.timeScale = 0.1f;
                         Rewind.SetActive(true);
                         RewindActiveTimer = RewindActiveTime;
@@ -260,11 +262,10 @@ public class PlayerSkill : MonoBehaviour
                 case SkillType.Rewind:
                 {
                     if (RewindActiveTimer > 0.0f) {
-                        Player.Position = Vector2.Lerp(Player.Position, Player.LastPlatformPosition, Time.deltaTime * 2);
                         RewindActiveTimer -= Time.deltaTime * 20;
                         if (RewindActiveTimer <= 0.0f) {
                             Rewind.SetActive(false);
-                            RewindParticle.GetComponent<ParticleSystem>().Play();
+                            RewindParticleOut.GetComponent<ParticleSystem>().Play();
                             Time.timeScale = 1;
                             Player.Position = Player.LastPlatformPosition + new Vector2(0.0f, 1.5f);
                         }

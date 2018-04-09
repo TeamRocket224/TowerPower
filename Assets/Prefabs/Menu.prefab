@@ -2582,7 +2582,7 @@ MonoBehaviour:
   Purchase: {fileID: 1041679021016234}
   PlayerSkin: {fileID: 1470048678087038}
   PlayerSkill: {fileID: 1110249255293016}
-  PlatText: {fileID: 0}
+  HintText: {fileID: 0}
   CustomizeButton: {fileID: 1430076915120678}
   ScoreboardButton: {fileID: 1077343053370170}
   SkinPanel: {fileID: 1093484831384236}
