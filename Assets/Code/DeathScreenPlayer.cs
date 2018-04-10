@@ -24,8 +24,8 @@ public class DeathScreenPlayer : MonoBehaviour
     void Update()
     {
         Transform.anchoredPosition = start_position + new Vector2(
-            (Mathf.PerlinNoise(t1, 0.0f) * 2.0f) - 1.0f, 
-            (Mathf.PerlinNoise(t2, 0.0f) * 2.0f) - 1.0f) * 10.0f;
+            (Mathf.PerlinNoise(t1, 0.0f) * 10.0f) - 1.0f, 
+            (Mathf.PerlinNoise(t2, 0.0f) * 10.0f) - 1.0f) * 10.0f;
         
         t1 += Time.deltaTime;
         t2 += Time.deltaTime;
