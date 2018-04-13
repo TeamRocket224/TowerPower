@@ -197,8 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecfd6920ab1d344b8beae6345b3a330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 5000
-  description: Made for the color to match the style.
+  cost: 100
+  description: With just a hint of cherry.
   EnergyChargeRate: -1
 --- !u!222 &222245995184972574
 CanvasRenderer:

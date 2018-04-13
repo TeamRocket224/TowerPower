@@ -131,7 +131,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Teal
+  m_Text: Forest Green
 --- !u!114 &114319015215295004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,8 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecfd6920ab1d344b8beae6345b3a330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 10
-  description: Teal and Stuff.
+  cost: 0
+  description: Green and Stuff.
   EnergyChargeRate: -1
 --- !u!222 &222378527521091286
 CanvasRenderer:

@@ -110,8 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecfd6920ab1d344b8beae6345b3a330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 550
-  description: Circle Marvelous Yorkies Kicking.
+  cost: 10
+  description: With a hint of Blue Raspberry.
   EnergyChargeRate: -1
 --- !u!114 &114411127367522262
 MonoBehaviour:

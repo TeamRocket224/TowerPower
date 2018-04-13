@@ -170,8 +170,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cecfd6920ab1d344b8beae6345b3a330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 1000
-  description: Nothing scares a Zombie more than water.
+  cost: 50
+  description: Gold plating doesn't come included.
   EnergyChargeRate: -1
 --- !u!114 &114890856291965106
 MonoBehaviour:
