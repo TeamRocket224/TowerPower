@@ -27752,12 +27752,20 @@ MonoBehaviour:
   ShadowAnimator: {fileID: 1874971584}
   SkinAnimatorControllers:
   - {fileID: 9100000, guid: 07ebafbb7e0f2a44ea8d6e009645ab1e, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 22100000, guid: 4f623c53a8a56ee4a9bd8a447ccfe651, type: 2}
+  - {fileID: 22100000, guid: 1ebdf58f971b0f64e87e6370573f2823, type: 2}
+  - {fileID: 22100000, guid: 1667bd8cd7a46cb4498e2257c8cdb845, type: 2}
+  - {fileID: 22100000, guid: 9d3d82dc4c5fa22489f5846db00fffcd, type: 2}
+  - {fileID: 22100000, guid: a4624832f2036984a8ebfb413d652a42, type: 2}
+  - {fileID: 22100000, guid: edfe6edb74c7ad0429c3ec2e47b2f972, type: 2}
+  - {fileID: 22100000, guid: b712b01b3a888d94e95468e3a2dce0d2, type: 2}
+  - {fileID: 22100000, guid: 232d874261d09a842b0bc27499c1628b, type: 2}
+  - {fileID: 22100000, guid: 2771c2b22b30c96418b9252180b68701, type: 2}
+  - {fileID: 22100000, guid: 7f9b61e61ec33e9499875248d69ff625, type: 2}
+  - {fileID: 22100000, guid: 6063e0a85171f3440b9cb4809fcbe056, type: 2}
+  - {fileID: 22100000, guid: 64aca8f3e1f70d34c815dd99edd94cb4, type: 2}
+  - {fileID: 22100000, guid: b2363bd12526297409ba15a46fa92d3e, type: 2}
+  - {fileID: 22100000, guid: 2a02fd903dbe29d4b95263fd800edf05, type: 2}
   HintText: {fileID: 1862812001}
   PlayerDistance: 1
   CameraTransform: {fileID: 1079676893}
