@@ -126,7 +126,7 @@ public class Player : MonoBehaviour
     public void ChangeSkin() {
         var SkinIndex = PlayerPrefs.GetInt("skin", 0);
         GraphicAnimator.runtimeAnimatorController = SkinAnimatorControllers[SkinIndex];
-        ShadowAnimator.runtimeAnimatorController = SkinAnimatorControllers[SkinIndex];
+        ShadowAnimator.runtimeAnimatorController  = SkinAnimatorControllers[SkinIndex];
     }
 
     public void UpdateCoins() {
