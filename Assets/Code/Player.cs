@@ -183,8 +183,11 @@ public class Player : MonoBehaviour
             Tutorial.SetActive(false);
         }
 
-        ddX = Input.GetAxisRaw("Horizontal");
-        ShouldJump = Input.GetKeyDown(KeyCode.Space);
+        if (Application.isEditor)
+        {
+            ddX = Input.GetAxisRaw("Horizontal");
+            ShouldJump = Input.GetKeyDown(KeyCode.Space);
+        }
 
         if (TripleJump)
         {
