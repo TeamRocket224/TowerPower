@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public Water Water;
     public Text HeightText;
     public Text CoinsText;
+    public Text RemainingJumpsRight;
+    public Text RemainingJumpsLeft;
     public Animator CoinsImage;
     public Text DeathCoinsText;
     public Text DeathHeightText;
@@ -139,12 +141,16 @@ public class Player : MonoBehaviour
             case MovementMode.Grounded:
             {
                 if (ddX != 0) {
+                    RemainingJumpsLeft.text  = "X2";
+                    RemainingJumpsRight.text = "X2";
                     MotionParticleSystem.Play();
                 }
                 break;
             }
             case MovementMode.Ballistic:
             {
+                RemainingJumpsLeft.text  = "X1";
+                RemainingJumpsRight.text = "X1";
                 LastPlatformPosition = Position + new Vector2(-GroundedDirection * 0.05f, 0.0f);
                 JumpGracePeriodTimer = JumpGracePeriod;
                 HasDoubleJumped = false;
@@ -285,6 +291,8 @@ public class Player : MonoBehaviour
                             if (JumpGracePeriodTimer <= 0.0f)
                             {
                                 SetTrigger("DoubleJump");
+                                RemainingJumpsLeft.text  = "X0";
+                                RemainingJumpsRight.text = "X0";
                                 DoubleJump.Play();
                                 HasDoubleJumped = true;
                             }
