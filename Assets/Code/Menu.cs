@@ -373,6 +373,7 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
+        PlayerPrefs.SetString("scores", "50000;0;0;0;0");
         PlayerPrefs.SetInt("skill_unlock_1", 1);
         PlayerPrefs.SetInt("skin_unlock_1", 1);
 

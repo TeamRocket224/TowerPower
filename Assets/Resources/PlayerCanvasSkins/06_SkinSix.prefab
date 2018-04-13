@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 250
-  description: She's just actualy gum.
+  description: She's just actually gum.
   EnergyChargeRate: -1
 --- !u!114 &114587181996966664
 MonoBehaviour:
