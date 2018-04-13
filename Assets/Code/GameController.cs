@@ -167,7 +167,7 @@ public class GameController : MonoBehaviour
     }
 
     void Awake() {
-        Application.targetFrameRate = 30;
+        Application.targetFrameRate = 60;
         Application.runInBackground = false;
     }
 
