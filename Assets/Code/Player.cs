@@ -49,7 +49,8 @@ public class Player : MonoBehaviour
             "Hint: Change your equipped Skin and Skill in the Customize Menu!", 
             "Hint: Use your Double Jump wisely!",
             "Hint: The Blue Skull moves faster, and stuns for much longer than the White Skull!",
-            "Hint: Careful for moving platforms!  Don't get too hasty when jumping onto it!"
+            "Hint: Careful for moving platforms!  Don't get too hasty when jumping onto it!",
+            "Hint: You have 2 jumps! One from a platform, and one in the air!  They refresh when you land again!"
         };
 
     public float PlayerDistance;
@@ -141,16 +142,20 @@ public class Player : MonoBehaviour
             case MovementMode.Grounded:
             {
                 if (ddX != 0) {
-                    RemainingJumpsLeft.text  = "X2";
-                    RemainingJumpsRight.text = "X2";
+                    RemainingJumpsLeft.text  = "Jump!";
+                    RemainingJumpsRight.text = "Jump!";
+                    RemainingJumpsLeft.color  = Color.green;
+                    RemainingJumpsRight.color = Color.green;
                     MotionParticleSystem.Play();
                 }
                 break;
             }
             case MovementMode.Ballistic:
             {
-                RemainingJumpsLeft.text  = "X1";
-                RemainingJumpsRight.text = "X1";
+                RemainingJumpsLeft.text  = "Double Jump!";
+                RemainingJumpsRight.text = "Double Jump!";
+                RemainingJumpsLeft.color  = Color.yellow;
+                RemainingJumpsRight.color = Color.yellow;
                 LastPlatformPosition = Position + new Vector2(-GroundedDirection * 0.05f, 0.0f);
                 JumpGracePeriodTimer = JumpGracePeriod;
                 HasDoubleJumped = false;
@@ -291,8 +296,10 @@ public class Player : MonoBehaviour
                             if (JumpGracePeriodTimer <= 0.0f)
                             {
                                 SetTrigger("DoubleJump");
-                                RemainingJumpsLeft.text  = "X0";
-                                RemainingJumpsRight.text = "X0";
+                                RemainingJumpsLeft.text  = "No Jumps!";
+                                RemainingJumpsRight.text = "No Jumps!";
+                                RemainingJumpsLeft.color  = Color.red;
+                                RemainingJumpsRight.color = Color.red;
                                 DoubleJump.Play();
                                 HasDoubleJumped = true;
                             }
