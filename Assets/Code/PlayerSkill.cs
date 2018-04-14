@@ -7,7 +7,8 @@ public class PlayerSkill : MonoBehaviour
     public Player Player;
     public Tower Tower;
 
-    public GameObject UIContainer;
+    public GameObject UIContainerRight;
+    public GameObject UIContainerLeft;
     public GameObject UIAbility;
     public Slider UIEnergySlider;
     public Animator UIEnergyAnimator;
@@ -66,11 +67,13 @@ public class PlayerSkill : MonoBehaviour
             
             if (Type == SkillType.None)
             {
-                UIContainer.SetActive(false);
+                UIContainerRight.SetActive(false);
+                UIContainerLeft.SetActive(false);
             }
             else
             {
-                UIContainer.SetActive(true);
+                UIContainerRight.SetActive(true);
+                UIContainerLeft.SetActive(true);
                 EnergyChargeRate = PlayerPrefs.GetFloat("energy", 0);
             }
         }

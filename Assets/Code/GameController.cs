@@ -29,7 +29,8 @@ public class GameController : MonoBehaviour
 
     public void Start()
     {
-        Player.Dead   = ChangeToDeath;
+        Player.Dead     = ChangeToDeath;
+        Player.PlayGame = ChangeToGame;
         Menu.PlayGame = ChangeToGame;
         Menu.MainMenu = ChangeToMenu;
 
@@ -91,8 +92,17 @@ public class GameController : MonoBehaviour
             Camera.main.transform.position = new Vector3(30.0f, 2.0f, 0.0f);
         }
 
-        Water.IsRising = true;
-        Player.IsControlling = true;
+        if (PlayerPrefs.GetInt("game_tutorial") == 0) {
+            Menu.Home.SetActive(false);
+            Water.IsRising = false;
+            Player.IsControlling = false;
+        }
+        else {
+            Menu.Home.SetActive(true);
+            Water.IsRising = true;
+            Player.IsControlling = true;
+        }
+
         Player.OwnsCamera = true;
         Player.IsPaused = false;
         PlayerSkill.IsPaused = false;
@@ -107,8 +117,8 @@ public class GameController : MonoBehaviour
         GameUI.SetActive(true);
 
         State = GameState.Game;
-        IsPaused = false;
         IsDead = false;
+        IsPaused = false;        
     }
 
     public void ChangeToDeath()

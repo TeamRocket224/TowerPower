@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     public bool OwnsCamera;
     public bool IsPaused;
     public System.Action Dead;
+    public System.Action PlayGame;
 
     public CapsuleCollider Capsule;
     public PlayerSkill PlayerSkill;
@@ -34,7 +35,8 @@ public class Player : MonoBehaviour
     public GameObject Menu;
     public GameObject Joystick;
     public GameObject DeathScreen;
-    public GameObject Tutorial;
+    public GameObject TutorialRight;
+    public GameObject TutorialLeft;
 
     public Transform GraphicTransform;
     public Animator GraphicAnimator;
@@ -132,6 +134,12 @@ public class Player : MonoBehaviour
         ShadowAnimator.runtimeAnimatorController  = SkinAnimatorControllers[SkinIndex];
     }
 
+    public void StartFirstGame() {
+        PlayerPrefs.SetInt("game_tutorial", 1);
+        Joystick.GetComponent<Joystick>().ResetJoystick();
+        PlayGame();
+    }
+
     public void UpdateCoins() {
         Coins = PlayerPrefs.GetInt("coins");
     }
@@ -185,7 +193,8 @@ public class Player : MonoBehaviour
         }
 
         if (PlayerPrefs.GetInt("game_tutorial") == 1) {
-            Tutorial.SetActive(false);
+            TutorialRight.SetActive(false);
+            TutorialLeft.SetActive(false);
         }
 
         if (Application.isEditor)
