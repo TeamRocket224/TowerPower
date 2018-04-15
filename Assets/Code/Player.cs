@@ -77,7 +77,6 @@ public class Player : MonoBehaviour
     public Vector2 Position;
     float GroundedAccelerationValue;
     float GroundedDirection;
-    float GroundedFrictionModifier;
     public Vector2 BallisticVelocity;
     bool HasDoubleJumped;
     float JumpGracePeriodTimer;
@@ -89,6 +88,8 @@ public class Player : MonoBehaviour
 
     float SleepTimer;
 
+    Platform CurrentPlatform;
+    float PlatformThetaDelta;
     public Vector2 LastPlatformPosition;
 
     public enum MovementMode
@@ -264,6 +265,15 @@ public class Player : MonoBehaviour
                         GroundedAccelerationValue += (ddX != 0.0f ? 1.0f : -1.0f) * GroundedHorizontalAcceleration * HorizontalConversionFactor * dT;
                         GroundedAccelerationValue = Mathf.Clamp(GroundedAccelerationValue, 0.0f, 1.0f);
 
+                        if (GroundedAccelerationValue == 0.0)
+                        {
+                            Position.x = CurrentPlatform.CurrentTheta - PlatformThetaDelta;
+                        }
+                        else
+                        {
+                            PlatformThetaDelta = CurrentPlatform.CurrentTheta - Position.x;
+                        }
+
                         float Acceleration = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed * HorizontalConversionFactor;
                         Position.x += Acceleration * dT;
 
@@ -335,7 +345,7 @@ public class Player : MonoBehaviour
                     {
                         if (hit.normal == Vector3.up)
                         {
-                            GroundedFrictionModifier = hit.collider.GetComponent<Platform>().Friction;
+                            CurrentPlatform = hit.collider.GetComponent<Platform>();
 
                             ChangeMovementMode(MovementMode.Grounded);
                             if (SleepTimer <= 0.0f)

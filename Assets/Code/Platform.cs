@@ -3,37 +3,39 @@ using UnityEngine;
 public class Platform : MonoBehaviour
 {
     public float Friction;
-    public float MoveSpeed;
 
     public bool IsPaused;
 
-    float Height1;
-    float Height2;
+    float Height;
+    float Radius;
+
     float Theta1;
     float Theta2;
 
-    float Radius;
-
-    float CurrentHeight;
-    float CurrentTheta;
+    public float CurrentTheta;
     bool IsMoving;
+    float MoveSpeed;
 
     bool MovingToTwo;
 
-    public void Initialize(float height, float theta, float radius, bool isMoving)
+    public void Initialize(float height, float theta, float radius, bool isMoving = false, float moveDelta = 0.0f, float moveSpeed = 0.0f)
     {
-        Height1 = height;
-        Height2 = Height1 + Random.Range(-2.5f, 2.5f);
-        Theta1 = theta;
-        Theta2 = Theta1 + Random.Range(-0.5f, 0.5f);
+        Height = height;
         Radius = radius;
+
+        Theta1 = theta;
+        Theta2 = Theta1 + moveDelta;
+        
         IsMoving = isMoving;
-        IsMoving = false;
+        MoveSpeed = moveSpeed;
 
-        CurrentHeight = height;
         CurrentTheta = Theta1;
+        UpdateTransform();
+    }
 
-        transform.position = new Vector3(Mathf.Cos(CurrentTheta) * Radius, CurrentHeight, Mathf.Sin(CurrentTheta) * Radius);
+    void UpdateTransform()
+    {
+        transform.position = new Vector3(Mathf.Cos(CurrentTheta) * Radius, Height, Mathf.Sin(CurrentTheta) * Radius);
         transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
     }
 
@@ -43,7 +45,7 @@ public class Platform : MonoBehaviour
         {
             var desired = MovingToTwo ? Theta2 : Theta1;
             var delta = desired - CurrentTheta;
-            if (Mathf.Abs(delta) < 0.001f)
+            if (Mathf.Abs(delta) < 0.01f)
             {
                 MovingToTwo = !MovingToTwo;
             }
@@ -52,7 +54,6 @@ public class Platform : MonoBehaviour
             CurrentTheta += direction * MoveSpeed * Time.deltaTime;
         }
 
-        transform.position = new Vector3(Mathf.Cos(CurrentTheta) * Radius, CurrentHeight, Mathf.Sin(CurrentTheta) * Radius);
-        transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
+        UpdateTransform();
     }
 }

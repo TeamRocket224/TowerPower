@@ -54,6 +54,12 @@ public class Tower : MonoBehaviour
         [Range(0.0f, 1.0f)]
         public float MovingPlatformSpawnChance;
 
+        public float MovingPlatformDeltaMin;
+        public float MovingPlatformDeltaMax;
+
+        public float MovingPlatformSpeedMin;
+        public float MovingPlatformSpeedMax;
+
         [Range(0.0f, 1.0f)]
         public float SmallPlatformSpawnChance;
 
@@ -108,7 +114,7 @@ public class Tower : MonoBehaviour
         GenerationPaths.Add(new GenerationPath());
 
         var FirstPlatform = Instantiate(LargePlatform, new Vector3(), Quaternion.identity, transform);
-        FirstPlatform.GetComponent<Platform>().Initialize(0.0f, 0.0f, Radius, false);
+        FirstPlatform.GetComponent<Platform>().Initialize(0.0f, 0.0f, Radius);
         Instantiate(CenterPiece, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, transform);
 
         var scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';');
@@ -260,13 +266,10 @@ public class Tower : MonoBehaviour
 
                     var Platform = Instantiate(PlatformPrefab, new Vector3(), Quaternion.identity, transform);
                     bool IsMoving = Random.Range(0.0f, 1.0f) < Range.MovingPlatformSpawnChance;
-                    Platform.GetComponent<Platform>().Initialize(CurrentHeight, Path.Theta, Radius, IsMoving);
-
-                    if (CurrentHeight > 90.0f)
-                    {
-                        Debug.Log(Type);
-                        Debug.Log(Platform);
-                    }
+                    float MoveDirection = Random.Range(0.0f, 1.0f) < 0.5f ? -1.0f : 1.0f;
+                    float MoveDelta = Random.Range(Range.MovingPlatformDeltaMin, Range.MovingPlatformDeltaMax);
+                    float MoveSpeed = Random.Range(Range.MovingPlatformSpeedMin, Range.MovingPlatformSpeedMax);
+                    Platform.GetComponent<Platform>().Initialize(CurrentHeight, Path.Theta, Radius, IsMoving, MoveDelta * MoveDirection, MoveSpeed);
 
                     // foreach (var Child in Children)
                     // {
