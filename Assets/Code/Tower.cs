@@ -20,8 +20,14 @@ public class Tower : MonoBehaviour
 
     public GameObject CenterPiece;
     public GameObject SmallPlatform;
+    public GameObject SmallPlatformIcy;
+    public GameObject SmallPlatformSticky;
     public GameObject MediumPlatform;
+    public GameObject MediumPlatformIcy;
+    public GameObject MediumPlatformSticky;
     public GameObject LargePlatform;
+    public GameObject LargePlatformIcy;
+    public GameObject LargePlatformSticky;
 
     public GameObject SkullOne;
     public GameObject SkullTwo;
@@ -52,6 +58,12 @@ public class Tower : MonoBehaviour
         public float StartHeight;
 
         [Range(0.0f, 1.0f)]
+        public float SmallPlatformSpawnChance;
+
+        [Range(0.0f, 1.0f)]
+        public float MediumPlatformSpawnChance;
+
+        [Range(0.0f, 1.0f)]
         public float MovingPlatformSpawnChance;
 
         public float MovingPlatformDeltaMin;
@@ -61,10 +73,10 @@ public class Tower : MonoBehaviour
         public float MovingPlatformSpeedMax;
 
         [Range(0.0f, 1.0f)]
-        public float SmallPlatformSpawnChance;
+        public float IcyPlatformSpawnChance;
 
         [Range(0.0f, 1.0f)]
-        public float MediumPlatformSpawnChance;
+        public float StickyPlatformSpawnChance;
 
         [Range(0.0f, 1.0f)]
         public float SkullOneSpawnChance;
@@ -229,6 +241,20 @@ public class Tower : MonoBehaviour
                         Debug.Log("Failed to spawn a platform, something is off with the random generation");
                     }
 
+                    float PlatformModifierChance = Random.Range(0.0f, Range.IcyPlatformSpawnChance + Range.StickyPlatformSpawnChance + 1.0f);
+                    
+                    bool SpawnIcy = false;
+                    bool SpawnSticky = false;
+
+                    if (PlatformModifierChance >= 0.0f && PlatformModifierChance < Range.IcyPlatformSpawnChance)
+                    {
+                        SpawnIcy = true;
+                    }
+                    else if (PlatformModifierChance >= Range.IcyPlatformSpawnChance && PlatformModifierChance < Range.IcyPlatformSpawnChance + Range.StickyPlatformSpawnChance)
+                    {
+                        SpawnSticky = true;
+                    }
+
                     GameObject PlatformPrefab = null;
                     var Children = new List<GameObject>();
                     switch (Type)
@@ -238,7 +264,19 @@ public class Tower : MonoBehaviour
                             SpawnDecorations(Children, Path.Theta - 0.03f, Path.Theta + 0.03f, CurrentHeight);
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta);
 
-                            PlatformPrefab = SmallPlatform;
+                            if (SpawnIcy)
+                            {
+                                PlatformPrefab = SmallPlatformIcy;
+                            }
+                            else if (SpawnSticky)
+                            {
+                                PlatformPrefab = SmallPlatformSticky;
+                            }
+                            else
+                            {
+                                PlatformPrefab = SmallPlatform;
+                            }
+
                             break;
                         }
                         case PlatformType.Medium:
@@ -248,7 +286,19 @@ public class Tower : MonoBehaviour
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta + 0.1f);
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta - 0.1f);
 
-                            PlatformPrefab = MediumPlatform;
+                            if (SpawnIcy)
+                            {
+                                PlatformPrefab = MediumPlatformIcy;
+                            }
+                            else if (SpawnSticky)
+                            {
+                                PlatformPrefab = MediumPlatformSticky;
+                            }
+                            else
+                            {
+                                PlatformPrefab = MediumPlatform;
+                            }
+
                             break;
                         }
                         case PlatformType.Large:
@@ -259,7 +309,19 @@ public class Tower : MonoBehaviour
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta);
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta - 0.2f);
 
-                            PlatformPrefab = LargePlatform;
+                            if (SpawnIcy)
+                            {
+                                PlatformPrefab = LargePlatformIcy;
+                            }
+                            else if (SpawnSticky)
+                            {
+                                PlatformPrefab = LargePlatformSticky;
+                            }
+                            else
+                            {
+                                PlatformPrefab = LargePlatform;
+                            }
+
                             break;
                         }
                     }

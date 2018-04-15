@@ -237,6 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70f9ff690f3a9284ebecc5b6bf8b7eed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Friction: 1
-  MoveSpeed: 0.1
+  SpeedModifier: 0.5
   IsPaused: 0
+  CurrentTheta: 0

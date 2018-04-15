@@ -4213,9 +4213,21 @@ MonoBehaviour:
     type: 2}
   SmallPlatform: {fileID: 1412886884789920, guid: d1d22e5edd555cf4c8533baa25e5c40b,
     type: 2}
+  SmallPlatformIcy: {fileID: 1965835714357406, guid: 1fd52a4970f2c2a4694783051004ae3f,
+    type: 2}
+  SmallPlatformSticky: {fileID: 1965668964967710, guid: a5d4c596ff07f5a4dbd62b614375fd72,
+    type: 2}
   MediumPlatform: {fileID: 1517516834526410, guid: 7faf897f276864544a0e479890447388,
     type: 2}
+  MediumPlatformIcy: {fileID: 1745368049001404, guid: f605974f9f7cb3c4693e1607f69bfb2c,
+    type: 2}
+  MediumPlatformSticky: {fileID: 1779049621451830, guid: 8df8cdeb6ede91b4bb14883d3e75a445,
+    type: 2}
   LargePlatform: {fileID: 1756749435136860, guid: cd28f1833ad0616438f35ed6191a6b21,
+    type: 2}
+  LargePlatformIcy: {fileID: 1783362295913236, guid: ed1c0181eec76c04da6364445eb5c087,
+    type: 2}
+  LargePlatformSticky: {fileID: 1012159457576970, guid: 405684663bb9108409e0aa9996fcf8e7,
     type: 2}
   SkullOne: {fileID: 1622461331204544, guid: 28a3ca556dd2d154992a506063f24821, type: 2}
   SkullTwo: {fileID: 1935873877950894, guid: f3745651f3debb84ca24414574ae4be8, type: 2}
@@ -4241,65 +4253,75 @@ MonoBehaviour:
   ForwardGenerationHeight: 25
   Ranges:
   - StartHeight: 0
+    SmallPlatformSpawnChance: 0
+    MediumPlatformSpawnChance: 0
     MovingPlatformSpawnChance: 0.793
     MovingPlatformDeltaMin: 0.3
     MovingPlatformDeltaMax: 0.7
     MovingPlatformSpeedMin: 0.1
     MovingPlatformSpeedMax: 0.4
-    SmallPlatformSpawnChance: 0
-    MediumPlatformSpawnChance: 0
+    IcyPlatformSpawnChance: 1
+    StickyPlatformSpawnChance: 1
     SkullOneSpawnChance: 0
     SkullTwoSpawnChance: 0
     YellowCoinSpawnChance: 1
     GreenCoinSpawnChance: 0
     BlueCoinSpawnChance: 0
   - StartHeight: 10
+    SmallPlatformSpawnChance: 0
+    MediumPlatformSpawnChance: 0.25
     MovingPlatformSpawnChance: 0.01
     MovingPlatformDeltaMin: 0
     MovingPlatformDeltaMax: 0
     MovingPlatformSpeedMin: 0
     MovingPlatformSpeedMax: 0
-    SmallPlatformSpawnChance: 0
-    MediumPlatformSpawnChance: 0.25
+    IcyPlatformSpawnChance: 0
+    StickyPlatformSpawnChance: 0
     SkullOneSpawnChance: 0.1
     SkullTwoSpawnChance: 0
     YellowCoinSpawnChance: 0.5
     GreenCoinSpawnChance: 0.1
     BlueCoinSpawnChance: 0
   - StartHeight: 100
+    SmallPlatformSpawnChance: 0
+    MediumPlatformSpawnChance: 0.5
     MovingPlatformSpawnChance: 0.05
     MovingPlatformDeltaMin: 0
     MovingPlatformDeltaMax: 0
     MovingPlatformSpeedMin: 0
     MovingPlatformSpeedMax: 0
-    SmallPlatformSpawnChance: 0
-    MediumPlatformSpawnChance: 0.5
+    IcyPlatformSpawnChance: 0
+    StickyPlatformSpawnChance: 0
     SkullOneSpawnChance: 0.375
     SkullTwoSpawnChance: 0
     YellowCoinSpawnChance: 0.5
     GreenCoinSpawnChance: 0.2
     BlueCoinSpawnChance: 0.01
   - StartHeight: 300
+    SmallPlatformSpawnChance: 0.5
+    MediumPlatformSpawnChance: 0.8
     MovingPlatformSpawnChance: 0.1
     MovingPlatformDeltaMin: 0
     MovingPlatformDeltaMax: 0
     MovingPlatformSpeedMin: 0
     MovingPlatformSpeedMax: 0
-    SmallPlatformSpawnChance: 0.5
-    MediumPlatformSpawnChance: 0.8
+    IcyPlatformSpawnChance: 0
+    StickyPlatformSpawnChance: 0
     SkullOneSpawnChance: 0.375
     SkullTwoSpawnChance: 0.1
     YellowCoinSpawnChance: 0.75
     GreenCoinSpawnChance: 0.2
     BlueCoinSpawnChance: 0.1
   - StartHeight: 500
+    SmallPlatformSpawnChance: 0.75
+    MediumPlatformSpawnChance: 0.9
     MovingPlatformSpawnChance: 0.25
     MovingPlatformDeltaMin: 0
     MovingPlatformDeltaMax: 0
     MovingPlatformSpeedMin: 0
     MovingPlatformSpeedMax: 0
-    SmallPlatformSpawnChance: 0.75
-    MediumPlatformSpawnChance: 0.9
+    IcyPlatformSpawnChance: 0
+    StickyPlatformSpawnChance: 0
     SkullOneSpawnChance: 0.45
     SkullTwoSpawnChance: 0.3
     YellowCoinSpawnChance: 0.75
@@ -29029,7 +29051,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2114923716}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -782.47986, y: -418.76007, z: 0}
+  m_LocalPosition: {x: -782.48, y: -418.76007, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1053204572}
@@ -29037,7 +29059,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.056, y: 0.10300001}
   m_AnchorMax: {x: 0.056, y: 0.10300001}
-  m_AnchoredPosition: {x: 70.00009, y: 9.999939}
+  m_AnchoredPosition: {x: 70, y: 9.999939}
   m_SizeDelta: {x: 130, y: 31}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2114923718

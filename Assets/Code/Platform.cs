@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    public float Friction;
+    public float SpeedModifier;
 
     public bool IsPaused;
 

@@ -274,8 +274,8 @@ public class Player : MonoBehaviour
                             PlatformThetaDelta = CurrentPlatform.CurrentTheta - Position.x;
                         }
 
-                        float Acceleration = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed * HorizontalConversionFactor;
-                        Position.x += Acceleration * dT;
+                        float Velocity = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed * CurrentPlatform.SpeedModifier * HorizontalConversionFactor;
+                        Position.x += Velocity * dT;
 
                         if (ShouldJump)
                         {
@@ -292,7 +292,7 @@ public class Player : MonoBehaviour
                             if (!Physics.Raycast(new Ray(transform.position, new Vector3(0.0f, -1.0f, 0.0f)), out hit, 0.1f))
                             {
                                 ChangeMovementMode(MovementMode.Ballistic);
-                                BallisticVelocity = new Vector2(Acceleration, 0.0f);
+                                BallisticVelocity = new Vector2(Velocity, 0.0f);
                             }
                         }
 

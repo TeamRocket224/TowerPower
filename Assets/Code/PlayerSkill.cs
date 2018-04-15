@@ -209,12 +209,19 @@ public class PlayerSkill : MonoBehaviour
             if (CurrentEnergy < 1.0f && RechargeCooldownTimer == 0.0f && !IsOnCooldown)
             {
                 CurrentEnergy += EnergyChargeRate * Time.deltaTime;
-                UIEnergyAnimator.SetInteger("energy", 0);
+
+                if (Type != SkillType.None)
+                {
+                    UIEnergyAnimator.SetInteger("energy", 0);
+                }
                 
                 if (CurrentEnergy >= 1.0f)
                 {
                     CurrentEnergy = 1.0f;
-                    UIEnergyAnimator.SetInteger("energy", 1);
+                    if (Type != SkillType.None)
+                    {
+                        UIEnergyAnimator.SetInteger("energy", 1);
+                    }
                 }
             }
 
