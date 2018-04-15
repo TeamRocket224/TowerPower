@@ -338,7 +338,14 @@ public class Player : MonoBehaviour
                             GroundedFrictionModifier = hit.collider.GetComponent<Platform>().Friction;
 
                             ChangeMovementMode(MovementMode.Grounded);
-                            GroundedAccelerationValue = ddX != 0.0f ? 1.0f : 0.5f;
+                            if (SleepTimer <= 0.0f)
+                            {
+                                GroundedAccelerationValue = ddX != 0.0f ? 1.0f : 0.5f;
+                            }
+                            else
+                            {
+                                GroundedAccelerationValue = 0.0f;
+                            }
 
                             dPStep = (hit.distance / distance) - 0.01f;
                         }
