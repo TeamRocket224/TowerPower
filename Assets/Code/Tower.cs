@@ -333,10 +333,10 @@ public class Tower : MonoBehaviour
                     float MoveSpeed = Random.Range(Range.MovingPlatformSpeedMin, Range.MovingPlatformSpeedMax);
                     Platform.GetComponent<Platform>().Initialize(CurrentHeight, Path.Theta, Radius, IsMoving, MoveDelta * MoveDirection, MoveSpeed);
 
-                    // foreach (var Child in Children)
-                    // {
-                    //     Child.transform.SetParent(Platform.transform);
-                    // }
+                    foreach (var Child in Children)
+                    {
+                        Child.transform.SetParent(Platform.transform, true);
+                    }
                 }
 
                 Instantiate(CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
