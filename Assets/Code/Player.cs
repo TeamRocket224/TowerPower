@@ -265,13 +265,16 @@ public class Player : MonoBehaviour
                         GroundedAccelerationValue += (ddX != 0.0f ? 1.0f : -1.0f) * GroundedHorizontalAcceleration * HorizontalConversionFactor * dT;
                         GroundedAccelerationValue = Mathf.Clamp(GroundedAccelerationValue, 0.0f, 1.0f);
 
-                        if (GroundedAccelerationValue == 0.0)
+                        if (CurrentPlatform.IsMoving)
                         {
-                            Position.x = CurrentPlatform.CurrentTheta - PlatformThetaDelta;
-                        }
-                        else
-                        {
-                            PlatformThetaDelta = CurrentPlatform.CurrentTheta - Position.x;
+                            if (GroundedAccelerationValue == 0.0)
+                            {
+                                Position.x = CurrentPlatform.CurrentTheta - PlatformThetaDelta;
+                            }
+                            else
+                            {
+                                PlatformThetaDelta = CurrentPlatform.CurrentTheta - Position.x;
+                            }
                         }
 
                         float Velocity = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed * CurrentPlatform.SpeedModifier * HorizontalConversionFactor;

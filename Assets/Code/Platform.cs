@@ -13,7 +13,7 @@ public class Platform : MonoBehaviour
     float Theta2;
 
     public float CurrentTheta;
-    bool IsMoving;
+    public bool IsMoving;
     float MoveSpeed;
 
     bool MovingToTwo;
