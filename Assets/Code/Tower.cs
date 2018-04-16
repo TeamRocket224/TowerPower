@@ -400,7 +400,7 @@ public class Tower : MonoBehaviour
 
             if (Random.value < 0.6f)
             {
-                var TheGrass = Instantiate(Random.value < 0.5f ? Grass_01 : Grass_02, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.25f, 0.0f), Quaternion.identity, transform);
+                var TheGrass = Instantiate(Random.value < 0.5f ? Grass_01 : Grass_02, Position + new Vector3(0.0f, (Scale / 2.0f) + 1f, 0.0f), Quaternion.identity, transform);
                 TheGrass.transform.localScale = new Vector3(Scale, Scale, Scale);
                 TheGrass.transform.LookAt(new Vector3(0.0f, TheGrass.transform.position.y, 0.0f));
 
