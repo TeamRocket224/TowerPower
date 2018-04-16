@@ -43,9 +43,10 @@ public class Tower : MonoBehaviour
     public GameObject Grass_01;
     public GameObject Grass_02;
     public GameObject Vase;
-    public GameObject ChainSmall;
-    public GameObject ChainMedium;
-    public GameObject ChainLarge;
+    public GameObject Crab;
+    public GameObject Grave;
+
+    public AudioSource HighScoreAudio;
 
     public float Radius;
     public float PlatformSpacingWidth;
@@ -142,6 +143,9 @@ public class Tower : MonoBehaviour
 
         if (GenerationHeight > CurrentHighScore && HighScoreParticle != null) {
             HighScoreParticle.GetComponent<HighScoreDespawn>().NewHighScore();
+            if (!HighScoreAudio.isPlaying) {
+                HighScoreAudio.Play();
+            }
             Destroy(HighScoreParticle, 3f);
         }
 
@@ -410,6 +414,26 @@ public class Tower : MonoBehaviour
                 TheVase.transform.LookAt(new Vector3(0.0f, TheVase.transform.position.y, 0.0f));
 
                 Children.Add(TheVase);
+            }
+
+            if (Random.value < 0.05f)
+            {
+                var TheGrave = Instantiate(Grave, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.45f, 0.0f), Quaternion.identity, transform);
+                TheGrave.transform.localScale = new Vector3(Scale, Scale, Scale);
+                TheGrave.transform.LookAt(new Vector3(0.0f, TheGrave.transform.position.y, 0.0f));
+
+                Children.Add(TheGrave);
+            }
+
+            if (Random.value < 0.005f)
+            {
+                Scale = Scale / 3;
+
+                var TheCrab = Instantiate(Crab, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.6f, 0.0f), Quaternion.identity, transform);
+                TheCrab.transform.localScale = new Vector3(Scale, Scale, Scale);
+                TheCrab.transform.LookAt(new Vector3(0.0f, TheCrab.transform.position.y, 0.0f));
+
+                Children.Add(TheCrab);
             }
 
             CurrentTheta += Step;

@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour {
     public GameObject Purchase;
     public GameObject PlayerSkin;
     public GameObject PlayerSkill;
+    public GameObject PickSkins;
 
     public GameObject CustomizeButton;
     public GameObject ScoreboardButton;
@@ -32,6 +33,7 @@ public class Menu : MonoBehaviour {
     public Text Coins;
 
     public AudioSource MainMusic;
+    public AudioSource ButtonClick;
     public GameObject AllSFX;
 
     public GameObject CustomizeTutorialOne;
@@ -78,18 +80,21 @@ public class Menu : MonoBehaviour {
 
     public void OnHomePlay() {
         PlayGame();
+        ButtonClick.Play();
     }
 
     public void OnHomeScoreboard() {
         Scoreboard.SetActive(true);
         Home.GetComponent<Animator>().SetTrigger("Home_Out");
         Scoreboard.GetComponent<Animator>().SetTrigger("Scoreboard_In");
+        ButtonClick.Play();
     }
 
     public void OnHomePurchaseSkin () {
         Purchase.SetActive(true);
         Customize.GetComponent<Animator>().SetTrigger("Customize_Out");
         Purchase.GetComponent<Animator>().SetTrigger("Purchase_In");
+        ButtonClick.Play();
 
         for (var i = 0; i < NewSkins.Length; i++) {
             if (PlayerSkinChoice == NewSkins[i]) {
@@ -117,6 +122,7 @@ public class Menu : MonoBehaviour {
         Purchase.SetActive(true);
         Customize.GetComponent<Animator>().SetTrigger("Customize_Out");
         Purchase.GetComponent<Animator>().SetTrigger("Purchase_In");
+        ButtonClick.Play();
 
         PlayerPrefs.SetInt("customize_tutorial", 1);
         CustomizeTutorialOne.SetActive(false);
@@ -152,6 +158,7 @@ public class Menu : MonoBehaviour {
         Options.SetActive(true);
         Home.GetComponent<Animator>().SetTrigger("Home_Out");
         Options.GetComponent<Animator>().SetTrigger("Options_In");
+        ButtonClick.Play();
 
         if (PlayerPrefs.GetInt("music", 1) == 1) {
             Music.isOn = true;
@@ -178,6 +185,7 @@ public class Menu : MonoBehaviour {
         Customize.SetActive(true);
         Home.GetComponent<Animator>().SetTrigger("Home_Out");
         Customize.GetComponent<Animator>().SetTrigger("Customize_In");
+        ButtonClick.Play();
 
         //Player Skin
         PlayerSkinChoice = PlayerPrefs.GetInt("skin");
@@ -204,18 +212,21 @@ public class Menu : MonoBehaviour {
         Home.SetActive(true);
         Scoreboard.GetComponent<Animator>().SetTrigger("Scoreboard_Out");
         Home.GetComponent<Animator>().SetTrigger("Home_In");
+        ButtonClick.Play();
     }
 
     public void OnOptionsBack() {
         Home.SetActive(true);
         Options.GetComponent<Animator>().SetTrigger("Options_Out");
         Home.GetComponent<Animator>().SetTrigger("Home_In");
+        ButtonClick.Play();
     }
 
     public void OnCustomizeBack() {
         Home.SetActive(true);
         Home.GetComponent<Animator>().SetTrigger("Home_In");
         Customize.GetComponent<Animator>().SetTrigger("Customize_Out");
+        ButtonClick.Play();
     }
 
     public void OnPurchaseBack() {
@@ -225,6 +236,7 @@ public class Menu : MonoBehaviour {
         Customize.GetComponent<Animator>().SetTrigger("Customize_In");
         Destroy(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).gameObject, 1.5f);
         CheckSkill(PlayerSkills[PlayerSkillChoice]);
+        ButtonClick.Play();
     }
 
     void CheckSkin(GameObject skin) {
@@ -268,6 +280,7 @@ public class Menu : MonoBehaviour {
     }
 
     public void OnSkinLeft() {
+        ButtonClick.Play();
         if (PlayerSkinChoice > 0) {
             PreviousSkinChoice = PlayerSkinChoice;
             PlayerSkinChoice--;
@@ -285,6 +298,7 @@ public class Menu : MonoBehaviour {
     }
 
     public void OnSkinRight() {
+        ButtonClick.Play();
         if (PlayerSkinChoice < LoadedPlayerSkins.Length - 1) {
             PreviousSkinChoice = PlayerSkinChoice;
             PlayerSkinChoice++;
@@ -302,6 +316,7 @@ public class Menu : MonoBehaviour {
     }
 
     public void OnSkillLeft() {
+        ButtonClick.Play();
         if (PlayerSkillChoice > 0)
         {
             PreviousSkillChoice = PlayerSkillChoice;
@@ -318,6 +333,7 @@ public class Menu : MonoBehaviour {
     }
 
     public void OnSkillRight() {
+        ButtonClick.Play();
         if (PlayerSkillChoice < LoadedPlayerSkills.Length - 1)
         {
             PreviousSkillChoice = PlayerSkillChoice;
@@ -333,14 +349,10 @@ public class Menu : MonoBehaviour {
         CheckSkill(PlayerSkills[PlayerSkillChoice]);
     }
 
-    public void delete_this() {
-        PlayerPrefs.SetInt("coins", 100000);
-        Coins.GetComponent<Text>().text = PlayerPrefs.GetInt("coins").ToString("n0");
-    }
-
     public void onPurchaseItem() {
         if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 0) {
             if (PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost) {
+                ButtonClick.Play();
                 PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
                 PlayerPrefs.SetInt("skill", PlayerSkillChoice);
                 PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
@@ -373,6 +385,7 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
+        PlayerPrefs.SetString("scores", "60;0;0;0;0");
         PlayerPrefs.SetInt("skill_unlock_1", 1);
         PlayerPrefs.SetInt("skin_unlock_1", 1);
 
@@ -459,6 +472,9 @@ public class Menu : MonoBehaviour {
             if (i != 0)
                 skin.SetActive(false);
         }
+
+        PickSkins.GetComponent<PickCustomize>().Skins = PlayerSkins;
+        PickSkins.GetComponent<PickCustomize>().PopulateSkins();;
 
         UpdateScores();
 

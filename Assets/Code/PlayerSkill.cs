@@ -7,6 +7,10 @@ public class PlayerSkill : MonoBehaviour
     public Player Player;
     public Tower Tower;
 
+    public AudioSource ButtonClick;
+    public AudioSource ShieldAudio;
+    public AudioSource RewindAudio;
+
     public GameObject UIContainerRight;
     public GameObject UIContainerLeft;
     public GameObject UIAbility;
@@ -88,6 +92,7 @@ public class PlayerSkill : MonoBehaviour
     {
         if (CanUse())
         {
+            ButtonClick.Play();
             bool DidUse = false;
             switch (Type)
             {
@@ -138,6 +143,7 @@ public class PlayerSkill : MonoBehaviour
                 case SkillType.AbsorbShield:
                 {
                     Shield.SetActive(true);
+                    ShieldAudio.Play();
                     Shield.transform.GetChild(0).GetComponent<Animator>().SetInteger("shield", 0);
                     Shield.transform.GetChild(1).GetComponent<Animator>().SetInteger("shield", 0);
                     ShieldActiveTimer = ShieldActiveTime;
@@ -149,6 +155,7 @@ public class PlayerSkill : MonoBehaviour
                     if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
                     {
                         RewindParticleIn.GetComponent<ParticleSystem>().Play();
+                        RewindAudio.Play();
                         Time.timeScale = 0.1f;
                         Rewind.SetActive(true);
                         RewindActiveTimer = RewindActiveTime;
@@ -262,6 +269,7 @@ public class PlayerSkill : MonoBehaviour
                         ShieldActiveTimer -= Time.deltaTime;
                         if (ShieldActiveTimer <= 0.0f)
                         {
+                            ShieldAudio.Play();
                             Shield.transform.GetChild(0).GetComponent<Animator>().SetInteger("shield", 1);
                             Shield.transform.GetChild(1).GetComponent<Animator>().SetInteger("shield", 1);
                             ShieldActiveTimer = 0.0f;

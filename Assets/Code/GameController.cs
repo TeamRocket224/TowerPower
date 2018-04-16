@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public GameObject MenuMainActions;
     public GameObject MenuPauseActions;
     public GameObject GameUI;
+    public GameObject PickUI;
     public GameObject DeathScreen;
     public GameObject NewHighScore;
 
@@ -19,6 +20,7 @@ public class GameController : MonoBehaviour
     {
         None,
         Menu,
+        Pick,
         Game,
         Death
     }
@@ -69,6 +71,24 @@ public class GameController : MonoBehaviour
         State = GameState.Menu;
         IsPaused = false;
         IsDead = false;
+    }
+
+    public void ChangeToPick() {
+        Water.IsRising = false;
+        Player.IsControlling = false;
+        Player.OwnsCamera = true;
+        Player.IsPaused = false;
+        PlayerSkill.IsPaused = true;
+        Player.IsPicking = true;
+        PickUI.SetActive(true);
+
+        Menu.Home.GetComponent<Animator>().SetTrigger("Home_Out");
+
+        GameUI.SetActive(false);
+        DeathScreen.SetActive(false);
+
+        State = GameState.Pick;
+        IsPaused = true;
     }
 
     public void ChangeToGame()

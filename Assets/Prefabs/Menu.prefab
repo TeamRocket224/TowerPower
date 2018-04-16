@@ -669,7 +669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1352714127530630
 GameObject:
   m_ObjectHideFlags: 1
@@ -2652,6 +2652,7 @@ MonoBehaviour:
   Purchase: {fileID: 1041679021016234}
   PlayerSkin: {fileID: 1470048678087038}
   PlayerSkill: {fileID: 1110249255293016}
+  PickSkins: {fileID: 0}
   CustomizeButton: {fileID: 1430076915120678}
   ScoreboardButton: {fileID: 1077343053370170}
   SkinPanel: {fileID: 1093484831384236}
@@ -2667,6 +2668,7 @@ MonoBehaviour:
   PurchaseDesc: {fileID: 114539659829050930}
   Coins: {fileID: 0}
   MainMusic: {fileID: 0}
+  ButtonClick: {fileID: 0}
   AllSFX: {fileID: 0}
   CustomizeTutorialOne: {fileID: 1482397904170458}
   CustomizeTutorialTwo: {fileID: 1953032527620370}
@@ -3019,7 +3021,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a2c3837a5f5e4e34d9ef77929d4af37d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 10bfc5500b6bd94408b20dcade2629c2, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

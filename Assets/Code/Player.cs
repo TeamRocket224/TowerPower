@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public bool IsControlling;
     public bool OwnsCamera;
     public bool IsPaused;
+    public bool IsPicking;
     public System.Action Dead;
     public System.Action PlayGame;
 
@@ -31,6 +32,8 @@ public class Player : MonoBehaviour
     public AudioSource Death;
     public AudioSource Hit;
     public AudioSource Collect;
+    public AudioSource ButtonClick;
+    public AudioSource ShieldAudio;
 
     public GameObject Menu;
     public GameObject Joystick;
@@ -386,7 +389,12 @@ public class Player : MonoBehaviour
                     new Vector3(CameraPosition.x, transform.position.y + CameraVerticalOffset, CameraPosition.y),
                     CameraSpeed * dT);
 
-                CameraTransform.LookAt(transform.position + new Vector3(0, 3.5f, 0));
+                if (!IsPicking) {    
+                    CameraTransform.LookAt(transform.position + new Vector3(0, 3.5f, 0));
+                }
+                else {
+                    CameraTransform.LookAt(transform.position + new Vector3(0, 1f, 0));
+                }
             }
 
             transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
@@ -453,6 +461,7 @@ public class Player : MonoBehaviour
 
     public void tapJumpDown() {
         ButtonJump = true;
+        ButtonClick.Play();
     }
 
     public void LoadMainMenu()
@@ -470,6 +479,7 @@ public class Player : MonoBehaviour
                 if (PlayerSkill.Type == PlayerSkill.SkillType.AbsorbShield && PlayerSkill.ShieldActiveTimer > 0.0f)
                 {
                     PlayerSkill.ShieldActiveTimer = 0.0001f;
+                    ShieldAudio.Play();
                 }
                 else
                 {

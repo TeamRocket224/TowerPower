@@ -8,6 +8,7 @@ public class Water : MonoBehaviour
     public GameObject Player;
 
     public MeshRenderer MeshRenderer;
+    public AudioSource WaterAudio;
 
     float SpeedMultiplier = 1f;
     float StartHeight;
@@ -36,6 +37,16 @@ public class Water : MonoBehaviour
 
     void Update()
     {
+        if (Player.transform.position.y - Height <= 25) {
+            WaterAudio.volume = 0.5f;
+        }
+        else if (Player.transform.position.y - Height <= 100) {
+            WaterAudio.volume = 0.25f;
+        }
+        else {
+            WaterAudio.volume = 0;
+        }
+
         if (Player.transform.position.y - Height >= 100) {
             SpeedMultiplier = 2f;
         }
