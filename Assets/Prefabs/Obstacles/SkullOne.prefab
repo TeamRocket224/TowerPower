@@ -148,6 +148,7 @@ MonoBehaviour:
   SleepTime: 2
   Speed: 0.5
   CoinDrop: 5
+  IsPaused: 0
 --- !u!198 &198508907880738556
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -208,7 +209,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1399408489
+  randomSeed: 879121478
   InitialModule:
     serializedVersion: 3
     enabled: 1

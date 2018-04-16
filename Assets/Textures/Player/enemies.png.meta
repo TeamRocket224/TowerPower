@@ -1,17 +1,23 @@
 fileFormatVersion: 2
-guid: 2d065b465924d3a429467de84ea8aa85
-timeCreated: 1523849478
+guid: bc597d910cbc73f4581e45ea282f258d
+timeCreated: 1523849648
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: grass_1_0
-    21300002: grass_1_1
-    21300004: grass_1_2
-    21300006: grass_1_3
-    21300008: grass_1_4
-    21300010: grass_1_5
-    21300012: grass_1_6
-    21300014: grass_1_7
+    21300000: enemies_0
+    21300002: enemies_1
+    21300004: enemies_2
+    21300006: enemies_3
+    21300008: enemies_4
+    21300010: enemies_5
+    21300012: enemies_6
+    21300014: enemies_7
+    21300016: enemies_8
+    21300018: enemies_9
+    21300020: enemies_10
+    21300022: enemies_11
+    21300024: enemies_12
+    21300026: enemies_13
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -104,7 +110,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: grass_1_0
+      name: enemies_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,7 +124,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: grass_1_1
+      name: enemies_1
       rect:
         serializedVersion: 2
         x: 32
@@ -132,7 +138,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: grass_1_2
+      name: enemies_2
       rect:
         serializedVersion: 2
         x: 64
@@ -146,21 +152,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: grass_1_3
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 288
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: grass_1_4
+      name: enemies_3
       rect:
         serializedVersion: 2
         x: 0
@@ -174,7 +166,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: grass_1_5
+      name: enemies_4
       rect:
         serializedVersion: 2
         x: 32
@@ -188,7 +180,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: grass_1_6
+      name: enemies_5
       rect:
         serializedVersion: 2
         x: 64
@@ -202,11 +194,109 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: grass_1_7
+      name: enemies_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies_8
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies_9
       rect:
         serializedVersion: 2
         x: 96
-        y: 256
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies_10
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies_11
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies_12
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies_13
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 192
         width: 32
         height: 32
       alignment: 0
@@ -217,7 +307,7 @@ TextureImporter:
       tessellationDetail: 0
     outline: []
     physicsShape: []
-  spritePackingTag: GameUI
+  spritePackingTag: Player
   userData: 
   assetBundleName: 
   assetBundleVariant: 
