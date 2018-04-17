@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 5000
   description: Anti-skull device 3000.
-  EnergyChargeRate: 0.2
+  EnergyChargeRate: 0.25
 --- !u!114 &114832423177385356
 MonoBehaviour:
   m_ObjectHideFlags: 1

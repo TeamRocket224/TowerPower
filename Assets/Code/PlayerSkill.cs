@@ -92,88 +92,90 @@ public class PlayerSkill : MonoBehaviour
     {
         if (CanUse())
         {
-            ButtonClick.Play();
-            bool DidUse = false;
-            switch (Type)
-            {
-                case SkillType.ExtraPlatform:
+            if (Player.SleepTimer <= 0) {
+                ButtonClick.Play();
+                bool DidUse = false;
+                switch (Type)
                 {
-                    if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                    case SkillType.ExtraPlatform:
                     {
-                        var Theta = Player.Position.x + (Player.BallisticVelocity.x * 0.1f);
-                        var Position = new Vector3(
-                            Mathf.Cos(Theta) * Tower.Radius, 
-                            Player.Position.y - 1.5f, 
-                            Mathf.Sin(Theta) * Tower.Radius);
+                        if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                        {
+                            var Theta = Player.Position.x + (Player.BallisticVelocity.x * 0.1f);
+                            var Position = new Vector3(
+                                Mathf.Cos(Theta) * Tower.Radius, 
+                                Player.Position.y - 1.5f, 
+                                Mathf.Sin(Theta) * Tower.Radius);
 
-                        var ThePlatform = Instantiate(Platform, Position, Quaternion.identity, Tower.transform);
-                        ThePlatform.GetComponent<Platform>().Initialize(Player.Position.y - 1.5f, Theta, Tower.Radius, false);
-                        ThePlatform.transform.LookAt(new Vector3(0.0f, ThePlatform.transform.position.y, 0.0f));
+                            var ThePlatform = Instantiate(Platform, Position, Quaternion.identity, Tower.transform);
+                            ThePlatform.GetComponent<Platform>().Initialize(Player.Position.y - 1.5f, Theta, Tower.Radius, false);
+                            ThePlatform.transform.LookAt(new Vector3(0.0f, ThePlatform.transform.position.y, 0.0f));
+                            
+                            IsOnCooldown = true;
+                            DidUse = true;
+                        }
+
+                        break;
+                    }
+                    case SkillType.TripleJump:
+                    {
+                        if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                        {
+                            Player.TripleJump = true;
+                            IsOnCooldown = true;
+                            DidUse = true;
+                        }
                         
-                        IsOnCooldown = true;
-                        DidUse = true;
+                        break;
                     }
-
-                    break;
-                }
-                case SkillType.TripleJump:
-                {
-                    if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                    case SkillType.CloudTravel:
                     {
-                        Player.TripleJump = true;
-                        IsOnCooldown = true;
-                        DidUse = true;
-                    }
-                    
-                    break;
-                }
-                case SkillType.CloudTravel:
-                {
-                    Cloud.SetActive(true);
-                    CloudActiveTimer = CloudActiveTime;
+                        Cloud.SetActive(true);
+                        CloudActiveTimer = CloudActiveTime;
 
-                    Player.IsControlling = false;
-                    Player.BallisticVelocity.x = 0.0f;
-                    Player.BallisticVelocity.y = CloudRiseStrength * Mathf.Max(0.25f, CloudActiveTimer);
-                    Player.ChangeMovementMode(Player.MovementMode.Ballistic);
-                    
-                    DidUse = true;
-                    break;
-                }
-                case SkillType.AbsorbShield:
-                {
-                    Shield.SetActive(true);
-                    ShieldAudio.Play();
-                    Shield.transform.GetChild(0).GetComponent<Animator>().SetInteger("shield", 0);
-                    Shield.transform.GetChild(1).GetComponent<Animator>().SetInteger("shield", 0);
-                    ShieldActiveTimer = ShieldActiveTime;
-                    DidUse = true;
-                    break;
-                }
-                case SkillType.Rewind:
-                {
-                    if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                        Player.IsControlling = false;
+                        Player.BallisticVelocity.x = 0.0f;
+                        Player.BallisticVelocity.y = CloudRiseStrength * Mathf.Max(0.25f, CloudActiveTimer);
+                        Player.ChangeMovementMode(Player.MovementMode.Ballistic);
+                        
+                        DidUse = true;
+                        break;
+                    }
+                    case SkillType.AbsorbShield:
                     {
-                        RewindParticleIn.GetComponent<ParticleSystem>().Play();
-                        RewindAudio.Play();
-                        Time.timeScale = 0.1f;
-                        Rewind.SetActive(true);
-                        RewindActiveTimer = RewindActiveTime;
-                        Rewind.GetComponent<Animator>().speed = 10;
-                        Rewind.GetComponent<Animator>().Play("Rewind");
-                        Player.BallisticVelocity = new Vector2();
-                        IsOnCooldown = true;
+                        Shield.SetActive(true);
+                        ShieldAudio.Play();
+                        Shield.transform.GetChild(0).GetComponent<Animator>().SetInteger("shield", 0);
+                        Shield.transform.GetChild(1).GetComponent<Animator>().SetInteger("shield", 0);
+                        ShieldActiveTimer = ShieldActiveTime;
                         DidUse = true;
+                        break;
                     }
+                    case SkillType.Rewind:
+                    {
+                        if (Player.CurrentMovementMode == Player.MovementMode.Ballistic)
+                        {
+                            RewindParticleIn.GetComponent<ParticleSystem>().Play();
+                            RewindAudio.Play();
+                            Time.timeScale = 0.1f;
+                            Rewind.SetActive(true);
+                            RewindActiveTimer = RewindActiveTime;
+                            Rewind.GetComponent<Animator>().speed = 10;
+                            Rewind.GetComponent<Animator>().Play("Rewind");
+                            Player.BallisticVelocity = new Vector2();
+                            IsOnCooldown = true;
+                            DidUse = true;
+                        }
 
-                    break;
+                        break;
+                    }
                 }
-            }
 
-            if (DidUse)
-            {
-                CurrentEnergy = 0.0f;
-                RechargeCooldownTimer = RechargeCooldown;
+                if (DidUse)
+                {
+                    CurrentEnergy = 0.0f;
+                    RechargeCooldownTimer = RechargeCooldown;
+                }
             }
         }
         else

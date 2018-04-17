@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 100
   description: To stop the falling.
-  EnergyChargeRate: 0.1
+  EnergyChargeRate: 0.15
 --- !u!114 &114965672709874060
 MonoBehaviour:
   m_ObjectHideFlags: 1

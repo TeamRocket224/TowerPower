@@ -33,7 +33,7 @@ public class GameController : MonoBehaviour
     {
         Player.Dead     = ChangeToDeath;
         Player.PlayGame = ChangeToGame;
-        Menu.PlayGame = ChangeToPick;
+        Menu.PlayGame = ChangeToGame;
         Menu.MainMenu = ChangeToMenu;
 
         ChangeToMenu();
@@ -198,20 +198,20 @@ public class GameController : MonoBehaviour
 
     void Awake() {
         Application.targetFrameRate = 60;
-        Application.runInBackground = false;
+        // Application.runInBackground = false;
     }
 
-    void OnApplicationFocus(bool hasFocus) {
-        if (!hasFocus && State == GameState.Game) {
-            ChangeToPause();
-        }
-    }
+    // void OnApplicationFocus(bool hasFocus) {
+    //     if (!hasFocus && State == GameState.Game) {
+    //         ChangeToPause();
+    //     }
+    // }
 
-    void OnApplicationPause(bool pauseStatus) {
-        if (pauseStatus && State == GameState.Game) {
-            ChangeToPause();
-        }
-    }
+    // void OnApplicationPause(bool pauseStatus) {
+    //     if (pauseStatus && State == GameState.Game) {
+    //         ChangeToPause();
+    //     }
+    // }
 
     private void Update()
     {

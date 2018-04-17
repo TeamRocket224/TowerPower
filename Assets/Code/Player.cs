@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     public ParticleSystem HitParticleSystem;
     public ParticleSystem MotionParticleSystem;
 
+    public Text TEMP;
+
     public Tower Tower;
     public Water Water;
     public Text HeightText;
@@ -76,6 +78,7 @@ public class Player : MonoBehaviour
     int Coins;
     int CollectedCoins = 0;
     public bool BeatHighScore = false;
+    float HighestPoint = 0;
 
     public Vector2 Position;
     float GroundedAccelerationValue;
@@ -89,7 +92,7 @@ public class Player : MonoBehaviour
     bool ButtonJump;
     public float ddX;
 
-    float SleepTimer;
+    public float SleepTimer;
 
     Platform CurrentPlatform;
     float PlatformThetaDelta;
@@ -201,11 +204,13 @@ public class Player : MonoBehaviour
             TutorialLeft.SetActive(false);
         }
 
-        if (Application.isEditor)
-        {
+        // if (Application.isEditor)
+        // {
             ddX = Input.GetAxisRaw("Horizontal");
             ShouldJump = Input.GetKeyDown(KeyCode.Space);
-        }
+
+            TEMP.text = ddX.ToString();
+        //}
 
         if (TripleJump)
         {
@@ -397,6 +402,10 @@ public class Player : MonoBehaviour
                 }
             }
 
+            if (transform.position.y > HighestPoint) {
+                HighestPoint = transform.position.y;
+            }
+
             transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
 
             HeightText.text = Mathf.Floor(Position.y) + "m";
@@ -404,6 +413,11 @@ public class Player : MonoBehaviour
 
             if (transform.position.y < Water.Height)
             {
+                var skulls = Tower.GetComponentsInChildren<Skull>();
+                foreach (var skull in skulls) {
+                    skull.IsPaused = false;
+                }
+
                 HintText.text = Hints[Random.Range(0, Hints.Length)];
                 Death.Play();
                 PlayerPrefs.SetInt("game_tutorial", 1);
@@ -413,7 +427,7 @@ public class Player : MonoBehaviour
                 CollectedCoins = 0;
                 Joystick.GetComponent<Joystick>().ResetJoystick();
 
-                var NewScore = (int) transform.position.y;
+                var NewScore = (int) HighestPoint;
 
                 var Scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';').Select(s => int.Parse(s)).ToArray();
                 for (var ScoresIndex = 0; ScoresIndex < Scores.Length; ScoresIndex++)
@@ -457,6 +471,7 @@ public class Player : MonoBehaviour
         BallisticVelocity = new Vector2();
         IsPaused = false;
         SleepTimer = 0.0f;
+        HighestPoint = 0;
     }
 
     public void tapJumpDown() {
@@ -487,17 +502,15 @@ public class Player : MonoBehaviour
                     SetBool("IsStunned", true);
 
                     GroundedAccelerationValue = 0.0f;
-
-                    Coins -= Skull.CoinDrop;
-                    if (Coins < 0)
-                    {
-                        Coins = 0;
-                    }
                 }
 
                 Hit.Play();
                 HitParticleSystem.Play();
-                Destroy(Skull.gameObject);
+                Skull.IsPaused = true;
+                Skull.gameObject.transform.GetChild(0).transform.gameObject.SetActive(true);
+                Skull.gameObject.transform.GetChild(1).GetComponent<Animator>().SetTrigger("Death");
+                Skull.gameObject.transform.GetChild(2).transform.gameObject.SetActive(false);
+                Destroy(Skull.gameObject, 1);
             }
         }
 
@@ -506,6 +519,7 @@ public class Player : MonoBehaviour
         {
             Collect.Play();
             Coins += Coin.Value;
+            PlayerPrefs.SetInt("coins", Coins);
             CollectedCoins += Coin.Value;
             var CoinPickup = Instantiate(Coin.Particle, Coin.transform.position, Coin.transform.rotation);
             CoinsImage.SetTrigger("AddCoin");

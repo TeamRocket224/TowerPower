@@ -371,7 +371,7 @@ public class Tower : MonoBehaviour
                 if (Random.Range(0.0f, 1.0f) < 0.75f)
                 {
                     var CloudPrefab = Clouds[Random.Range(0, Clouds.Length - 1)];
-                    var Cloud = Instantiate(CloudPrefab, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
+                    var Cloud = Instantiate(CloudPrefab, new Vector3(0.0f, CurrentHeight + 5f, 0.0f), Quaternion.identity, transform);
                     Cloud.GetComponent<Cloud>().Radius = Radius;
                 }
             }

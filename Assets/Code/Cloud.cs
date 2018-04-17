@@ -13,7 +13,7 @@ public class Cloud : MonoBehaviour
         CurrentTheta = Random.Range(0.0f, 2.0f * Mathf.PI);
         Direction = Random.Range(0, 2) == 0 ? -1.0f : 1.0f;
         Speed = Random.Range(0.0f, 0.1f);
-        Radius += Random.Range(50.0f, 100.0f);
+        Radius += Random.Range(75.0f, 100.0f);
         
         var scale = Random.Range(1.0f, 5.0f);
         transform.localScale = new Vector3(scale, scale, scale);

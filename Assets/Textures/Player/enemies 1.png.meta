@@ -1,23 +1,27 @@
 fileFormatVersion: 2
-guid: bc597d910cbc73f4581e45ea282f258d
-timeCreated: 1523849648
+guid: b829ac8407ad8314b9c683f7533583e1
+timeCreated: 1523939635
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: enemies_0
-    21300002: enemies_1
-    21300004: enemies_2
-    21300006: enemies_3
-    21300008: enemies_4
-    21300010: enemies_5
-    21300012: enemies_6
-    21300014: enemies_7
-    21300016: enemies_8
-    21300018: enemies_9
-    21300020: enemies_10
-    21300022: enemies_11
-    21300024: enemies_12
-    21300026: enemies_13
+    21300000: enemies 1_0
+    21300002: enemies 1_1
+    21300004: enemies 1_2
+    21300006: enemies 1_3
+    21300008: enemies 1_4
+    21300010: enemies 1_5
+    21300012: enemies 1_6
+    21300014: enemies 1_7
+    21300016: enemies 1_8
+    21300018: enemies 1_9
+    21300020: enemies 1_10
+    21300022: enemies 1_11
+    21300024: enemies 1_12
+    21300026: enemies 1_13
+    21300028: enemies 1_14
+    21300030: enemies 1_15
+    21300032: enemies 1_16
+    21300034: enemies 1_17
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -110,7 +114,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: enemies_0
+      name: enemies 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,7 +128,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_1
+      name: enemies 1_1
       rect:
         serializedVersion: 2
         x: 32
@@ -138,7 +142,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_2
+      name: enemies 1_2
       rect:
         serializedVersion: 2
         x: 64
@@ -152,7 +156,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_3
+      name: enemies 1_3
       rect:
         serializedVersion: 2
         x: 0
@@ -166,7 +170,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_4
+      name: enemies 1_4
       rect:
         serializedVersion: 2
         x: 32
@@ -180,7 +184,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_5
+      name: enemies 1_5
       rect:
         serializedVersion: 2
         x: 64
@@ -194,7 +198,63 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_6
+      name: enemies 1_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies 1_7
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies 1_8
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies 1_9
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: enemies 1_10
       rect:
         serializedVersion: 2
         x: 0
@@ -208,7 +268,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_7
+      name: enemies 1_11
       rect:
         serializedVersion: 2
         x: 32
@@ -222,7 +282,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_8
+      name: enemies 1_12
       rect:
         serializedVersion: 2
         x: 64
@@ -236,7 +296,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_9
+      name: enemies 1_13
       rect:
         serializedVersion: 2
         x: 96
@@ -250,7 +310,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_10
+      name: enemies 1_14
       rect:
         serializedVersion: 2
         x: 128
@@ -264,7 +324,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_11
+      name: enemies 1_15
       rect:
         serializedVersion: 2
         x: 160
@@ -278,7 +338,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_12
+      name: enemies 1_16
       rect:
         serializedVersion: 2
         x: 192
@@ -292,7 +352,7 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: enemies_13
+      name: enemies 1_17
       rect:
         serializedVersion: 2
         x: 224

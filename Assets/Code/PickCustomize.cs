@@ -41,15 +41,17 @@ public class PickCustomize : MonoBehaviour {
 			}
 			else if (i == PlayerPrefs.GetInt("skin") + 1) {
 				skin.SetActive(true);
-				skin.transform.SetParent(SkinOne.transform, false);
+				skin.transform.SetParent(SkinThree.transform, false);
 				CheckSkin(skin);
 			}
 			else if (i == PlayerPrefs.GetInt("skin") - 1) {
 				skin.SetActive(true);
-				skin.transform.SetParent(SkinThree.transform, false);
+				skin.transform.SetParent(SkinOne.transform, false);
 				CheckSkin(skin);
 			}
         }
+
+		Debug.Log(PlayerSkinChoice);
 	}
 
 	void CheckSkin(GameObject skin) {
@@ -67,11 +69,10 @@ public class PickCustomize : MonoBehaviour {
 	public void SkinLeft() {
 		if (PlayerSkinChoice > 0) {
             PreviousSkinChoice = PlayerSkinChoice;
-            PlayerSkinChoice--;
+            PlayerSkinChoice++;
         }
         else {
             PlayerSkinChoice = Skins.Length - 1;
-            PlayerSkinChoice = 0;
         }
 
 		SkinOne.transform.GetChild(0).SetParent(SkinHolder.transform, false);
@@ -82,6 +83,19 @@ public class PickCustomize : MonoBehaviour {
 			PlayerPrefs.SetInt("skin", PlayerSkinChoice);
 			Player.GetComponent<Player>().ChangeSkin();
 		}
+
+		int choice = PlayerSkinChoice;
+		if (PlayerSkinChoice == Skins.Length - 1) {
+			choice = 0;
+		}
+		else {
+			choice++;
+		}
+
+		Debug.Log(Skins.Length);
+
+		PlayerSkins[choice].SetActive(true);
+		PlayerSkins[choice].transform.SetParent(SkinThree.transform, false);
 	}
 
 	void Awake() {
