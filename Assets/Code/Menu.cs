@@ -391,7 +391,6 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
-        PlayerPrefs.SetInt("game_tutorial", 0);
         PlayerPrefs.SetInt("skill_unlock_1", 1);
         PlayerPrefs.SetInt("skin_unlock_1", 1);
 
