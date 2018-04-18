@@ -174,6 +174,7 @@ public class GameController : MonoBehaviour
 
     public void ChangeToPause()
     {
+        Menu.Home.SetActive(true);
         Water.IsRising = false;
         Player.IsControlling = false;
         Player.OwnsCamera = false;
