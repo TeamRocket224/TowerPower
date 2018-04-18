@@ -102,6 +102,10 @@ public class GameController : MonoBehaviour
             DeathScreen.transform.GetChild(2).GetComponent<Animator>().SetTrigger("PlayerOut");
         }
 
+        if (State == GameState.Menu) {
+            Menu.Home.GetComponent<Animator>().SetTrigger("Home_Out");
+        }
+
         if (!IsPaused)
         {
             Player.Reset();
@@ -136,7 +140,6 @@ public class GameController : MonoBehaviour
             skull.IsPaused = false;
         }
 
-        //Menu.Home.GetComponent<Animator>().SetTrigger("Home_Out");
         GameUI.SetActive(true);
 
         State = GameState.Game;
