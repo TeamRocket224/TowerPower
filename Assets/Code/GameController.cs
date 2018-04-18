@@ -34,6 +34,7 @@ public class GameController : MonoBehaviour
         Player.Dead     = ChangeToDeath;
         Player.PlayGame = ChangeToGame;
         Menu.PlayGame   = ChangeToPick;
+        Menu.ResumeGame = ChangeToGame;
         Menu.MainMenu   = ChangeToMenu;
 
         ChangeToMenu();
