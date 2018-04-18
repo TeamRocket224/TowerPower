@@ -274,7 +274,7 @@ PlayerSettings:
   - m_BuildTarget: iPhone
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 78b1a84f0463b0047adb77d1ad21ca54, type: 3}
+      m_Icon: {fileID: 2800000, guid: 0f8fa8b2fc19dcd4ba6a338e957ed930, type: 3}
       m_Width: 180
       m_Height: 180
       m_Kind: 0
@@ -634,7 +634,7 @@ PlayerSettings:
   psp2InfoBarColor: 0
   psp2ScriptOptimizationLevel: 0
   psmSplashimage: {fileID: 0}
-  splashScreenBackgroundSourceLandscape: {fileID: 21300004, guid: bc597d910cbc73f4581e45ea282f258d,
+  splashScreenBackgroundSourceLandscape: {fileID: 21300000, guid: b829ac8407ad8314b9c683f7533583e1,
     type: 3}
   splashScreenBackgroundSourcePortrait: {fileID: 0}
   spritePackerPolicy: 
