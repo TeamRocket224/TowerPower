@@ -65,6 +65,7 @@ public class Menu : MonoBehaviour {
     int[] NewSkins;
 
     public System.Action PlayGame;
+    public System.Action ResumeGame;
     public System.Action MainMenu;
     public System.Action Pause;
 
@@ -80,6 +81,11 @@ public class Menu : MonoBehaviour {
 
     public void OnHomePlay() {
         PlayGame();
+        ButtonClick.Play();
+    }
+
+    public void OnResumePlay() {
+        ResumeGame();
         ButtonClick.Play();
     }
 

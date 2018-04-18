@@ -127,6 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 0
   description: You're too good for any skills.
+  EnergyChargeRate: 0
 --- !u!114 &114531328643982704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -173,7 +174,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 324547ee561e7534b84fac43ad756196, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 868f1247da1dab14c91262c2f885b039, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
