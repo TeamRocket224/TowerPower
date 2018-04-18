@@ -455,7 +455,7 @@ public class Menu : MonoBehaviour {
     }
 
     public void PlayAgain() {
-        PlayGame();
+        ResumeGame();
     }
 
     public void ToMainMenu() {
