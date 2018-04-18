@@ -33,8 +33,8 @@ public class GameController : MonoBehaviour
     {
         Player.Dead     = ChangeToDeath;
         Player.PlayGame = ChangeToGame;
-        Menu.PlayGame = ChangeToGame;
-        Menu.MainMenu = ChangeToMenu;
+        Menu.PlayGame   = ChangeToPick;
+        Menu.MainMenu   = ChangeToMenu;
 
         ChangeToMenu();
     }
@@ -93,6 +93,8 @@ public class GameController : MonoBehaviour
 
     public void ChangeToGame()
     {
+        PickUI.SetActive(false);
+
         if (State == GameState.Death) {
             DeathScreen.transform.GetChild(0).GetComponent<Animator>().SetTrigger("DeathOut");
             DeathScreen.transform.GetChild(1).GetComponent<Animator>().SetTrigger("PanelOut");
@@ -126,6 +128,7 @@ public class GameController : MonoBehaviour
         Player.OwnsCamera = true;
         Player.IsPaused = false;
         PlayerSkill.IsPaused = false;
+        Player.IsPicking = false;
 
         var skulls = Tower.GetComponentsInChildren<Skull>();
         foreach (var skull in skulls)
@@ -133,7 +136,7 @@ public class GameController : MonoBehaviour
             skull.IsPaused = false;
         }
 
-        Menu.Home.GetComponent<Animator>().SetTrigger("Home_Out");
+        //Menu.Home.GetComponent<Animator>().SetTrigger("Home_Out");
         GameUI.SetActive(true);
 
         State = GameState.Game;
@@ -198,20 +201,20 @@ public class GameController : MonoBehaviour
 
     void Awake() {
         Application.targetFrameRate = 60;
-        // Application.runInBackground = false;
+        Application.runInBackground = false;
     }
 
-    // void OnApplicationFocus(bool hasFocus) {
-    //     if (!hasFocus && State == GameState.Game) {
-    //         ChangeToPause();
-    //     }
-    // }
+    void OnApplicationFocus(bool hasFocus) {
+        if (!hasFocus && State == GameState.Game) {
+            ChangeToPause();
+        }
+    }
 
-    // void OnApplicationPause(bool pauseStatus) {
-    //     if (pauseStatus && State == GameState.Game) {
-    //         ChangeToPause();
-    //     }
-    // }
+    void OnApplicationPause(bool pauseStatus) {
+        if (pauseStatus && State == GameState.Game) {
+            ChangeToPause();
+        }
+    }
 
     private void Update()
     {

@@ -15,9 +15,9 @@ public class Player : MonoBehaviour
     public CapsuleCollider Capsule;
     public PlayerSkill PlayerSkill;
     public ParticleSystem HitParticleSystem;
-    public ParticleSystem MotionParticleSystem;
-
-    public Text TEMP;
+    public ParticleSystem NormalMotionParticleSystem;
+    public ParticleSystem StickyMotionParticleSystem;
+    public ParticleSystem IcyMotionParticleSystem;
 
     public Tower Tower;
     public Water Water;
@@ -161,7 +161,9 @@ public class Player : MonoBehaviour
                     RemainingJumpsRight.text = "Jump!";
                     RemainingJumpsLeft.color  = Color.green;
                     RemainingJumpsRight.color = Color.green;
-                    MotionParticleSystem.Play();
+                    NormalMotionParticleSystem.Play();
+                    StickyMotionParticleSystem.Play();
+                    IcyMotionParticleSystem.Play();
                 }
                 break;
             }
@@ -204,13 +206,11 @@ public class Player : MonoBehaviour
             TutorialLeft.SetActive(false);
         }
 
-        // if (Application.isEditor)
-        // {
+        if (Application.isEditor)
+        {
             ddX = Input.GetAxisRaw("Horizontal");
             ShouldJump = Input.GetKeyDown(KeyCode.Space);
-
-            TEMP.text = ddX.ToString();
-        //}
+        }
 
         if (TripleJump)
         {
@@ -236,18 +236,26 @@ public class Player : MonoBehaviour
             if (ddX != 0) {
                 if (CurrentMovementMode == MovementMode.Grounded) {
                     if (SleepTimer <= 0) {
-                        MotionParticleSystem.Play();
+                        NormalMotionParticleSystem.Play();
+                        StickyMotionParticleSystem.Play();
+                        IcyMotionParticleSystem.Play();
                     }
                     else {
-                        MotionParticleSystem.Stop();
+                        NormalMotionParticleSystem.Stop();
+                        StickyMotionParticleSystem.Stop();
+                        IcyMotionParticleSystem.Stop();
                     }
                 }
                 else {
-                    MotionParticleSystem.Stop();
+                    NormalMotionParticleSystem.Stop();
+                    StickyMotionParticleSystem.Stop();
+                    IcyMotionParticleSystem.Stop();
                 }
             }
             else {
-                MotionParticleSystem.Stop();
+                NormalMotionParticleSystem.Stop();
+                StickyMotionParticleSystem.Stop();
+                IcyMotionParticleSystem.Stop();
             }
 
             switch (CurrentMovementMode)
@@ -290,7 +298,9 @@ public class Player : MonoBehaviour
 
                         if (ShouldJump)
                         {
-                            MotionParticleSystem.Stop();
+                            NormalMotionParticleSystem.Stop();
+                            StickyMotionParticleSystem.Stop();
+                            IcyMotionParticleSystem.Stop();
                             ChangeMovementMode(MovementMode.Ballistic);
                             Jump.Play();
                             
@@ -357,6 +367,22 @@ public class Player : MonoBehaviour
                         if (hit.normal == Vector3.up)
                         {
                             CurrentPlatform = hit.collider.GetComponent<Platform>();
+
+                            if (hit.collider.transform.gameObject.tag == "Sticky") {
+                                NormalMotionParticleSystem.gameObject.SetActive(false);
+                                StickyMotionParticleSystem.gameObject.SetActive(true);
+                                IcyMotionParticleSystem.gameObject.SetActive(false);
+                            }
+                            else if (hit.collider.transform.gameObject.tag == "Icy") {
+                                NormalMotionParticleSystem.gameObject.SetActive(false);
+                                StickyMotionParticleSystem.gameObject.SetActive(false);
+                                IcyMotionParticleSystem.gameObject.SetActive(true);
+                            }
+                            else {
+                                NormalMotionParticleSystem.gameObject.SetActive(true);
+                                StickyMotionParticleSystem.gameObject.SetActive(false);
+                                IcyMotionParticleSystem.gameObject.SetActive(false);
+                            }
 
                             ChangeMovementMode(MovementMode.Grounded);
                             if (SleepTimer <= 0.0f)

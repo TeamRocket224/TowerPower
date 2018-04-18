@@ -25,7 +25,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IPointerUpHandler, IPointer
         Vector2 direction = new Vector2(eventData.position.x - joystickCenter.x, 0);
         Vector2 player = direction;
         player.Normalize();
-        //Player.GetComponent<Player>().ddX = player.x;
+        Player.GetComponent<Player>().ddX = player.x;
         inputVector = (direction.magnitude > background.sizeDelta.x / 2f) ? direction.normalized : direction / (background.sizeDelta.x / 2f);
 
         if (PlayerPrefs.GetInt("lefty") == 0) {

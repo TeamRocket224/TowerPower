@@ -1,9 +1,10 @@
 fileFormatVersion: 2
-guid: 1c5a4c3107b9ea74c8d50e09ae39c17a
-timeCreated: 1524023076
+guid: 16651814c5d09c54ab8d45f63dcae226
+timeCreated: 1524024167
 licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: MenuNoShadow_0
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -40,7 +41,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -94,7 +95,21 @@ TextureImporter:
     overridden: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: MenuNoShadow_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 192
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
     outline: []
     physicsShape: []
   spritePackingTag: Menu

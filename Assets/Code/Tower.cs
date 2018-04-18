@@ -398,16 +398,18 @@ public class Tower : MonoBehaviour
             var Scale = Random.Range(1.0f, 1.75f);
             var Position = new Vector3(Mathf.Cos(CurrentTheta) * (Radius + RadiusOffset), Height, Mathf.Sin(CurrentTheta) * (Radius + RadiusOffset));
 
-            if (Random.value < 0.6f)
+            if (Random.value < 0.2f)
             {
                 var TheGrass = Instantiate(Random.value < 0.5f ? Grass_01 : Grass_02, Position + new Vector3(0.0f, (Scale / 2.0f) + 1.1f, 0.0f), Quaternion.identity, transform);
                 TheGrass.transform.localScale = new Vector3(Scale, Scale, Scale);
                 TheGrass.transform.LookAt(new Vector3(0.0f, TheGrass.transform.position.y, 0.0f));
 
+                TheGrass.GetComponent<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
+
                 Children.Add(TheGrass);
             }
 
-            if (Random.value < 0.2f)
+            if (Random.value < 0.1f)
             {
                 var TheVase = Instantiate(Vase, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.25f, 0.0f), Quaternion.identity, transform);
                 TheVase.transform.localScale = new Vector3(Scale, Scale, Scale);

@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 114030311544846256}
   m_Layer: 9
   m_Name: Small Platform (Sticky)
-  m_TagString: Untagged
+  m_TagString: Sticky
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
