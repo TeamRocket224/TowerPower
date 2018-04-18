@@ -121,7 +121,6 @@ public class GameController : MonoBehaviour
             Player.IsControlling = false;
         }
         else {
-            Menu.Home.SetActive(true);
             Water.IsRising = true;
             Player.IsControlling = true;
         }
