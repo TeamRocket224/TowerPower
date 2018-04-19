@@ -95,7 +95,8 @@ public class GameController : MonoBehaviour
     public void ChangeToGame()
     {
         if (State == GameState.Pick) {
-            //Player.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("StartGame");
+            Player.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("StartGame");
+            Player.gameObject.transform.GetChild(1).GetComponent<Animator>().SetTrigger("StartGame");
         }
 
         PickUI.SetActive(false);
