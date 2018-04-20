@@ -24,7 +24,10 @@ public class PickCustomize : MonoBehaviour {
 	public int PlayerSkinChoice  = 0;
 	public int PlayerSkillChoice = 0;
 
-	GameObject[] PlayerSkins;
+    public bool SkinMove = false;
+    public bool SkillMove = false;
+
+    GameObject[] PlayerSkins;
 	GameObject[] PlayerSkills;
 
 	int SkinLeftCount, SkinCenterCount, SkinRightCount;
@@ -198,12 +201,12 @@ public class PickCustomize : MonoBehaviour {
 	void CheckSkill(GameObject skill, int choice) {
         int check = PlayerPrefs.GetInt("skill_unlock_" + (choice + 1));
         if (check == 1) {
-            skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-            skill.transform.GetChild(1).gameObject.SetActive(false);
+            skill.transform.GetChild(1).GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+            skill.transform.GetChild(2).gameObject.SetActive(false);
         }
         else {
-            skill.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
-            skill.transform.GetChild(1).gameObject.SetActive(true);
+            skill.transform.GetChild(1).GetComponent<Image>().color = new Color32(50, 50, 50, 255);
+            skill.transform.GetChild(2).gameObject.SetActive(true);
         }
     }
 
@@ -297,6 +300,17 @@ public class PickCustomize : MonoBehaviour {
 		PlaceSkills();
 	}
 
+    public void PointerSkin() {
+        SkinMove  = true;
+        SkillMove = false;  
+    }
+
+    public void PoinerSkill() {
+        SkinMove  = false;
+        SkillMove = true;
+    }
+
+
 	void Awake() {
         PlayerPrefs.SetInt("skin_unlock_1", 1);
         PlayerPrefs.SetInt("skill_unlock_1", 1);
@@ -309,7 +323,6 @@ public class PickCustomize : MonoBehaviour {
     Vector2 secondPressPos;
     Vector2 currentSwipe;
 
-
     void Update() {
         if (Input.touches.Length > 0) {
             Touch t = Input.GetTouch(0);
@@ -320,14 +333,23 @@ public class PickCustomize : MonoBehaviour {
                 secondPressPos = new Vector2(t.position.x, t.position.y);
 
                 currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
-
                 currentSwipe.Normalize();
 
-                if (currentSwipe.x < 0 && currentSwipe.y > -0.25f && currentSwipe.y < 0.25f) {
-                    ChooseSkinRight();
+                if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+                    if (SkinMove) {
+                        ChooseSkinRight();
+                    }
+                    else if (SkillMove) {
+                        ChooseSkillRight();
+                    }
                 }
-                if (currentSwipe.x > 0 && currentSwipe.y > -0.25f && currentSwipe.y < 0.25f) {
-                    ChooseSkinLeft();
+                if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f) {
+                    if (SkinMove) {
+                        ChooseSkinLeft();
+                    }
+                    else if (SkillMove) {
+                        ChooseSkillLeft();
+                    }
                 }
             }
         }

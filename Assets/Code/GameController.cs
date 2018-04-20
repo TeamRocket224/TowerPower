@@ -15,7 +15,10 @@ public class GameController : MonoBehaviour
     public GameObject PickUI;
     public GameObject DeathScreen;
     public GameObject NewHighScore;
+
     public GameObject PickCustomize;
+    public GameObject PickSkins;
+    public GameObject PickSkills;
 
     enum GameState
     {
@@ -47,6 +50,12 @@ public class GameController : MonoBehaviour
             DeathScreen.transform.GetChild(0).GetComponent<Animator>().SetTrigger("DeathOut");
             DeathScreen.transform.GetChild(1).GetComponent<Animator>().SetTrigger("PanelOut");
             DeathScreen.transform.GetChild(2).GetComponent<Animator>().SetTrigger("PlayerOut");
+        }
+
+        if (State == GameState.Pick) {
+            PickSkins.GetComponent<Animator>().SetTrigger("SkinOut");
+            PickSkills.GetComponent<Animator>().SetTrigger("SkillOut");
+            PickUI.SetActive(false);
         }
 
         Camera.main.transform.position = new Vector3(30.0f, 2.0f, 0.0f);
@@ -92,6 +101,9 @@ public class GameController : MonoBehaviour
         PickCustomize.GetComponent<PickCustomize>().RemoveSkills();
         PickCustomize.GetComponent<PickCustomize>().PlaceSkills();
 
+        PickSkins.GetComponent<Animator>().SetTrigger("SkinIn");
+        PickSkills.GetComponent<Animator>().SetTrigger("SkillIn");
+
         GameUI.SetActive(false);
         DeathScreen.SetActive(false);
 
@@ -104,6 +116,9 @@ public class GameController : MonoBehaviour
         if (State == GameState.Pick) {
             Player.gameObject.transform.GetChild(0).GetComponent<Animator>().SetTrigger("StartGame");
             Player.gameObject.transform.GetChild(1).GetComponent<Animator>().SetTrigger("StartGame");
+
+            PickSkins.GetComponent<Animator>().SetTrigger("SkinOut");
+            PickSkills.GetComponent<Animator>().SetTrigger("SkillOut");
         }
 
         PickUI.SetActive(false);
