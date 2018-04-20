@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     public GameObject PickCustomize;
     public GameObject PickSkins;
     public GameObject PickSkills;
+    public GameObject PickButtons;
 
     enum GameState
     {
@@ -55,7 +56,7 @@ public class GameController : MonoBehaviour
         if (State == GameState.Pick) {
             PickSkins.GetComponent<Animator>().SetTrigger("SkinOut");
             PickSkills.GetComponent<Animator>().SetTrigger("SkillOut");
-            PickUI.SetActive(false);
+            PickButtons.GetComponent<Animator>().SetTrigger("ButtonsOut");
         }
 
         Camera.main.transform.position = new Vector3(30.0f, 2.0f, 0.0f);
@@ -103,6 +104,7 @@ public class GameController : MonoBehaviour
 
         PickSkins.GetComponent<Animator>().SetTrigger("SkinIn");
         PickSkills.GetComponent<Animator>().SetTrigger("SkillIn");
+        PickButtons.GetComponent<Animator>().SetTrigger("ButtonsIn");
 
         GameUI.SetActive(false);
         DeathScreen.SetActive(false);
@@ -119,9 +121,8 @@ public class GameController : MonoBehaviour
 
             PickSkins.GetComponent<Animator>().SetTrigger("SkinOut");
             PickSkills.GetComponent<Animator>().SetTrigger("SkillOut");
+            PickButtons.GetComponent<Animator>().SetTrigger("ButtonsOut");
         }
-
-        PickUI.SetActive(false);
 
         if (State == GameState.Death) {
             DeathScreen.transform.GetChild(0).GetComponent<Animator>().SetTrigger("DeathOut");
