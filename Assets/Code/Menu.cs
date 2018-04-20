@@ -13,6 +13,7 @@ public class Menu : MonoBehaviour {
     public GameObject PlayerSkin;
     public GameObject PlayerSkill;
     public GameObject PickSkins;
+    public GameObject PickSkills;
 
     public GameObject CustomizeButton;
     public GameObject ScoreboardButton;
@@ -391,9 +392,6 @@ public class Menu : MonoBehaviour {
     }
 
     void Awake() {
-        PlayerPrefs.SetInt("skill_unlock_1", 1);
-        PlayerPrefs.SetInt("skin_unlock_1", 1);
-
         Home.SetActive(true);
         Scoreboard.SetActive(false);
         Options.SetActive(false);
@@ -479,7 +477,7 @@ public class Menu : MonoBehaviour {
         }
 
         PickSkins.GetComponent<PickCustomize>().Skins = PlayerSkins;
-        PickSkins.GetComponent<PickCustomize>().PopulateSkins();;
+        PickSkins.GetComponent<PickCustomize>().PopulateSkins();
 
         UpdateScores();
 
@@ -496,6 +494,9 @@ public class Menu : MonoBehaviour {
             if (i != 0)
                 skill.SetActive(false);
         }
+
+        PickSkins.GetComponent<PickCustomize>().Skills = PlayerSkills;
+        PickSkins.GetComponent<PickCustomize>().PopulateSkills();
     }
 
     void Update() {

@@ -669,7 +669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1352714127530630
 GameObject:
   m_ObjectHideFlags: 1
@@ -2274,7 +2274,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 05fe2a9552cb22f4c899da3b50577ce9, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2460,7 +2460,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114174421739369862}
-        m_MethodName: OnHomePlay
+        m_MethodName: OnResumePlay
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2653,6 +2653,7 @@ MonoBehaviour:
   PlayerSkin: {fileID: 1470048678087038}
   PlayerSkill: {fileID: 1110249255293016}
   PickSkins: {fileID: 0}
+  PickSkills: {fileID: 0}
   CustomizeButton: {fileID: 1430076915120678}
   ScoreboardButton: {fileID: 1077343053370170}
   SkinPanel: {fileID: 1093484831384236}
@@ -3203,7 +3204,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 05fe2a9552cb22f4c899da3b50577ce9, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3992,7 +3993,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 05fe2a9552cb22f4c899da3b50577ce9, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
