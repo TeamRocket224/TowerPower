@@ -265,7 +265,7 @@ public class Tower : MonoBehaviour
                     {
                         case PlatformType.Small:
                         {
-                            SpawnDecorations(Children, Path.Theta - 0.03f, Path.Theta + 0.03f, CurrentHeight);
+                            SpawnDecorations(Children, Path.Theta, Path.Theta - 0.03f, Path.Theta + 0.03f, CurrentHeight);
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta);
 
                             if (SpawnIcy)
@@ -285,7 +285,7 @@ public class Tower : MonoBehaviour
                         }
                         case PlatformType.Medium:
                         {
-                            SpawnDecorations(Children, Path.Theta - 0.1f, Path.Theta + 0.1f, CurrentHeight);
+                            SpawnDecorations(Children, Path.Theta, Path.Theta - 0.1f, Path.Theta + 0.1f, CurrentHeight);
 
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta + 0.1f);
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta - 0.1f);
@@ -307,7 +307,7 @@ public class Tower : MonoBehaviour
                         }
                         case PlatformType.Large:
                         {
-                            SpawnDecorations(Children, Path.Theta - 0.2f, Path.Theta + 0.2f, CurrentHeight);
+                            SpawnDecorations(Children, Path.Theta, Path.Theta - 0.2f, Path.Theta + 0.2f, CurrentHeight);
 
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta + 0.2f);
                             SpawnCoin(Children, Range, CurrentHeight, Path.Theta);
@@ -380,7 +380,7 @@ public class Tower : MonoBehaviour
         }
     }
 
-    void SpawnDecorations(List<GameObject> Children, float ThetaMin, float ThetaMax, float Height)
+    void SpawnDecorations(List<GameObject> Children, float Theta, float ThetaMin, float ThetaMax, float Height)
     {
         if (ThetaMin > ThetaMax)
         {
@@ -389,56 +389,63 @@ public class Tower : MonoBehaviour
             ThetaMin = T;
         }
 
-        var Step = 0.05f;
-        var CurrentTheta = ThetaMin;
+        var CurrentTheta = Theta;
 
-        while (CurrentTheta <= ThetaMax)
+        var iterations = Random.Range(0, 25);
+        for (var i = 0; i < iterations; i++)
         {
+            CurrentTheta += Random.Range(-0.25f, 0.25f);
+            if (CurrentTheta < ThetaMin)
+            {
+                CurrentTheta = ThetaMin;
+            }
+
+            if (CurrentTheta > ThetaMax)
+            {
+                CurrentTheta = ThetaMax;
+            }
+
             var RadiusOffset = Random.Range(0.1f, 1.5f);
             var Scale = Random.Range(1.0f, 1.75f);
-            var Position = new Vector3(Mathf.Cos(CurrentTheta) * (Radius + RadiusOffset), Height, Mathf.Sin(CurrentTheta) * (Radius + RadiusOffset));
+            var Position = new Vector3(Mathf.Cos(CurrentTheta) * (Radius + RadiusOffset), Height + 0.5f, Mathf.Sin(CurrentTheta) * (Radius + RadiusOffset));
 
-            if (Random.value < 0.2f)
+            var value = Random.Range(0.0f, 1.0f);
+            if (value < 0.7f)
             {
-                var TheGrass = Instantiate(Random.value < 0.5f ? Grass_01 : Grass_02, Position + new Vector3(0.0f, (Scale / 2.0f) + 1.1f, 0.0f), Quaternion.identity, transform);
+                var TheGrass = Instantiate(Random.value < 0.5f ? Grass_01 : Grass_02, Position, Quaternion.identity, transform);
                 TheGrass.transform.localScale = new Vector3(Scale, Scale, Scale);
                 TheGrass.transform.LookAt(new Vector3(0.0f, TheGrass.transform.position.y, 0.0f));
 
-                TheGrass.GetComponent<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
+                TheGrass.GetComponentInChildren<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
 
                 Children.Add(TheGrass);
             }
-
-            if (Random.value < 0.1f)
+            else if (value < 0.8f)
             {
-                var TheVase = Instantiate(Vase, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.25f, 0.0f), Quaternion.identity, transform);
+                var TheVase = Instantiate(Vase, Position, Quaternion.identity, transform);
                 TheVase.transform.localScale = new Vector3(Scale, Scale, Scale);
                 TheVase.transform.LookAt(new Vector3(0.0f, TheVase.transform.position.y, 0.0f));
 
                 Children.Add(TheVase);
             }
-
-            if (Random.value < 0.05f)
+            else if (value < 0.9f)
             {
-                var TheGrave = Instantiate(Grave, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.45f, 0.0f), Quaternion.identity, transform);
+                var TheGrave = Instantiate(Grave, Position, Quaternion.identity, transform);
                 TheGrave.transform.localScale = new Vector3(Scale, Scale, Scale);
                 TheGrave.transform.LookAt(new Vector3(0.0f, TheGrave.transform.position.y, 0.0f));
 
                 Children.Add(TheGrave);
             }
-
-            if (Random.value < 0.005f)
+            else if (value < 1.0f)
             {
                 Scale = Scale / 3;
 
-                var TheCrab = Instantiate(Crab, Position + new Vector3(0.0f, (Scale / 2.0f) + 0.6f, 0.0f), Quaternion.identity, transform);
+                var TheCrab = Instantiate(Crab, Position, Quaternion.identity, transform);
                 TheCrab.transform.localScale = new Vector3(Scale, Scale, Scale);
                 TheCrab.transform.LookAt(new Vector3(0.0f, TheCrab.transform.position.y, 0.0f));
 
                 Children.Add(TheCrab);
             }
-
-            CurrentTheta += Step;
         }
     }
 
