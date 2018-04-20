@@ -305,15 +305,31 @@ public class PickCustomize : MonoBehaviour {
 		PlayerSkillChoice = PlayerPrefs.GetInt("skill");
 	}
 
+    Vector2 firstPressPos;
+    Vector2 secondPressPos;
+    Vector2 currentSwipe;
+
+
     void Update() {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
-             Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-		 	if (touchDeltaPosition.x > 0) {
-		 		ChooseSkinRight();
-		 	}
-		 	else if (touchDeltaPosition.x < 0) {
-		 		ChooseSkinLeft();
-		 	}
+        if (Input.touches.Length > 0) {
+            Touch t = Input.GetTouch(0);
+            if (t.phase == TouchPhase.Began) {
+                firstPressPos = new Vector2(t.position.x, t.position.y);
+            }
+            if (t.phase == TouchPhase.Ended) {
+                secondPressPos = new Vector2(t.position.x, t.position.y);
+
+                currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+
+                currentSwipe.Normalize();
+
+                if (currentSwipe.x < 0 && currentSwipe.y > -0.25f && currentSwipe.y < 0.25f) {
+                    ChooseSkinRight();
+                }
+                if (currentSwipe.x > 0 && currentSwipe.y > -0.25f && currentSwipe.y < 0.25f) {
+                    ChooseSkinLeft();
+                }
+            }
         }
     }
 }
