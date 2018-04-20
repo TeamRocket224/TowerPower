@@ -281,45 +281,49 @@ public class Player : MonoBehaviour
                         GroundedAccelerationValue += (ddX != 0.0f ? 1.0f : -1.0f) * GroundedHorizontalAcceleration * HorizontalConversionFactor * dT;
                         GroundedAccelerationValue = Mathf.Clamp(GroundedAccelerationValue, 0.0f, 1.0f);
 
-                        if (CurrentPlatform.IsMoving)
-                        {
-                            if (GroundedAccelerationValue == 0.0)
-                            {
-                                Position.x = CurrentPlatform.CurrentTheta - PlatformThetaDelta;
-                            }
-                            else
-                            {
-                                PlatformThetaDelta = CurrentPlatform.CurrentTheta - Position.x;
-                            }
-                        }
-
-                        float Velocity = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed * CurrentPlatform.SpeedModifier * HorizontalConversionFactor;
-                        Position.x += Velocity * dT;
-
-                        if (ShouldJump)
-                        {
-                            NormalMotionParticleSystem.Stop();
-                            StickyMotionParticleSystem.Stop();
-                            IcyMotionParticleSystem.Stop();
-                            ChangeMovementMode(MovementMode.Ballistic);
-                            Jump.Play();
-                            
-                            SetTrigger("Jump");
-                            BallisticVelocity = new Vector2(ddX * GroundedHorizontalSpeed * HorizontalConversionFactor, GroundedJumpStrength);
-                        }
-                        else
-                        {
-                            RaycastHit hit;
-                            if (!Physics.Raycast(new Ray(transform.position, new Vector3(0.0f, -1.0f, 0.0f)), out hit, 0.1f))
-                            {
-                                ChangeMovementMode(MovementMode.Ballistic);
-                                BallisticVelocity = new Vector2(Velocity, 0.0f);
-                            }
-                        }
-
                         SetBool("IsMoving", ddX != 0.0f);
                         SetBool("IsFalling", false);
                         SetBool("IsStunned", false);
+                    }
+                    else
+                    {
+                        ShouldJump = false;
+                    }
+
+                    if (CurrentPlatform.IsMoving)
+                    {
+                        if (GroundedAccelerationValue == 0.0)
+                        {
+                            Position.x = CurrentPlatform.CurrentTheta - PlatformThetaDelta;
+                        }
+                        else
+                        {
+                            PlatformThetaDelta = CurrentPlatform.CurrentTheta - Position.x;
+                        }
+                    }
+
+                    float Velocity = GroundedDirection * GroundedAccelerationValue * GroundedHorizontalSpeed * CurrentPlatform.SpeedModifier * HorizontalConversionFactor;
+                    Position.x += Velocity * dT;
+
+                    if (ShouldJump)
+                    {
+                        NormalMotionParticleSystem.Stop();
+                        StickyMotionParticleSystem.Stop();
+                        IcyMotionParticleSystem.Stop();
+                        ChangeMovementMode(MovementMode.Ballistic);
+                        Jump.Play();
+                        
+                        SetTrigger("Jump");
+                        BallisticVelocity = new Vector2(ddX * GroundedHorizontalSpeed * HorizontalConversionFactor, GroundedJumpStrength);
+                    }
+                    else
+                    {
+                        RaycastHit hit;
+                        if (!Physics.Raycast(new Ray(transform.position, new Vector3(0.0f, -1.0f, 0.0f)), out hit, 0.1f))
+                        {
+                            ChangeMovementMode(MovementMode.Ballistic);
+                            BallisticVelocity = new Vector2(Velocity, 0.0f);
+                        }
                     }
 
                     break;
