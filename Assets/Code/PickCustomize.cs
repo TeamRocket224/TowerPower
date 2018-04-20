@@ -73,18 +73,18 @@ public class PickCustomize : MonoBehaviour {
         }
     }
 
-	void RemoveSkins() {
+	public void RemoveSkins() {
 		//Remove skins
-		SkinOne.transform.GetChild(0).gameObject.SetActive(true);
-		SkinTwo.transform.GetChild(0).gameObject.SetActive(true);
-		SkinThree.transform.GetChild(0).gameObject.SetActive(true);
+		SkinOne.transform.GetChild(0).gameObject.SetActive(false);
+		SkinTwo.transform.GetChild(0).gameObject.SetActive(false);
+		SkinThree.transform.GetChild(0).gameObject.SetActive(false);
 
 		SkinOne.transform.GetChild(0).SetParent(SkinHolder.transform, false);
 		SkinTwo.transform.GetChild(0).SetParent(SkinHolder.transform, false);
 		SkinThree.transform.GetChild(0).SetParent(SkinHolder.transform, false);
 	}
 
-	void PlaceSkins() {
+	public void PlaceSkins() {
 		//Add skins
 		PlayerSkins[SkinLeftCount].SetActive(true);
 		PlayerSkins[SkinCenterCount].SetActive(true);
@@ -207,18 +207,18 @@ public class PickCustomize : MonoBehaviour {
         }
     }
 
-	void RemoveSkills() {
+	public void RemoveSkills() {
 		//Remove Skills
-		SkillOne.transform.GetChild(0).gameObject.SetActive(true);
-		SkillTwo.transform.GetChild(0).gameObject.SetActive(true);
-		SkillThree.transform.GetChild(0).gameObject.SetActive(true);
+		SkillOne.transform.GetChild(0).gameObject.SetActive(false);
+		SkillTwo.transform.GetChild(0).gameObject.SetActive(false);
+		SkillThree.transform.GetChild(0).gameObject.SetActive(false);
 
 		SkillOne.transform.GetChild(0).SetParent(SkillHolder.transform, false);
 		SkillTwo.transform.GetChild(0).SetParent(SkillHolder.transform, false);
 		SkillThree.transform.GetChild(0).SetParent(SkillHolder.transform, false);
 	}
 
-	void PlaceSkills() {
+	public void PlaceSkills() {
 		//Add Skills
 		PlayerSkills[SkillLeftCount].SetActive(true);
 		PlayerSkills[SkillCenterCount].SetActive(true);
@@ -298,19 +298,22 @@ public class PickCustomize : MonoBehaviour {
 	}
 
 	void Awake() {
-		PlayerSkinChoice = PlayerPrefs.GetInt("skin");
+        PlayerPrefs.SetInt("skin_unlock_1", 1);
+        PlayerPrefs.SetInt("skill_unlock_1", 1);
+
+        PlayerSkinChoice = PlayerPrefs.GetInt("skin");
 		PlayerSkillChoice = PlayerPrefs.GetInt("skill");
 	}
 
     void Update() {
-        // if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
-        //     Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-		// 	if (touchDeltaPosition.x > 0) {
-		// 		ChooseSkinRight();
-		// 	}
-		// 	else if (touchDeltaPosition.x < 0) {
-		// 		ChooseSkinLeft();
-		// 	}
-        // }
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) {
+             Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+		 	if (touchDeltaPosition.x > 0) {
+		 		ChooseSkinRight();
+		 	}
+		 	else if (touchDeltaPosition.x < 0) {
+		 		ChooseSkinLeft();
+		 	}
+        }
     }
 }

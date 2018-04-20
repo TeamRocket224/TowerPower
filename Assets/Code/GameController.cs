@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public GameObject PickUI;
     public GameObject DeathScreen;
     public GameObject NewHighScore;
+    public GameObject PickCustomize;
 
     enum GameState
     {
@@ -84,6 +85,12 @@ public class GameController : MonoBehaviour
         PickUI.SetActive(true);
 
         Menu.Home.GetComponent<Animator>().SetTrigger("Home_Out");
+
+        PickCustomize.GetComponent<PickCustomize>().RemoveSkins();
+        PickCustomize.GetComponent<PickCustomize>().PlaceSkins();
+
+        PickCustomize.GetComponent<PickCustomize>().RemoveSkills();
+        PickCustomize.GetComponent<PickCustomize>().PlaceSkills();
 
         GameUI.SetActive(false);
         DeathScreen.SetActive(false);
