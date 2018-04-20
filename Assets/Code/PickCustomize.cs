@@ -62,7 +62,7 @@ public class PickCustomize : MonoBehaviour {
 	}
 
 	void CheckSkin(GameObject skin, int count) {
-        int check = PlayerPrefs.GetInt("skin_unlock_" + (count - 1));
+        int check = PlayerPrefs.GetInt("skin_unlock_" + (count + 1));
         if (check == 1) {
             skin.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             skin.transform.GetChild(1).gameObject.SetActive(false);
