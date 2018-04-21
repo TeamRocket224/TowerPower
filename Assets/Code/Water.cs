@@ -38,10 +38,10 @@ public class Water : MonoBehaviour
     void Update()
     {
         if (Player.transform.position.y - Height <= 25) {
-            WaterAudio.volume = 0.5f;
+            WaterAudio.volume = 0.4f;
         }
         else if (Player.transform.position.y - Height <= 100) {
-            WaterAudio.volume = 0.25f;
+            WaterAudio.volume = 0.2f;
         }
         else {
             WaterAudio.volume = 0;
