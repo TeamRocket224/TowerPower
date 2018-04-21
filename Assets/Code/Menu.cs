@@ -278,7 +278,7 @@ public class Menu : MonoBehaviour {
             skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             skill.transform.GetChild(1).gameObject.SetActive(false);
             PlayerPrefs.SetInt("skill", PlayerSkillChoice);
-            PlayerPrefs.SetFloat("energy", PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().EnergyChargeRate);
+            //PlayerPrefs.SetFloat("energy", PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().EnergyChargeRate);
         }
         else {
             skill.GetComponent<Image>().color = new Color32(50, 50, 50, 255);
@@ -426,6 +426,8 @@ public class Menu : MonoBehaviour {
 
         LoadedPlayerSkins = Resources.LoadAll("PlayerCanvasSkins", typeof(GameObject));
         LoadedPlayerSkills = Resources.LoadAll("PlayerCanvasSkills", typeof(GameObject));
+        PickSkins.GetComponent<PickCustomize>().PlayerSkinChoice = PlayerPrefs.GetInt("skin");
+        PickSkins.GetComponent<PickCustomize>().PlayerSkillChoice = PlayerPrefs.GetInt("skill");
     }
 
     public void UpdateScores() {
