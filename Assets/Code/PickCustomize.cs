@@ -361,7 +361,7 @@ public class PickCustomize : MonoBehaviour {
                 PurchaseItemHolder.transform.GetChild(1).transform.GetChild(2).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
                 PlayerPrefs.SetFloat("energy", PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().EnergyChargeRate);
                 Player.GetComponent<PlayerSkill>().ChangeSkill();
-                CheckSkill(PlayerSkills[PlayerSkillChoice], PlayerSkillChoice);
+                BackFromPurchase();
             }
         }
     }
@@ -383,6 +383,7 @@ public class PickCustomize : MonoBehaviour {
 
 	void Awake() {
         PlayerPrefs.SetInt("coins", 10000);
+        PlayerPrefs.SetInt("skill_unlock_4", 0);
         PlayerPrefs.SetInt("skin_unlock_1", 1);
         PlayerPrefs.SetInt("skill_unlock_1", 1);
 	}
