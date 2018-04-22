@@ -314,25 +314,6 @@ public class PickCustomize : MonoBehaviour {
 		PlaceSkills();
 	}
 
-    /*public void onPurchaseItem() {
-        if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 0) {
-            if (PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost) {
-                ButtonClick.Play();
-                PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
-                PlayerPrefs.SetInt("skill", PlayerSkillChoice);
-                PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
-                Player.GetComponent<Player>().UpdateCoins();
-
-                Skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-                PurchaseButton.interactable = false;
-                Skill.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
-                PlayerPrefs.SetFloat("energy", Skill.GetComponent<CustomizeDetails>().EnergyChargeRate);
-                Player.GetComponent<PlayerSkill>().ChangeSkill();
-            }
-        }
-    }*/
-
     public void PurchaseSkill() {
         Purchase.SetActive(true);
         Purchase.GetComponent<Animator>().SetTrigger("Purchase_In");
@@ -362,6 +343,25 @@ public class PickCustomize : MonoBehaviour {
         }
 
         CheckSkill(Skill, PlayerSkillChoice);
+    }
+
+    public void onPurchaseItem() {
+        if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 0) {
+            if (PlayerPrefs.GetInt("coins") >= PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().cost) {
+                ButtonClick.Play();
+                PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
+                PlayerPrefs.SetInt("skill", PlayerSkillChoice);
+                PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().cost);
+                Player.GetComponent<Player>().UpdateCoins();
+
+                PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                PurchaseButton.interactable = false;
+                PlayerSkills[PlayerSkillChoice].transform.GetChild(2).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
+                PlayerPrefs.SetFloat("energy", PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().EnergyChargeRate);
+                Player.GetComponent<PlayerSkill>().ChangeSkill();
+                CheckSkill(PlayerSkills[PlayerSkillChoice], PlayerSkillChoice);
+            }
+        }
     }
 
     public void BackFromPurchase() {
