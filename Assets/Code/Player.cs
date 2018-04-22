@@ -36,7 +36,6 @@ public class Player : MonoBehaviour
     public AudioSource Collect;
     public AudioSource ButtonClick;
     public AudioSource ShieldAudio;
-    public AudioSource DeathWater;
 
     public GameObject Menu;
     public GameObject Joystick;
@@ -451,7 +450,6 @@ public class Player : MonoBehaviour
 
                 HintText.text = Hints[Random.Range(0, Hints.Length)];
                 Death.Play();
-                DeathWater.Play();
                 PlayerPrefs.SetInt("game_tutorial", 1);
                 DeathCoinsText.GetComponent<Text>().text = "Coins Gathered: " + CollectedCoins + " Coins";
                 DeathHeightText.GetComponent<Text>().text = "Final Height: " + Mathf.Floor(Position.y) + "m";
