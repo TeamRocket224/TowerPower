@@ -43,7 +43,6 @@ public class Tower : MonoBehaviour
     [System.Serializable]
     public class Decoration
     {
-        [Range(0.0f, 1.0f)]
         public float SpawnChance;
         public GameObject Prefab;
     };
@@ -419,17 +418,26 @@ public class Tower : MonoBehaviour
             var Scale = Random.Range(1.0f, 1.75f);
             var Position = new Vector3(Mathf.Cos(CurrentTheta) * RadiusOffset, Height + 0.5f, Mathf.Sin(CurrentTheta) * RadiusOffset);
 
+            var total_chance = 0.0f;
             foreach (var decoration in Decorations)
             {
-                var value = Random.Range(0.0f, 1.0f);
-                if (decoration.SpawnChance < value)
+                total_chance += decoration.SpawnChance;
+            }
+
+            var spawn_value = Random.Range(0.0f, total_chance);
+
+            var chance_start = 0.0f;
+            foreach (var decoration in Decorations)
+            {
+                if (chance_start <= spawn_value && spawn_value < chance_start + decoration.SpawnChance)
                 {
                     var SpawnedObject = Instantiate(decoration.Prefab, Position, Quaternion.identity, transform);
                     // SpawnedObject.transform.localScale = new Vector3(Scale, Scale, Scale);
                     
                     Children.Add(SpawnedObject);
-                    break;
                 }
+
+                chance_start += decoration.SpawnChance;
             }
 
             // TheGrass.GetComponentInChildren<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
