@@ -40,11 +40,15 @@ public class Tower : MonoBehaviour
     public GameObject BlueCoin;
     public float CoinOffset;
 
-    public GameObject Grass_01;
-    public GameObject Grass_02;
-    public GameObject Vase;
-    public GameObject Crab;
-    public GameObject Grave;
+    [System.Serializable]
+    public class Decoration
+    {
+        [Range(0.0f, 1.0f)]
+        public float SpawnChance;
+        public GameObject Prefab;
+    };
+
+    public Decoration[] Decorations;
 
     public AudioSource HighScoreAudio;
 
@@ -340,6 +344,7 @@ public class Tower : MonoBehaviour
                     foreach (var Child in Children)
                     {
                         Child.transform.SetParent(Platform.transform, true);
+                        Child.transform.rotation = Platform.transform.rotation;
                     }
                 }
 
@@ -390,8 +395,9 @@ public class Tower : MonoBehaviour
         }
 
         var CurrentTheta = Theta;
+        var CurrentRadiusOffset = 1.0f;
 
-        var iterations = Random.Range(0, 25);
+        var iterations = Random.Range(0, 15);
         for (var i = 0; i < iterations; i++)
         {
             CurrentTheta += Random.Range(-0.25f, 0.25f);
@@ -405,47 +411,28 @@ public class Tower : MonoBehaviour
                 CurrentTheta = ThetaMax;
             }
 
-            var RadiusOffset = Random.Range(0.1f, 1.5f);
+            CurrentRadiusOffset += Random.Range(-0.5f, 0.5f);
+            if (CurrentRadiusOffset < 0.1f) { CurrentRadiusOffset = 0.1f; }
+            if (CurrentRadiusOffset > 1.5f) { CurrentRadiusOffset = 1.5f; }
+
+            var RadiusOffset = Radius + CurrentRadiusOffset;
             var Scale = Random.Range(1.0f, 1.75f);
-            var Position = new Vector3(Mathf.Cos(CurrentTheta) * (Radius + RadiusOffset), Height + 0.5f, Mathf.Sin(CurrentTheta) * (Radius + RadiusOffset));
+            var Position = new Vector3(Mathf.Cos(CurrentTheta) * RadiusOffset, Height + 0.5f, Mathf.Sin(CurrentTheta) * RadiusOffset);
 
-            var value = Random.Range(0.0f, 1.0f);
-            if (value < 0.7f)
+            foreach (var decoration in Decorations)
             {
-                var TheGrass = Instantiate(Random.value < 0.5f ? Grass_01 : Grass_02, Position, Quaternion.identity, transform);
-                TheGrass.transform.localScale = new Vector3(Scale, Scale, Scale);
-                TheGrass.transform.LookAt(new Vector3(0.0f, TheGrass.transform.position.y, 0.0f));
-
-                TheGrass.GetComponentInChildren<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
-
-                Children.Add(TheGrass);
+                var value = Random.Range(0.0f, 1.0f);
+                if (decoration.SpawnChance < value)
+                {
+                    var SpawnedObject = Instantiate(decoration.Prefab, Position, Quaternion.identity, transform);
+                    // SpawnedObject.transform.localScale = new Vector3(Scale, Scale, Scale);
+                    
+                    Children.Add(SpawnedObject);
+                    break;
+                }
             }
-            else if (value < 0.8f)
-            {
-                var TheVase = Instantiate(Vase, Position, Quaternion.identity, transform);
-                TheVase.transform.localScale = new Vector3(Scale, Scale, Scale);
-                TheVase.transform.LookAt(new Vector3(0.0f, TheVase.transform.position.y, 0.0f));
 
-                Children.Add(TheVase);
-            }
-            else if (value < 0.9f)
-            {
-                var TheGrave = Instantiate(Grave, Position, Quaternion.identity, transform);
-                TheGrave.transform.localScale = new Vector3(Scale, Scale, Scale);
-                TheGrave.transform.LookAt(new Vector3(0.0f, TheGrave.transform.position.y, 0.0f));
-
-                Children.Add(TheGrave);
-            }
-            else if (value < 1.0f)
-            {
-                Scale = Scale / 3;
-
-                var TheCrab = Instantiate(Crab, Position, Quaternion.identity, transform);
-                TheCrab.transform.localScale = new Vector3(Scale, Scale, Scale);
-                TheCrab.transform.LookAt(new Vector3(0.0f, TheCrab.transform.position.y, 0.0f));
-
-                Children.Add(TheCrab);
-            }
+            // TheGrass.GetComponentInChildren<Animator>().SetFloat("Offset", Random.Range(0.0f, 1.0f));
         }
     }
 
