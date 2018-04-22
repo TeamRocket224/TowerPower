@@ -35,6 +35,7 @@ public class PickCustomize : MonoBehaviour {
 
 	//Skins Here
 	public void PopulateSkins() {
+		Debug.Log("HAHA");
 		PlayerSkins = new GameObject[Skins.Length];
 
 		for (int i = 0; i < Skins.Length; i++) {
@@ -60,6 +61,8 @@ public class PickCustomize : MonoBehaviour {
 		else {
 			SkinRightCount = SkinCenterCount + 1;
 		}
+
+		Debug.Log(SkinLeftCount + ", " + SkinCenterCount + ", " + SkinRightCount);
 
 		PlaceSkins();
 	}
@@ -261,6 +264,7 @@ public class PickCustomize : MonoBehaviour {
 
 		if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 1) {
 			PlayerPrefs.SetInt("skill", PlayerSkillChoice);
+			PlayerPrefs.SetInt("coins_needed", PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().EnergyChargeRate);
 			Player.GetComponent<PlayerSkill>().ChangeSkill();
 		}
 
@@ -293,6 +297,7 @@ public class PickCustomize : MonoBehaviour {
 
 		if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 1) {
 			PlayerPrefs.SetInt("skill", PlayerSkillChoice);
+			PlayerPrefs.SetInt("coins_needed", PlayerSkills[PlayerSkillChoice].GetComponent<CustomizeDetails>().EnergyChargeRate);
 			Player.GetComponent<PlayerSkill>().ChangeSkill();
 		}
 
@@ -310,13 +315,9 @@ public class PickCustomize : MonoBehaviour {
         SkillMove = true;
     }
 
-
 	void Awake() {
         PlayerPrefs.SetInt("skin_unlock_1", 1);
         PlayerPrefs.SetInt("skill_unlock_1", 1);
-
-        PlayerSkinChoice = PlayerPrefs.GetInt("skin");
-		PlayerSkillChoice = PlayerPrefs.GetInt("skill");
 	}
 
     Vector2 firstPressPos;

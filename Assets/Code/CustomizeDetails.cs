@@ -5,5 +5,5 @@ using UnityEngine;
 public class CustomizeDetails : MonoBehaviour {
     public int cost;
     public string description;
-    public float EnergyChargeRate;
+    public int EnergyChargeRate;
 }

@@ -13,15 +13,21 @@ public class PlayerSkill : MonoBehaviour
 
     public GameObject UIContainerRight;
     public GameObject UIContainerLeft;
-    public GameObject UIAbility;
-    public Slider UIEnergySlider;
-    public Animator UIEnergyAnimator;
+    public GameObject UIAbilityRight;
+    public GameObject UIAbilityLeft;
+    public Slider UIEnergySliderRight;
+    public Slider UIEnergySliderLeft;
+    public Animator UIEnergyAnimatorRight;
+    public Animator UIEnergyAnimatorLeft;
 
     public GameObject Platform;
     public GameObject Cloud;
     public GameObject Shield;
     public GameObject Rewind;
     public GameObject RewindParticle;
+
+    int RequiredCoins;
+    int CurrentCoins;
 
     public enum SkillType
     {
@@ -59,12 +65,14 @@ public class PlayerSkill : MonoBehaviour
         if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerPrefs.GetInt("skill") + 1)) == 1) {
             Type = (SkillType) PlayerPrefs.GetInt("skill", 0);
 
-            for (var i = 0; i < UIAbility.transform.childCount; i++) {
+            for (var i = 0; i < UIAbilityRight.transform.childCount; i++) {
                 if (i == PlayerPrefs.GetInt("skill")) {
-                    UIAbility.transform.GetChild(i).gameObject.SetActive(true);
+                    UIAbilityRight.transform.GetChild(i).gameObject.SetActive(true);
+                    UIAbilityLeft.transform.GetChild(i).gameObject.SetActive(true);
                 }
                 else {
-                    UIAbility.transform.GetChild(i).gameObject.SetActive(false);
+                    UIAbilityRight.transform.GetChild(i).gameObject.SetActive(false);
+                    UIAbilityLeft.transform.GetChild(i).gameObject.SetActive(false);
                 }
             }
             
@@ -220,7 +228,8 @@ public class PlayerSkill : MonoBehaviour
 
                 if (Type != SkillType.None)
                 {
-                    UIEnergyAnimator.SetInteger("energy", 0);
+                    UIEnergyAnimatorRight.SetInteger("energy", 0);
+                    UIEnergyAnimatorLeft.SetInteger("energy", 0);
                 }
                 
                 if (CurrentEnergy >= 1.0f)
@@ -228,12 +237,14 @@ public class PlayerSkill : MonoBehaviour
                     CurrentEnergy = 1.0f;
                     if (Type != SkillType.None)
                     {
-                        UIEnergyAnimator.SetInteger("energy", 1);
+                        UIEnergyAnimatorRight.SetInteger("energy", 1);
+                        UIEnergyAnimatorLeft.SetInteger("energy", 1);
                     }
                 }
             }
 
-            UIEnergySlider.value = CurrentEnergy;
+            UIEnergySliderRight.value = CurrentEnergy;
+            UIEnergySliderLeft.value = CurrentEnergy;
 
             switch (Type)
             {
