@@ -76,7 +76,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1047604262240072
 GameObject:
   m_ObjectHideFlags: 1
@@ -669,7 +669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1352714127530630
 GameObject:
   m_ObjectHideFlags: 1
@@ -2327,7 +2327,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 0eabadc7ad0224a4c9b5a0ca2ac934fb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e7304366d3a4604d85bd5a092407149, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2620,8 +2620,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114174421739369862}
-        m_MethodName: OnPurchaseBack
+      - m_Target: {fileID: 0}
+        m_MethodName: BackFromPurchase
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4674,7 +4674,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 0eabadc7ad0224a4c9b5a0ca2ac934fb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e7304366d3a4604d85bd5a092407149, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5317,7 +5317,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 0eabadc7ad0224a4c9b5a0ca2ac934fb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9e7304366d3a4604d85bd5a092407149, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

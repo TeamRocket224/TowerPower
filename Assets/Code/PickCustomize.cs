@@ -9,7 +9,16 @@ public class PickCustomize : MonoBehaviour {
 	public GameObject Player;
 	public GameObject Menu;
 
-	public GameObject SkinHolder;
+    public GameObject Purchase;
+    public GameObject PurchaseItem;
+    public Button PurchaseButton;
+    public Text PurchaseName;
+    public Text PurchaseCost;
+    public Text PurchaseDesc;
+
+    public AudioSource ButtonClick;
+
+    public GameObject SkinHolder;
 	public GameObject SkinOne;
 	public GameObject SkinTwo;
 	public GameObject SkinThree;
@@ -304,6 +313,61 @@ public class PickCustomize : MonoBehaviour {
 		RemoveSkills();
 		PlaceSkills();
 	}
+
+    /*public void onPurchaseItem() {
+        if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 0) {
+            if (PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost) {
+                ButtonClick.Play();
+                PlayerPrefs.SetInt("skill_unlock_" + (PlayerSkillChoice + 1), 1);
+                PlayerPrefs.SetInt("skill", PlayerSkillChoice);
+                PlayerPrefs.SetInt("coins", PlayerPrefs.GetInt("coins") - Skill.GetComponent<CustomizeDetails>().cost);
+                Player.GetComponent<Player>().UpdateCoins();
+
+                Skill.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                PlayerSkills[PlayerSkillChoice].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
+                PurchaseButton.interactable = false;
+                Skill.transform.GetChild(1).gameObject.GetComponent<Animator>().SetInteger("unlock", 1);
+                PlayerPrefs.SetFloat("energy", Skill.GetComponent<CustomizeDetails>().EnergyChargeRate);
+                Player.GetComponent<PlayerSkill>().ChangeSkill();
+            }
+        }
+    }*/
+
+    public void PurchaseSkill() {
+        Purchase.SetActive(true);
+        Purchase.GetComponent<Animator>().SetTrigger("Purchase_In");
+        ButtonClick.Play();
+
+        var Skill = Instantiate(PlayerSkills[PlayerSkillChoice], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        Skill.transform.SetParent(PurchaseItem.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<Transform>(), false);
+        PurchaseName.text = Skill.transform.GetChild(0).GetComponent<Text>().text;
+        PurchaseCost.text = "Cost: " + Skill.GetComponent<CustomizeDetails>().cost.ToString("n0") + " Coins";
+        PurchaseDesc.text = Skill.GetComponent<CustomizeDetails>().description;
+        Skill.transform.GetChild(0).GetComponent<Text>().enabled = false;
+
+        PurchaseButton.gameObject.SetActive(true);
+
+        if (PlayerPrefs.GetInt("skill_unlock_" + (PlayerSkillChoice + 1)) == 1) {
+            PurchaseButton.interactable = false;
+        }
+        else {
+            PurchaseButton.interactable = true;
+        }
+
+        if ((PlayerPrefs.GetInt("coins") >= Skill.GetComponent<CustomizeDetails>().cost)) {
+            PurchaseButton.interactable = true;
+        }
+        else {
+            PurchaseButton.interactable = false;
+        }
+
+        CheckSkill(Skill, PlayerSkillChoice);
+    }
+
+    public void BackFromPurchase() {
+        Purchase.GetComponent<Animator>().SetTrigger("Purchase_Out");
+        ButtonClick.Play();
+    }
 
     public void PointerSkin() {
         SkinMove  = true;
