@@ -18,7 +18,6 @@ public class Tower : MonoBehaviour
     GameObject HighScoreParticle;
     float CurrentHighScore;
 
-    public GameObject CenterPiece;
     public GameObject SmallPlatform;
     public GameObject SmallPlatformIcy;
     public GameObject SmallPlatformSticky;
@@ -60,6 +59,7 @@ public class Tower : MonoBehaviour
     public class SpawnChanceRange
     {
         public float StartHeight;
+        public GameObject CenterPiece;
 
         [Range(0.0f, 1.0f)]
         public float SmallPlatformSpawnChance;
@@ -131,7 +131,7 @@ public class Tower : MonoBehaviour
 
         var FirstPlatform = Instantiate(LargePlatform, new Vector3(), Quaternion.identity, transform);
         FirstPlatform.GetComponent<Platform>().Initialize(0.0f, 0.0f, Radius);
-        Instantiate(CenterPiece, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, transform);
+        Instantiate(Ranges[0].CenterPiece, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, transform);
 
         var scores = PlayerPrefs.GetString("scores", "0;0;0;0;0").Split(';');
         CurrentHighScore = float.Parse(scores[0]);
@@ -347,7 +347,7 @@ public class Tower : MonoBehaviour
                     }
                 }
 
-                Instantiate(CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
+                Instantiate(Range.CenterPiece, new Vector3(0.0f, CurrentHeight, 0.0f), Quaternion.identity, transform);
 
                 var SkullSpawnValue = Random.Range(0.0f, 2.0f);
 
